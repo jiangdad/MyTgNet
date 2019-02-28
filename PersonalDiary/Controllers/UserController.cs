@@ -49,8 +49,13 @@ namespace PersonalDiary.Controllers
                 return JsonString(new BaseReponseModel() { Msg = msg });
             }
           var userservice= _UserManager.add(user);
-            return View()
-            
+            SaveLoginUser(new LoginUserModel() { UserId = userservice.Id });
+            return JsonString(new BaseReponseModel() { Msg = "注册了" });
+
+        }
+        private void SaveLoginUser(LoginUserModel userModel)
+        {
+            SessionService.SetCurrentUser(userModel.UserId, userModel.UserId.ToString(), false);
         }
     }
 }
