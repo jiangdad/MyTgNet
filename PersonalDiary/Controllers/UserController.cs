@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Diary.Data;
 using Diary.Service;
 using Tgnet;
 using PersonalDiary.Models;
 using Tgnet.Web.Mvc;
+using Diary.Data;
+
 namespace PersonalDiary.Controllers
 {
     public class UserController : BaseController

@@ -9,7 +9,7 @@ namespace Diary.Service
 {
     public interface IUserManager
     {
-       IUserService add(User user);
+        IUserService add(User user);
         bool CheckUserName(string user);
     }
 }

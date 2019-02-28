@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalDiary", "PersonalDi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{B52AD4CF-76C8-4E5B-BD32-76FFF07A420F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{1A962795-82D0-494F-867A-A0130560476B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AC78E279-9445-4289-B9ED-C44459766B9F} = {B52AD4CF-76C8-4E5B-BD32-76FFF07A420F}
+		{4D53279B-9BB0-42FE-A302-2BCA1F6332C9} = {1A962795-82D0-494F-867A-A0130560476B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {956D9B58-EC63-467F-B85A-D6F4E371B034}
