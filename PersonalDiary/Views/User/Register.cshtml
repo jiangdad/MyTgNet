@@ -10,19 +10,19 @@
         $(function () {
             $("form").submit(function (e) {
                 e.preventDefault();
-                if ($("#username").val().length <= 0) {
+                if ($("#UserName").val().length <= 0) {
                     alert("输入用户名");
                     e.preventDefault();
                 }
-                if ($("#login_password").val() != $("#confirm_password").val()) {
+                if ($("#login_Password").val() != $("#confirm_password").val()) {
                     alert("两次输入的密码不相同，请重新输入");
                     e.preventDefault();
                 }
-                if ($("#login_password").val().length <= 0) {
+                if ($("#login_Password").val().length <= 0) {
                     alert("请输入密码");
                     e.preventDefault();
                 }
-                $.post("/User/Register", { "userName": $("#username").val(), "password": $("#login_password").val() }, function (obj) {
+                $.post("/User/Register", { "UserName": $("#UserName").val(), "Password": $("#login_Password").val() }, function (obj) {
                     if (obj) {
                         var json = $.parseJSON(obj);
                         alert(json.msg);
@@ -76,7 +76,7 @@
                 <span class="p">*</span>
                 <label for="username" class="l">用户名:</label>
                 <div style="height:35px;width:300px;position:relative;display:inline;">
-                    <input id="username" type="text" style="height:30px;width:250px;padding-right:50px;">
+                    <input id="UserName" type="text" style="height:30px;width:250px;padding-right:50px;">
                     <span style="position:absolute;right:18px;top:2px;background-image:url(user.ico);height:16px;width:16px;display:inline-block;"></span>
                 </div>
                 <br /><br />
@@ -89,13 +89,13 @@
                 <span class="c">*</span>
                 <label for="login_password" class="l">登录密码:</label>
                 <div class="d">
-                    <input id="login_password" type="text" class="i">
+                    <input id="Password" type="text" class="i">
                 </div>
                 <br /><br />
                 <span class="c">*</span>
-                <label for="confirm_password" class="l">确认密码:</label>
+                <label for="confirm_Password" class="l">确认密码:</label>
                 <div class="d">
-                    <input id="confirm_password" type="text" class="i">
+                    <input id="confirm_Password" type="text" class="i">
                 </div>
                 <br /><br />
                 <input type="checkbox" name="agree" style="margin-left:100px;display:inline-block;" value="1" />

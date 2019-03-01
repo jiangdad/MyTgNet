@@ -11,5 +11,6 @@ namespace Diary.Service
     {
         IUserService add(User user);
         bool CheckUserName(string user);
+        IUserService GetService(User user);
     }
 }

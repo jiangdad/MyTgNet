@@ -29,7 +29,7 @@ namespace Diary.Service
             });
         }
 
-        int IUserService.Id
+        int IUserService.UserId
         {
             get
             {

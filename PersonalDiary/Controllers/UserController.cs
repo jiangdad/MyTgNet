@@ -18,6 +18,19 @@ namespace PersonalDiary.Controllers
         {
             _UserManager = usermanager;
         }
+        [HttpPost]
+        public ActionResult Login([Bind(Include = "userName,passWord")]User user)
+        {
+         if(User!=null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+         else
+            {
+                return JsonString(new BaseReponseModel { Msg = "error", Status = "error" });
+            }
+
+        }
         // GET: User
         public ActionResult Login()
         {
@@ -50,11 +63,18 @@ namespace PersonalDiary.Controllers
                 return JsonString(new BaseReponseModel() { Msg = msg, Status = "no", Url = Url.RouteUrl(new { controller = "Home", action = "Index" })  });
             }
             var userservice= _UserManager.add(user);
-            SaveLoginUser(new LoginUserModel() { UserId = userservice.Id });
+            SaveLoginUser(new LoginUserModel() { UserId = userservice.UserId });
             return JsonString(new BaseReponseModel() { Msg = "注册成功",Status = "ok", Url = Url.RouteUrl(new { controller = "Home", action = "Index" }) });
 
         }
-
+        [HttpPost]
+        public ActionResult AddUser([Bind(Include = "userName,password")]User user)
+        {
+           
+            var userservice = _UserManager.add(user);
+            
+            return View("UserAddResult",user);
+        }
         private void SaveLoginUser(LoginUserModel userModel)
         {
             SessionService.SetCurrentUser(userModel.UserId, userModel.UserId.ToString(), false);

@@ -34,5 +34,7 @@ namespace Diary.Service
                 user.UserName == username
             );
         }
+        
+       
     }
 }

@@ -9,7 +9,7 @@ namespace Diary.Service
 {
     public interface IUserService
     {
-       int Id { get; }
+       int UserId { get; }
 
         
     }
