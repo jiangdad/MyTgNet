@@ -42,16 +42,16 @@ namespace PersonalDiary.Controllers
             if (!StringRule.VerifyPassword(password))
             {
                 msg = "密码长度不符合规范";
-                return JsonString(new BaseReponseModel() { Msg = msg });//JsonString return JsonStringResult(object value) 
+                return JsonString(new BaseReponseModel() { Msg = msg,Status="no", url="User/Register" });//JsonString return JsonStringResult(object value) 
             }
             if (string.IsNullOrEmpty(user.UserName) || _UserManager.CheckUserName(user.UserName))
             {
                 msg = "用户名为空或该用户已经存在";
-                return JsonString(new BaseReponseModel() { Msg = msg });
+                return JsonString(new BaseReponseModel() { Msg = msg, Status = "no", url = "User/Register" });
             }
           var userservice= _UserManager.add(user);
             SaveLoginUser(new LoginUserModel() { UserId = userservice.Id });
-            return JsonString(new BaseReponseModel() { Msg = "注册了" });
+            return JsonString(new BaseReponseModel() { Msg = "注册成功",Status = "ok", url = "User/Login" });
 
         }
         private void SaveLoginUser(LoginUserModel userModel)
