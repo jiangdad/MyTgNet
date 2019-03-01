@@ -23,7 +23,7 @@ namespace Diary.Data
         public int UserId { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-        public Nullable<int> DiaryId { get; set; }
+        public int DiaryId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Diary> Diary { get; set; }

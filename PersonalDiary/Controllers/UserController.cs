@@ -29,7 +29,7 @@ namespace PersonalDiary.Controllers
 
         }
         [HttpPost]
-        public ActionResult Register([Bind(Include = "UserName,Password")]User user)
+        public ActionResult Register([Bind(Include = "userName,password")]User user)
         {
             //bool flag=_UserManager.CheckUserName(user.UserName);
             //if(flag)
@@ -42,18 +42,19 @@ namespace PersonalDiary.Controllers
             if (!StringRule.VerifyPassword(password))
             {
                 msg = "密码长度不符合规范";
-                return JsonString(new BaseReponseModel() { Msg = msg,Status="no", url="User/Register" });//JsonString return JsonStringResult(object value) 
+                return JsonString(new BaseReponseModel() { Msg = msg,Status="no", Url = Url.RouteUrl(new { controller = "Home", action = "Index" }) });//JsonString return JsonStringResult(object value) 
             }
             if (string.IsNullOrEmpty(user.UserName) || _UserManager.CheckUserName(user.UserName))
             {
                 msg = "用户名为空或该用户已经存在";
-                return JsonString(new BaseReponseModel() { Msg = msg, Status = "no", url = "User/Register" });
+                return JsonString(new BaseReponseModel() { Msg = msg, Status = "no", Url = Url.RouteUrl(new { controller = "Home", action = "Index" })  });
             }
-          var userservice= _UserManager.add(user);
+            var userservice= _UserManager.add(user);
             SaveLoginUser(new LoginUserModel() { UserId = userservice.Id });
-            return JsonString(new BaseReponseModel() { Msg = "注册成功",Status = "ok", url = "User/Login" });
+            return JsonString(new BaseReponseModel() { Msg = "注册成功",Status = "ok", Url = Url.RouteUrl(new { controller = "Home", action = "Index" }) });
 
         }
+
         private void SaveLoginUser(LoginUserModel userModel)
         {
             SessionService.SetCurrentUser(userModel.UserId, userModel.UserId.ToString(), false);

@@ -14,11 +14,17 @@ namespace Diary.Data
     }
     public class UserRepository:EFRepository<DiariesEntities,User>,IUserRepository
     {
-        DiariesEntities diaries;
+       public DiariesEntities diaries;
         public UserRepository(DiariesEntities context):base(context)
         {
-
+            diaries = context;
         }
-        protected override DbSet<User> DbSet { get; }
+        protected override DbSet<User> DbSet {
+            get
+            {
+                return diaries.Set<User>();
+            }
+             }
+
     }
 }

@@ -30,7 +30,7 @@ namespace Diary.Service
 
         bool IUserManager.CheckUserName(string username)
         {
-            return !_IUserRepository.Entities.Any(user =>
+            return _IUserRepository.Entities.Any(user =>
                 user.UserName == username
             );
         }

@@ -9,6 +9,6 @@ namespace PersonalDiary.Models
     {
         public string Msg { get; set; }
         public string Status { get; set; }
-        public string url { get; set; }
+        public string Url { get; set; }
     }
 }
