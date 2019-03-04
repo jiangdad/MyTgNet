@@ -26,6 +26,10 @@ namespace Diary.Service
             return userService;
         }
 
+        //IUserService IUserManager.add(User user)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         bool IUserManager.CheckUserName(string username)
         {
