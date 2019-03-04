@@ -1,4 +1,5 @@
-﻿using Diary.Service;
+﻿using Diary.Data;
+using Diary.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,14 @@ namespace PersonalDiary.Controllers
         //主页面
         public ActionResult Index()
         {
-            
+            // 1. 从数据库中读取实体对象 (Diary)
+            var repository = new DiaryRepository(new DiariesEntities());
+            var diaries = repository.NoTackingDiary.ToList();
+
+            // 2. 将实体对象转换成 Model
+
+            // 3. 将 Model 对象传递给视图 (View)
+
         }
 
         // GET: Default/Details/5
