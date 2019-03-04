@@ -21,9 +21,10 @@ namespace PersonalDiary.Controllers
         public ActionResult Index()
         {
             // 1. 从数据库中读取实体对象 (Diary)
-            var repository = new DiaryRepository(new DiariesEntities());
-            var diaries = repository.NoTackingDiary.ToList();
-
+            
+            //var repository = new DiaryRepository(new DiariesEntities());
+            //var diaries = repository.NoTackingDiary.ToList();
+            _DiaryManager.NoTackingDiary()
             // 2. 将实体对象转换成 Model
 
             // 3. 将 Model 对象传递给视图 (View)
