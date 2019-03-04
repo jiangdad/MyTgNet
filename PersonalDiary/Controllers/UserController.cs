@@ -29,7 +29,7 @@ namespace PersonalDiary.Controllers
             {
                 return JsonString(new BaseReponseModel { Msg = "error", Status = "error" });
             }
-
+         
         }
         // GET: User
         public ActionResult Login()
@@ -70,7 +70,9 @@ namespace PersonalDiary.Controllers
         [HttpPost]
         public ActionResult AddUser([Bind(Include = "userName,password")]User user)
         {
-           
+           //1 合法性检查
+           //2 不能有重复用户名
+           //3 
             var userservice = _UserManager.add(user);
             
             return View("UserAddResult",user);

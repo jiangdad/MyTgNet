@@ -9,8 +9,12 @@
     <script>
         $(function () {
             $("form").submit(function (e) {
-                e.preventDefault();
-                $.post("/User/Login", { "UserName": $("#UserName").val(), "Password": $("#login_Password").val() }, function (obj) {
+                if ($("#UserName").val().length <= 0||$("#Password").val().length<=0) {
+                    alert("用户名或密码为空请重新输入");
+                    e.preventDefault();
+                }            
+                $.post("/User/Login", { "UserName": $("#UserName").val(), "Password": $("#Password").val() }, function (obj) {
+                 
                     if (obj) {
                         var json = $.parseJSON(obj);
                         alert(json.Msg);

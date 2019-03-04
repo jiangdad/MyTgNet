@@ -26,7 +26,10 @@ namespace Diary.Service
             return userService;
         }
 
-
+        //IUserService IUserManager.add(User user)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         bool IUserManager.CheckUserName(string username)
         {
@@ -34,7 +37,10 @@ namespace Diary.Service
                 user.UserName == username
             );
         }
-        
-       
+
+        IUserService IUserManager.GetService(User user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
