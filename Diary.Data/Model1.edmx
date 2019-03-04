@@ -15,6 +15,7 @@
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="IsPrivate" Type="bit" Nullable="false" />
+          <Property Name="IsDel" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -60,6 +61,7 @@
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="IsPrivate" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="User" Relationship="Self.FK_Diary_User" FromRole="Diary" ToRole="User" />
+          <Property Name="IsDel" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -100,6 +102,7 @@
           <EntitySetMapping Name="Diary">
             <EntityTypeMapping TypeName="DiariesModelDB.Diary">
               <MappingFragment StoreEntitySet="Diary">
+                <ScalarProperty Name="IsDel" ColumnName="IsDel" />
                 <ScalarProperty Name="DiaryId" ColumnName="DiaryId" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Title" ColumnName="Title" />

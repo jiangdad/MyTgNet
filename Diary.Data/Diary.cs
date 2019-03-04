@@ -20,6 +20,7 @@ namespace Diary.Data
         public System.DateTime CreateTime { get; set; }
         public int UserId { get; set; }
         public bool IsPrivate { get; set; }
+        public bool IsDel { get; set; }
     
         public virtual User User { get; set; }
     }
