@@ -1,10 +1,13 @@
 ﻿using Diary.Data;
 using Diary.Service;
+using Diary.Service.Diary;
+using PersonalDiary.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Tgnet.Linq;
 using Tgnet.Web.Mvc;
 
 namespace PersonalDiary.Controllers
@@ -20,15 +23,30 @@ namespace PersonalDiary.Controllers
         //主页面
         public ActionResult Index()
         {
+            return View();
+        }
+        public ActionResult Index(int? userid)
+        {
             // 1. 从数据库中读取实体对象 (Diary)
-            
+
             //var repository = new DiaryRepository(new DiariesEntities());
             //var diaries = repository.NoTackingDiary.ToList();
-            _DiaryManager.NoTackingDiary()
-            // 2. 将实体对象转换成 Model
+            //var Diary=_DiaryManager.NoTackingDiary;
+            //// 2. 将实体对象转换成 Model
+            //var diaries = Diary.Where(diary => diary.UserId == userid);
 
-            // 3. 将 Model 对象传递给视图 (View)
-
+            //// 3. 将 Model 对象传递给视图 (View)
+            //return View(diaries);
+            //1.从Diary仓储类中找到UserId==userid的实体集 （IQueryable类型）
+            //2.
+            var messagediary = _DiaryManager.NoTackingDiary.Where(d => d.UserId == userid);
+            int pageCount,count, pageSize = 20;
+            int page = 1;
+            var userdiarymodel = messagediary.OrderByDescending(p => p.CreateTime).TakePage(out count, out pageCount, page, pageSize).Select(p=>new UserDiaryModel{UserDiaryId=p.DiaryId, Content=p.Content, CreateTime=p.CreateTime, DiaryCount=p.UserId, Title=p.Title, UserName=p.User.UserName, UserId=p.UserId }).ToList();
+            PageModel<UserDiaryModel> userDiaryModels = new PageModel<UserDiaryModel>(userdiarymodel,page,pageCount);
+            ViewBag.userDiaryModels = userDiaryModels;
+            ViewBag.User = User;
+            return View();
         }
 
         // GET: Default/Details/5

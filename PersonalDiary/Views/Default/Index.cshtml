@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Diary.Data.Diary>
+@{ 
+    Layout = null;
+}
+@{
+    ViewBag.Title = "Index";
+}
+<html>
+<head>
+
+</head>
+<body>
+    <p>
+
+    </p>
+    <table>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateTime);
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title);
+                ;
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Content);
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User.UserName);
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DiaryId);
+            </th>
+        </tr>
+        
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th>
+                        @Html.DisplayFor(modelitem => item.CreateTime);
+                    </th>
+                    <th>
+                        @Html.DisplayFor(modelitem => item.Title);
+                        ;
+                    </th>
+                    <th>
+                        @Html.DisplayFor(model => item.Content);
+                    </th>
+                    <th>
+                        @Html.DisplayFor(model => item.User.UserName);
+                    </th>
+                    <th>
+                        @Html.DisplayFor(model => item.DiaryId);
+                    </th>
+                </tr>
+            }
+        
+    </table>
+</body>
+
+</html>
+
+<h2>Diary.Index@Model.Author</h2>
+

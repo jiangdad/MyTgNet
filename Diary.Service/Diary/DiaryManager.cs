@@ -31,22 +31,6 @@ namespace Diary.Service
             }
         }
 
-        IQueryable<Data.Diary> IDiaryManager.MessageDiary
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        IQueryable<Data.Diary> IDiaryManager.NoTackingDiary
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         public IDiaryService Add(Data.Diary diary)
         {
             _diarepository.Add(diary);
@@ -59,14 +43,5 @@ namespace Diary.Service
             return new DiaryService(DiaryId, _diarepository);
         }
 
-        IDiaryService IDiaryManager.Add(Data.Diary diary)
-        {
-            throw new NotImplementedException();
-        }
-
-        IDiaryService IDiaryManager.GetDiaryService(int DiaryId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

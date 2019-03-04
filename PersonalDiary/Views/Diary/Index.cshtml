@@ -1,7 +1,15 @@
-﻿@Model
+﻿@using Tgnet.Web.Mvc;
+@using Tgnet.Web.Sessions;
+@using PersonalDiary.Models;
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Diary.Index@Model.Author</h2>
+<h2>Index</h2>
 
+@{ 
+    foreach(var item in Model as PageModel<UserDiaryModel>)
+    {
+
+    }
+}
