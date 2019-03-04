@@ -1,21 +1,30 @@
-﻿using System;
+﻿using Diary.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Tgnet.Web.Mvc;
 
 namespace PersonalDiary.Controllers
 {
-    public class DiaryController : Controller
+    public class DiaryController : BaseController
     {
+        IDiaryManager _DiaryManager;
+        public DiaryController(IDiaryManager DiaryManager)
+        {
+            _DiaryManager = DiaryManager;
+        }
         // GET: Default
+        //主页面
         public ActionResult Index()
         {
-            return View();
+            
         }
 
         // GET: Default/Details/5
-        public ActionResult Details(int id)
+        //展示日志内容详情
+        public ActionResult Details(int diaryid)
         {
             return View();
         }

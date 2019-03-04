@@ -36,14 +36,35 @@ namespace Diary.Service.Diary
                 return _LazyDiary.Value.CreateTime.GetValueOrDefault();
             }
         }
-
-        int IDiaryService.UserId => throw new NotImplementedException();
-
-        string IDiaryService.UserName => throw new NotImplementedException();
-
-        string IDiaryService.Content => throw new NotImplementedException();
-
-        DateTime IDiaryService.CreateTime => throw new NotImplementedException();
+        public int DiaryId
+        {
+            get
+            {
+                return diaryId;
+            }
+        }
+        public int UserId
+        {
+            get
+            {
+                return _LazyDiary.Value.UserId;
+            }
+        }
+        public string UserName
+        {
+            get
+            {
+                return _LazyDiary.Value.User.UserName;
+            }
+        }
+        public string Content
+        {
+            get
+            {
+                return _LazyDiary.Value.Content;
+            }
+        }
+      
 
         void IDiaryService.Delete(int userId)
         {
@@ -52,7 +73,7 @@ namespace Diary.Service.Diary
 
         void IDiaryService.UpdateDiary(int userId, string Content)
         {
-            throw new NotImplementedException();
+           
         }
     }
 }

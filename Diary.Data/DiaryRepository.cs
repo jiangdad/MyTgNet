@@ -26,7 +26,7 @@ namespace Diary.Data
         {
             get
             {
-                return DbSet.Where(l => !l.isDel);
+                return DbSet.Where(l => !l.IsDel);
             }
         }
        public IQueryable<Diary> NoTackingDiary

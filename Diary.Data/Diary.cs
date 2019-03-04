@@ -17,7 +17,7 @@ namespace Diary.Data
         public int DiaryId { get; set; }
         public string Content { get; set; }
         public string Title { get; set; }
-        public System.DateTime CreateTime { get; set; }
+        public System.DateTime? CreateTime { get; set; }
         public int UserId { get; set; }
         public bool IsPrivate { get; set; }
         public bool IsDel { get; set; }

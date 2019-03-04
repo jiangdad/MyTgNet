@@ -25,7 +25,7 @@
                 $.post("/User/Register", { "UserName": $("#UserName").val(), "Password": $("#Password").val() }, function (obj) {
                     if (obj) {
                         var json = $.parseJSON(obj);
-                        alert(json.msg);
+                        alert(json.Msg);
                         if (json.Status == "ok") {
                             window.location.href = json.Url;
                         }

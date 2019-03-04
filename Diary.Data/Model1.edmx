@@ -12,7 +12,7 @@
           <Property Name="DiaryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="IsPrivate" Type="bit" Nullable="false" />
           <Property Name="IsDel" Type="bit" Nullable="false" />
@@ -57,7 +57,7 @@
           <Property Name="DiaryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="IsPrivate" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="User" Relationship="Self.FK_Diary_User" FromRole="Diary" ToRole="User" />

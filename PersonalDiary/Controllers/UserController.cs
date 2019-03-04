@@ -14,32 +14,48 @@ namespace PersonalDiary.Controllers
     public class UserController : BaseController
     {
         public IUserManager _UserManager;
+        //为什么写这个构造函数
         public UserController(IUserManager usermanager)
         {
             _UserManager = usermanager;
         }
+        // [HttpPost]请求登陆控制器
         [HttpPost]
         public ActionResult Login([Bind(Include = "userName,passWord")]User user)
         {
-         if(User!=null)
-            {
+            //1.判断SessionUser类属性User是否为空
+            //1.1为空
+            //1.1.1判断view post传过来的后绑定的user是否为空
+            //1.1.1.1 user对象为空，返回Msg="请输入用户名"的回应模型JsonStringResult对象
+            //1.1.1.2 user对象不为null,调用IUserManager.Login()方法,返回登陆模型LoginModel,调用SaveLoginUser方法,返回JsonString(model)
+            //1.2不为空，用户已经登陆，跳转首页
+            SessionService.ClearCurrentUser();
+            if (User != null)
+            {//已经登陆了，跳转首页
                 return RedirectToAction("Index", "Home");
             }
-         else
+            if (user == null)
             {
-                return JsonString(new BaseReponseModel { Msg = "error", Status = "error" });
+                return JsonString(new BaseReponseModel { Msg = "请输入用户名", Status = "error" });
             }
-         
+            var model = _UserManager.Login(user);//
+            if (model.UserId > 0)
+            {
+                SaveLoginUser(model);
+                return JsonString(new BaseReponseModel { Msg = "登陆成功", Status = "ok", Url = Url.RouteUrl(new { controller = "Diary", action = "Index" }) });
+            }
+            else
+                return JsonString(new BaseReponseModel { Msg = "登陆失败", Status = "no", Url = Url.RouteUrl(new { controller = "User", action = "Login" }) });
         }
-        // GET: User
+        //Get登陆控制Action
         public ActionResult Login()
         {
             return View();
         }
+        // GET: User
         public ActionResult Register()
         {
             return View();
-
         }
         [HttpPost]
         public ActionResult Register([Bind(Include = "userName,password")]User user)
@@ -57,11 +73,11 @@ namespace PersonalDiary.Controllers
                 msg = "密码长度不符合规范";
                 return JsonString(new BaseReponseModel() { Msg = msg,Status="no", Url = Url.RouteUrl(new { controller = "Home", action = "Index" }) });//JsonString return JsonStringResult(object value) 
             }
-            //if (string.IsNullOrEmpty(user.UserName) || _UserManager.CheckUserName(user.UserName))
-            //{
-            //    msg = "用户名为空或该用户已经存在";
-            //    return JsonString(new BaseReponseModel() { Msg = msg, Status = "no", Url = Url.RouteUrl(new { controller = "Home", action = "Index" })  });
-            //}
+            if (string.IsNullOrEmpty(user.UserName) || _UserManager.CheckUserName(user.UserName))
+            {
+                msg = "用户名为空或该用户已经存在";
+                return JsonString(new BaseReponseModel() { Msg = msg, Status = "no", Url = Url.RouteUrl(new { controller = "Home", action = "Index" }) });
+            }
             var userservice= _UserManager.add(user);
             SaveLoginUser(new LoginUserModel() { UserId = userservice.UserId });
             return JsonString(new BaseReponseModel() { Msg = "注册成功",Status = "ok", Url = Url.RouteUrl(new { controller = "Home", action = "Index" }) });
@@ -77,6 +93,7 @@ namespace PersonalDiary.Controllers
             
             return View("UserAddResult",user);
         }
+        //保存登陆用户，调用 SessionService属性的SetCurrentUserf方法返回一个SessionUser类对象（有值，来自登陆模型）
         private void SaveLoginUser(LoginUserModel userModel)
         {
             SessionService.SetCurrentUser(userModel.UserId, userModel.UserId.ToString(), false);

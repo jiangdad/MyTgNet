@@ -9,5 +9,8 @@ namespace Diary.Data
    public class LoginUserModel
     {
         public int UserId { get; set; }
+        public string Msg { get; set; }
+        public string Status { get; set; }
+        public object UserName { get; set; }
     }
 }
