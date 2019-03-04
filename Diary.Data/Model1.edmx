@@ -67,7 +67,7 @@
           </Key>
           <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="DiaryId" Type="Int32" />
           <NavigationProperty Name="Diary" Relationship="Self.FK_Diary_User" FromRole="User" ToRole="Diary" />
         </EntityType>

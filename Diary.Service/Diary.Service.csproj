@@ -69,13 +69,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Diary\DiaryManager.cs" />
+    <Compile Include="Diary\IDiaryManager.cs" />
     <Compile Include="Inject\DataModeule.cs" />
     <Compile Include="Inject\ServiceModeule.cs" />
-    <Compile Include="IUserManager.cs" />
-    <Compile Include="IUserService.cs" />
+    <Compile Include="User\IUserManager.cs" />
+    <Compile Include="User\IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserManager.cs" />
-    <Compile Include="UserService.cs" />
+    <Compile Include="User\UserManager.cs" />
+    <Compile Include="User\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Diary.Data\Diary.Data.csproj">
@@ -86,5 +88,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

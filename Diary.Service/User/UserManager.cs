@@ -27,14 +27,16 @@ namespace Diary.Service
         }
 
 
-
         bool IUserManager.CheckUserName(string username)
         {
             return _IUserRepository.Entities.Any(user =>
                 user.UserName == username
             );
         }
-        
-       
+
+        IUserService IUserManager.GetService(User user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

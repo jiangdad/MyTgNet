@@ -57,11 +57,11 @@ namespace PersonalDiary.Controllers
                 msg = "密码长度不符合规范";
                 return JsonString(new BaseReponseModel() { Msg = msg,Status="no", Url = Url.RouteUrl(new { controller = "Home", action = "Index" }) });//JsonString return JsonStringResult(object value) 
             }
-            if (string.IsNullOrEmpty(user.UserName) || _UserManager.CheckUserName(user.UserName))
-            {
-                msg = "用户名为空或该用户已经存在";
-                return JsonString(new BaseReponseModel() { Msg = msg, Status = "no", Url = Url.RouteUrl(new { controller = "Home", action = "Index" })  });
-            }
+            //if (string.IsNullOrEmpty(user.UserName) || _UserManager.CheckUserName(user.UserName))
+            //{
+            //    msg = "用户名为空或该用户已经存在";
+            //    return JsonString(new BaseReponseModel() { Msg = msg, Status = "no", Url = Url.RouteUrl(new { controller = "Home", action = "Index" })  });
+            //}
             var userservice= _UserManager.add(user);
             SaveLoginUser(new LoginUserModel() { UserId = userservice.UserId });
             return JsonString(new BaseReponseModel() { Msg = "注册成功",Status = "ok", Url = Url.RouteUrl(new { controller = "Home", action = "Index" }) });
