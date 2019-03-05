@@ -73,16 +73,22 @@ namespace Diary.Service.Diary
         }
       
 
-        void IDiaryService.Delete(int DiaryId)
+        void IDiaryService.Delete(int diaryId)
         {
-            throw new NotImplementedException();
+            if (!_LazyDiary.Value.IsDel == true)
+            {
+            _LazyDiary.Value.IsDel = true;
+            _diarepository.SaveChanges();
+            }
+          
         }
 
-        void IDiaryService.UpdateDiary(int diaryId, string content)
+        void IDiaryService.UpdateDiary(int diaryId, string content,string title)
         {
-            //  _LazyDiary.Value.Content = content;可以改变里面的值
-      if(content!=Content)
+            //  _LazyDiary.Value.Content = content;可以改变Diary仓储类里面的值
+             if(content!=Content||title!=Title)
             {
+                _LazyDiary.Value.Title = title;
                 _LazyDiary.Value.Content = content;
                 _diarepository.SaveChanges();
             }

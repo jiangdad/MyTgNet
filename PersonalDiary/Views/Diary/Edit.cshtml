@@ -1,0 +1,68 @@
+﻿@model PersonalDiary.Models.UserDiaryModel
+@using Tgnet.Web.Sessions;
+@{
+    ViewBag.Title = "Create";
+}
+
+<script>
+    $(function () {
+        $("#creatediary").click(function () {
+            //var title = $("#Content").val();
+            //alert(title);
+            $.post("/Diary/Edit", { "Title": $("#title").val(), "Content": $("#Content").val(), "UserDiaryId": $("#UserDiaryId").val() }, function (obj) {
+                //if (obj) {
+                    //alert(json.Url);
+                    alert(json.Msg);
+                    window.location.href = json.Url;
+                //}
+            }, "json");
+        });
+    });
+</script>
+
+
+@*<script>
+    $(function () {
+        $("form").submit(function () {
+            $.post("/Diary/Edit", { }, function (obj) {
+                if (obj) {
+                    alert(json.Msg);
+                    window.location.href = json.Url;
+                }
+            }, "json");
+        });
+    });
+</script>*@
+
+<div>
+    
+<form>
+
+
+   
+    <div class="form-group">
+        <input id="UserDiaryId" value="@Model.UserDiaryId">
+
+    </div>
+    <div class="form-group">
+        <input id="title" value="@Model.Title" />
+
+    </div>
+    <div class="form-group">
+        <textarea id="Content">@Model.Content</textarea>
+  
+    </div>
+
+    <input type="button" value="保存" id="creatediary" class="btn btn-default" />
+
+
+</form>
+
+
+    
+     
+   
+</div>
+
+<h2>Edit</h2>
+

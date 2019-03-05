@@ -14,7 +14,7 @@ namespace Diary.Service.Diary
         string Content { get; }
         DateTime CreateTime { get; }
         string Title { get; }
-        void UpdateDiary(int DiaryId, string Content);
+        void UpdateDiary(int DiaryId, string Content,string Title);
 
         void Delete(int diary);
     }

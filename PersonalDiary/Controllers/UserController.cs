@@ -43,7 +43,7 @@ namespace PersonalDiary.Controllers
             if (model.UserId > 0)
             {
                 SaveLoginUser(model);
-                return JsonString(new BaseReponseModel { Msg = "登陆成功", Status = "ok", Url = Url.RouteUrl(new { controller = "Diary", action = "Index" ,id=model.UserId}) });
+                return JsonString(new BaseReponseModel { Msg = "登陆成功", Status = "ok", Url = Url.RouteUrl(new { controller = "Diary", action = "Index" ,userid=model.UserId}) });
             }
             else
                 return JsonString(new BaseReponseModel { Msg = "登陆失败", Status = "no", Url = Url.RouteUrl(new { controller = "User", action = "Login" }) });

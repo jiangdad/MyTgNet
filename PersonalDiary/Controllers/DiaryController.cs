@@ -54,6 +54,8 @@ namespace PersonalDiary.Controllers
             ViewBag.User = User;
             return View(userDiaryModels);
         }
+        
+
 
         // GET: Default/Details/5
         //展示日志内容详情
@@ -66,7 +68,6 @@ namespace PersonalDiary.Controllers
             {
                 Content = messagediary.Content,
                 CreateTime = messagediary.CreateTime ,
-                 
                 Title = messagediary.Title,
                 UserName = messagediary.UserName
             };
@@ -76,10 +77,6 @@ namespace PersonalDiary.Controllers
         // GET: Default/Create
         public ActionResult Create()
         {
-            if (User == null)
-            {
-                throw new Tgnet.Api.ExceptionWithErrorCode(Tgnet.Api.ErrorCode.未登录);
-            }
 
             return View();
         }
@@ -88,17 +85,18 @@ namespace PersonalDiary.Controllers
         [HttpPost]
         public ActionResult Create([Bind(Include ="Content,Title")]UserDiaryModel userdiarymodel)
         {
-            if (User == null)
-                throw new Tgnet.Api.ExceptionWithErrorCode(Tgnet.Api.ErrorCode.未登录);
+            //if (User == null)
+            //    throw new Tgnet.Api.ExceptionWithErrorCode(Tgnet.Api.ErrorCode.未登录);
+            
             Diary.Data.Diary diary = new Diary.Data.Diary { Content = userdiarymodel.Content,
                 CreateTime = DateTime.Now,
                 Title = userdiarymodel.Title,
-                UserId = User.ID.To<int>(), 
+                UserId = 10, 
                 IsDel = false, IsPrivate = false };
                var DiaryService= _DiaryManager.Add(diary);
             return JsonString(new BaseReponseModel { Msg = "创建成功", Status = "ok",
                 Url = Url.RouteUrl(new { controller = "Diary", action = "Index",
-                    id = diary.UserId
+                    userid = diary.UserId
                 }) });
         }
 
@@ -110,13 +108,12 @@ namespace PersonalDiary.Controllers
             {
                 Content = messagediary.Content,
                 CreateTime = messagediary.CreateTime,
-
                 Title = messagediary.Title,
-                UserName = messagediary.UserName
+                UserName = messagediary.UserName,
+                 UserDiaryId=diaryid, UserId=messagediary.UserId
             };
             return View(userdiarymodel);
 
-          
         }
 
         // POST: Default/Edit/5
@@ -126,21 +123,21 @@ namespace PersonalDiary.Controllers
             //1.调用GetDiaryService方法
             var messagediary = _DiaryManager.GetDiaryService(userdiarymodel.UserDiaryId);
             //2.调用updateDiary方法
-            messagediary.UpdateDiary(userdiarymodel.UserDiaryId, userdiarymodel.Content);
-            return View("Index");
+            messagediary.UpdateDiary(userdiarymodel.UserDiaryId, userdiarymodel.Content,userdiarymodel.Title);
+
+            return JsonString(new BaseReponseModel { Msg = "修改成功", Status = "ok", Url = Url.RouteUrl(new { controller = "Diary",
+                action = "Index",
+                userid = messagediary.UserId }) });
         }
 
         // GET: Default/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Default/Delete/5
-        [HttpPost]
         public ActionResult Delete(int diaryid)
         {
-           
+            var messagediary = _DiaryManager.GetDiaryService(diaryid);
+            messagediary.Delete(messagediary.DiaryId);
+            return RedirectToAction("Index");
         }
+
+   
     }
 }
