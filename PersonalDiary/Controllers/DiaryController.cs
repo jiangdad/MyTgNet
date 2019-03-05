@@ -85,7 +85,7 @@ namespace PersonalDiary.Controllers
 
         // POST: Default/Create
         [HttpPost]
-        public ActionResult Create([Bind(Include ="Content,Title,UserName")]UserDiaryModel userdiarymodel)
+        public ActionResult Create([Bind(Include ="Content,Title")]UserDiaryModel userdiarymodel)
         {
             if (User == null)
                 throw new Tgnet.Api.ExceptionWithErrorCode(Tgnet.Api.ErrorCode.未登录);
@@ -95,9 +95,10 @@ namespace PersonalDiary.Controllers
                 UserId = User.ID.To<int>(), 
                 IsDel = false, IsPrivate = false };
                var DiaryService= _DiaryManager.Add(diary);
-                return JsonString(new BaseReponseModel { Msg = "创建成功", Status = "ok",
-                Url = Url.RouteUrl(new { controller = "Diary", action = "Index"
-               }) });
+            return JsonString(new BaseReponseModel { Msg = "创建成功", Status = "ok",
+                Url = Url.RouteUrl(new { controller = "Diary", action = "Index",
+                    id = diary.UserId
+                }) });
         }
 
         // GET: Default/Edit/5
