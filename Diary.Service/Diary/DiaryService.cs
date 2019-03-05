@@ -73,14 +73,19 @@ namespace Diary.Service.Diary
         }
       
 
-        void IDiaryService.Delete(int userId)
+        void IDiaryService.Delete(int DiaryId)
         {
             throw new NotImplementedException();
         }
 
-        void IDiaryService.UpdateDiary(int userId, string Content)
+        void IDiaryService.UpdateDiary(int diaryId, string content)
         {
-           
+            //  _LazyDiary.Value.Content = content;可以改变里面的值
+      if(content!=Content)
+            {
+                _LazyDiary.Value.Content = content;
+                _diarepository.SaveChanges();
+            }
         }
     }
 }

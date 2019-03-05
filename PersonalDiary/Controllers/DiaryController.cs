@@ -26,6 +26,7 @@ namespace PersonalDiary.Controllers
         //{
         //    return View();
         //}
+        //日志列表
         public ActionResult Index(int userid)
         {
             // 1. 从数据库中读取实体对象 (Diary)
@@ -65,7 +66,7 @@ namespace PersonalDiary.Controllers
             {
                 Content = messagediary.Content,
                 CreateTime = messagediary.CreateTime ,
-                
+                 
                 Title = messagediary.Title,
                 UserName = messagediary.UserName
             };
@@ -102,25 +103,31 @@ namespace PersonalDiary.Controllers
         }
 
         // GET: Default/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int diaryid)
         {
-            return View();
+            var messagediary = _DiaryManager.GetDiaryService(diaryid);
+            UserDiaryModel userdiarymodel = new UserDiaryModel
+            {
+                Content = messagediary.Content,
+                CreateTime = messagediary.CreateTime,
+
+                Title = messagediary.Title,
+                UserName = messagediary.UserName
+            };
+            return View(userdiarymodel);
+
+          
         }
 
         // POST: Default/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit([Bind(Include = "Content,Title,UserDiaryId")]UserDiaryModel userdiarymodel)
         {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            //1.调用GetDiaryService方法
+            var messagediary = _DiaryManager.GetDiaryService(userdiarymodel.UserDiaryId);
+            //2.调用updateDiary方法
+            messagediary.UpdateDiary(userdiarymodel.UserDiaryId, userdiarymodel.Content);
+            return View("Index");
         }
 
         // GET: Default/Delete/5
@@ -131,18 +138,9 @@ namespace PersonalDiary.Controllers
 
         // POST: Default/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int diaryid)
         {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+           
         }
     }
 }

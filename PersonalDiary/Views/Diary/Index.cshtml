@@ -10,10 +10,10 @@
 <h2>Index</h2>
 <table>
     <tr>
-        <th>Title</th>
-        <th>Content</th>
-        <th>UserName</th>
-        <th>CreateTime</th>
+        <td>Title</td>
+        <td>Content</td>
+        <td>UserName</td>
+        <td>CreateTime</td>
     </tr>
 </table>
 @{ 
@@ -21,24 +21,25 @@
     {
         <table>
             <tr>
-                <th>
+                <td>
                     @item.Title
-                </th>
-                <th>
+                </td>
+                <td>
                     @item.Content
-                </th>
-                <th>
+                </td>
+                <td>
                     @item.UserName
-                </th>
-                <th>
+                </td>
+                <td>
                     @item.CreateTime
-                </th>
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.UserDiaryId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.UserDiaryId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.UserDiaryId })
+                </td>
             </tr>
-  <td>
-    @Html.ActionLink("Edit", "Edit", new { id = item.UserDiaryId }) |
-    @Html.ActionLink("Details", "Details", new { id = item.UserDiaryId }) |
-    @Html.ActionLink("Delete", "Delete", new { id = item.UserDiaryId })
-</td>
+ 
         </table>
        
     }
