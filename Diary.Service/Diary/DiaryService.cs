@@ -64,6 +64,13 @@ namespace Diary.Service.Diary
                 return _LazyDiary.Value.Content;
             }
         }
+        public string Title
+        {
+            get
+            {
+                return _LazyDiary.Value.Title;
+            }
+        }
       
 
         void IDiaryService.Delete(int userId)

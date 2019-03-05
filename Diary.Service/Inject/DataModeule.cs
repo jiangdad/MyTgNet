@@ -14,7 +14,7 @@ namespace Diary.Service.Inject
             Bind<IUserRepository>().To<UserRepository>();
 
             Bind<DiariesEntities>().ToSelf();
-            
+            Bind<IDiaryRepository>().To<DiaryRepository>();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Diary.Service.Diary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,8 @@ namespace Diary.Service.Inject
         {
             Bind<IUserManager>().To<UserManager>();
             Bind<IUserService>().To<UserService>();
+            Bind<IDiaryManager>().To<DiaryManager>();
+            Bind<IDiaryService>().To<DiaryService>();
         }
     }
 }

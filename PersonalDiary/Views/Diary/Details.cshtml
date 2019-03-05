@@ -1,0 +1,21 @@
+﻿@model PersonalDiary.Models.UserDiaryModel
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+<table>
+    <tr>
+        <th>@Html.DisplayFor(m=>m.Title)</th>
+    </tr>
+    <tr>
+        <th>@Html.DisplayFor(m=>m.CreateTime)</th>
+    </tr>
+    <tr>
+        <th>@Html.DisplayFor(m=>m.UserName)</th>
+    </tr>
+    <tr>
+        <th>@Html.DisplayFor(m=>m.Content)</th>
+    </tr>
+</table>
+

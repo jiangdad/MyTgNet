@@ -1,15 +1,46 @@
-﻿@using Tgnet.Web.Mvc;
+﻿@using Tgnet.Web.Sessions;
+@model PageModel<UserDiaryModel>
+@using Tgnet.Web.Mvc;
 @using Tgnet.Web.Sessions;
 @using PersonalDiary.Models;
 @{
     ViewBag.Title = "Index";
 }
-
+   @Html.ActionLink("Create", "Create")
 <h2>Index</h2>
-
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Content</th>
+        <th>UserName</th>
+        <th>CreateTime</th>
+    </tr>
+</table>
 @{ 
-    foreach(var item in Model as PageModel<UserDiaryModel>)
+    foreach(var item in Model)
     {
-
+        <table>
+            <tr>
+                <th>
+                    @item.Title
+                </th>
+                <th>
+                    @item.Content
+                </th>
+                <th>
+                    @item.UserName
+                </th>
+                <th>
+                    @item.CreateTime
+                </th>
+            </tr>
+  <td>
+    @Html.ActionLink("Edit", "Edit", new { id = item.UserDiaryId }) |
+    @Html.ActionLink("Details", "Details", new { id = item.UserDiaryId }) |
+    @Html.ActionLink("Delete", "Delete", new { id = item.UserDiaryId })
+</td>
+        </table>
+       
     }
+  <p>@ViewBag.User</p>
 }

@@ -14,12 +14,13 @@
                     e.preventDefault();
                 }            
                 $.post("/User/Login", { "UserName": $("#UserName").val(), "Password": $("#Password").val() }, function (obj) {
-                    var json = $.parseJSON(obj);
+                  
                     if (obj) {
-                        alert(json.Msg);
-                        window.location.href = json.Url;
+                        alert(obj.Msg);
+                        window.location.href = obj.Url;
                     }
                 }, "json");
+                return false;
             });
         });
     </script>

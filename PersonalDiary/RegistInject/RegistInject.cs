@@ -14,7 +14,7 @@ namespace PersonalDiary.RegistInject
             var modules = new Ninject.Modules.NinjectModule[] {
                 new Diary.Service.Inject.DataModeule(),
             new Diary.Service.Inject.ServiceModeule()
-
+            
             };
 
             var ninjectDependencyResolver = new NinjectDependencyResolver(modules);

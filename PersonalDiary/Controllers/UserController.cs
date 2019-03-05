@@ -29,7 +29,8 @@ namespace PersonalDiary.Controllers
             //1.1.1.1 user对象为空，返回Msg="请输入用户名"的回应模型JsonStringResult对象
             //1.1.1.2 user对象不为null,调用IUserManager.Login()方法,返回登陆模型LoginModel,调用SaveLoginUser方法,返回JsonString(model)
             //1.2不为空，用户已经登陆，跳转首页
-            SessionService.ClearCurrentUser();
+            //清空Session
+            //SessionService.ClearCurrentUser();
             if (User != null)
             {//已经登陆了，跳转首页
                 return RedirectToAction("Index", "Home");
@@ -42,7 +43,7 @@ namespace PersonalDiary.Controllers
             if (model.UserId > 0)
             {
                 SaveLoginUser(model);
-                return JsonString(new BaseReponseModel { Msg = "登陆成功", Status = "ok", Url = Url.RouteUrl(new { controller = "Diary", action = "Index" }) });
+                return JsonString(new BaseReponseModel { Msg = "登陆成功", Status = "ok", Url = Url.RouteUrl(new { controller = "Diary", action = "Index" ,id=model.UserId}) });
             }
             else
                 return JsonString(new BaseReponseModel { Msg = "登陆失败", Status = "no", Url = Url.RouteUrl(new { controller = "User", action = "Login" }) });

@@ -13,7 +13,7 @@ namespace Diary.Service.Diary
         string UserName { get; }
         string Content { get; }
         DateTime CreateTime { get; }
-
+        string Title { get; }
         void UpdateDiary(int userId, string Content);
 
         void Delete(int userId);

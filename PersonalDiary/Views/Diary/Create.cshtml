@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+<script>
+    $(function () {
+        $("form").submit(function () {
+            $.post("/Diary/Create", { "title": $("#input_Title").val(), "content": $("#textarea_Content").val() }, function (obj) {             
+                if (obj) {
+                    alert(json.Msg);
+                    window.location.href = json.Url;
+                }
+            }, "json");
+        });
+    });
+</script>
+
+<div>
+    <form>
+        <input id="input_Title"/>
+        <textarea id="textarea_Content" cols=40 rows=10 name=text style="overflow:auto" text-align:center background-color:BFCEDC></textarea>
+        <input type="submit"  value="保存" id="creatediary"/> 
+    </form>
+
+</div>
+
+
+<h2>Create</h2>
+
