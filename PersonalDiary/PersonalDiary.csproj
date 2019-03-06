@@ -208,10 +208,11 @@
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\UserAddResult.cshtml" />
     <Content Include="Views\Default\Index.cshtml" />
-    <Content Include="Views\Diary\Index.cshtml" />
+    <Content Include="Views\Diary\UserIndex.cshtml" />
     <Content Include="Views\Diary\Details.cshtml" />
     <Content Include="Views\Diary\Create.cshtml" />
     <Content Include="Views\Diary\Edit.cshtml" />
+    <Content Include="Views\Diary\AllIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

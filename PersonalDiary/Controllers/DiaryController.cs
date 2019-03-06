@@ -21,13 +21,13 @@ namespace PersonalDiary.Controllers
             _DiaryManager = DiaryManager;
         }
         // GET: Default
-        //主页面
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
-        //日志列表
-        public ActionResult Index(string userid)
+        //所有用户日志列表页面
+        public ActionResult AllIndex()
+        {
+            return View();
+        }
+        //当前用户日志列表
+        public ActionResult UserIndex(int userid,string? value)
         {
             // 1. 从数据库中读取实体对象 (Diary)
 
@@ -36,14 +36,13 @@ namespace PersonalDiary.Controllers
             //var Diary=_DiaryManager.NoTackingDiary;
             //// 2. 将实体对象转换成 Model
             //var diaries = Diary.Where(diary => diary.UserId == userid);
-
             //// 3. 将 Model 对象传递给视图 (View)
             //return View(diaries);
             //1.从Diary仓储类中找到UserId==userid的实体集 （IQueryable类型）
             //2.
-            int A;
-            int.TryParse(userid, out A);
-            var messagediary = _DiaryManager.NoTackingDiary.Where(d => d.UserId ==A);
+            //int A;
+            //int.TryParse(userid, out A);
+            var messagediary = _DiaryManager.NoTackingDiary.Where(d => d.UserId ==userid);
             int pageSize = 20;int count; int pageCount;
             int page = 1;
             var userdiarymodel = messagediary.OrderByDescending(p => p.CreateTime)
@@ -54,6 +53,12 @@ namespace PersonalDiary.Controllers
             PageModel<UserDiaryModel> userDiaryModels = new PageModel<UserDiaryModel>(userdiarymodel, page, pageCount);
             //ViewBag.userDiaryModels = userDiaryModels;
             ViewBag.User = User;
+
+            //var str = "";//排序的值
+            //if (str == "1")
+            //    messagediary = messagediary.OrderBy(a => a.DiaryId);
+            //else if()
+
             return View(userDiaryModels);
         }
 //        严重性 代码  说明 项目  文件 行   类别 禁止显示状态
@@ -141,10 +146,10 @@ namespace PersonalDiary.Controllers
         {
             var messagediary = _DiaryManager.GetDiaryService(diaryid);
             messagediary.Delete(messagediary.DiaryId);
-          int   PamUserId = messagediary.UserId;
+          //int   PamUserId = messagediary.UserId;
             return RedirectToAction("Index", new
             {
-                userid = PamUserId
+                userid = User.ID
             });
         }
 

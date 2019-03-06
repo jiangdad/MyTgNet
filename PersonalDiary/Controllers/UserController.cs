@@ -21,7 +21,7 @@ namespace PersonalDiary.Controllers
         }
         // [HttpPost]请求登陆控制器
         [HttpPost]
-        public ActionResult Login([Bind(Include = "userName,passWord")]User user)
+        public ActionResult Login([Bind(Include = "userName,passWord")]User user,int? SelectValue)
         {
             //1.判断SessionUser类属性User是否为空
             //1.1为空
@@ -52,7 +52,7 @@ namespace PersonalDiary.Controllers
             if (model.UserId > 0)
             {
                 SaveLoginUser(model);
-                return JsonString(new BaseReponseModel { Msg = "登陆成功", Status = "ok", Url = Url.RouteUrl(new { controller = "Diary", action = "Index" ,userid=model.UserId}) });
+                return JsonString(new BaseReponseModel { Msg = "登陆成功", Status = "ok", Url = Url.RouteUrl(new { controller = "Diary", action = "UserIndex" ,userid=model.UserId}) });
             }
             else
                 return JsonString(new BaseReponseModel { Msg = "登陆失败", Status = "no", Url = Url.RouteUrl(new { controller = "User", action = "Login" }) });

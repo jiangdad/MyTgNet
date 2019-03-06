@@ -5,17 +5,27 @@
 @using PersonalDiary.Models;
 @{
     ViewBag.Title = "Index";
+    ViewBag.OptionValue =1;
 }
+<script>
+    $(function () {
+        $("#form").submit(function () {
+            $.post("/Diary/UserIndex",{""})
+        });
+    });
+</script>
 @Html.ActionLink("Create", "Create")
 <h2>Index</h2>
-@using{ 
+@*@using{ 
 
-}
-<form action="" method="get">
+}*@
+<form action="" method="post">
     <label>关键字</label>
-    <select name="">
-        <option value="0"></option>
-        <option value="1"></option>
+    <select name="sort">
+        <option value="1">标题升序</option>
+        <option value="1">标题降序</option>
+        <option value="3">时间升序</option>
+        <option value="4">时间降序</option>
     </select>
 </form>
 <table>
