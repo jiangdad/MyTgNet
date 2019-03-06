@@ -11,7 +11,7 @@ namespace Diary.Service.Diary
 {
   public  class DiaryService : IDiaryService
     {
-        private int diaryId;
+        public int diaryId;
         private IDiaryRepository _diarepository;
         private Lazy<Data.Diary> _LazyDiary;
         public DiaryService(int diaryId, IDiaryRepository diarepository)
@@ -24,10 +24,10 @@ namespace Diary.Service.Diary
             {
                 var diary = _diarepository.EnableDiary.Where(m => m.DiaryId == diaryId).FirstOrDefault();
                 if (diary == null)
-                    throw new ExceptionWithErrorCode(ErrorCode.没有找到对应条目, "日志不存在");//代码还会往下执行吗
+                    throw new ExceptionWithErrorCode(ErrorCode.没有找到对应条目, "日志不存在");
                 return diary;
             });
-            }
+        }
 
         public DateTime CreateTime
         {

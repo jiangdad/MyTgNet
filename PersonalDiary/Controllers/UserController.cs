@@ -33,13 +33,22 @@ namespace PersonalDiary.Controllers
             //SessionService.ClearCurrentUser();
             if (User != null)
             {//已经登陆了，跳转首页
-                return RedirectToAction("Index", "Home");
+                return JsonString(new BaseReponseModel
+                {
+                    Msg = "用户已经登陆",
+                    Status = "ok",
+                    Url = Url.RouteUrl(new { controller = "Diary", action = "Index", userid = User.ID }
+                    )
+                });
             }
             if (user == null)
             {
-                return JsonString(new BaseReponseModel { Msg = "请输入用户名", Status = "error" });
+                return JsonString(new BaseReponseModel { Msg = "请输入用户名", Status = "error" ,Url=Url.RouteUrl(new {
+                    controller ="User",
+                 action="Login"
+                   })});
             }
-            var model = _UserManager.Login(user);//
+            var model = _UserManager.Login(user);
             if (model.UserId > 0)
             {
                 SaveLoginUser(model);

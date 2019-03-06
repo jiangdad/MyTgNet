@@ -27,7 +27,7 @@ namespace PersonalDiary.Controllers
         //    return View();
         //}
         //日志列表
-        public ActionResult Index(int userid)
+        public ActionResult Index(string userid)
         {
             // 1. 从数据库中读取实体对象 (Diary)
 
@@ -41,8 +41,10 @@ namespace PersonalDiary.Controllers
             //return View(diaries);
             //1.从Diary仓储类中找到UserId==userid的实体集 （IQueryable类型）
             //2.
-            var messagediary = _DiaryManager.NoTackingDiary.Where(d => d.UserId == userid);
-            int pageCount,count, pageSize = 20;
+            int A;
+            int.TryParse(userid, out A);
+            var messagediary = _DiaryManager.NoTackingDiary.Where(d => d.UserId ==A);
+            int pageSize = 20;int count; int pageCount;
             int page = 1;
             var userdiarymodel = messagediary.OrderByDescending(p => p.CreateTime)
                 .TakePage(out count, out pageCount, page, pageSize) .ToList()
@@ -54,7 +56,10 @@ namespace PersonalDiary.Controllers
             ViewBag.User = User;
             return View(userDiaryModels);
         }
-        
+//        严重性 代码  说明 项目  文件 行   类别 禁止显示状态
+//警告 未能找到引用的组件“Microsoft.QualityTools.Testing.Fakes”。	PersonalDiary
+
+
 
 
         // GET: Default/Details/5
@@ -91,7 +96,8 @@ namespace PersonalDiary.Controllers
             Diary.Data.Diary diary = new Diary.Data.Diary { Content = userdiarymodel.Content,
                 CreateTime = DateTime.Now,
                 Title = userdiarymodel.Title,
-                UserId = 10, 
+                UserId =(int) User.ID, 
+              
                 IsDel = false, IsPrivate = false };
                var DiaryService= _DiaryManager.Add(diary);
             return JsonString(new BaseReponseModel { Msg = "创建成功", Status = "ok",
@@ -135,7 +141,11 @@ namespace PersonalDiary.Controllers
         {
             var messagediary = _DiaryManager.GetDiaryService(diaryid);
             messagediary.Delete(messagediary.DiaryId);
-            return RedirectToAction("Index");
+          int   PamUserId = messagediary.UserId;
+            return RedirectToAction("Index", new
+            {
+                userid = PamUserId
+            });
         }
 
    

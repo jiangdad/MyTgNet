@@ -6,8 +6,18 @@
 @{
     ViewBag.Title = "Index";
 }
-   @Html.ActionLink("Create", "Create")
+@Html.ActionLink("Create", "Create")
 <h2>Index</h2>
+@using{ 
+
+}
+<form action="" method="get">
+    <label>关键字</label>
+    <select name="">
+        <option value="0"></option>
+        <option value="1"></option>
+    </select>
+</form>
 <table>
     <tr>
         <td>Title</td>
@@ -16,8 +26,8 @@
         <td>CreateTime</td>
     </tr>
 </table>
-@{ 
-    foreach(var item in Model)
+@{
+    foreach (var item in Model)
     {
         <table>
             <tr>
@@ -39,9 +49,9 @@
                     @Html.ActionLink("Delete", "Delete", new { diaryid = item.UserDiaryId })
                 </td>
             </tr>
- 
+
         </table>
-       
+
     }
-  <p>@ViewBag.User</p>
+    <p>@ViewBag.User</p>
 }

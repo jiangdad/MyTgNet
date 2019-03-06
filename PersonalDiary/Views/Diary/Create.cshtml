@@ -8,12 +8,12 @@
         $("form").submit(function () {
             $.post("/Diary/Create", { "title": $("#input_Title").val(), "content": $("#textarea_Content").val() }, function (obj) {             
                 if (obj) {
-                    alert(json.Msg);
-                    window.location.href = json.Url;
+                    alert(obj.Msg);
+                    window.location.href = obj.Url;
                 }
             }, "json");
         });
-    });
+    }) ;
 </script>
 
 <div>
