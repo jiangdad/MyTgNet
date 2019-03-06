@@ -7,28 +7,39 @@
     ViewBag.Title = "Index";
     ViewBag.OptionValue =1;
 }
+
+
 <script>
     $(function () {
         $("#sort").change(function () {
 
-            var a = $("#sort option:selected")
+            var optionValue = $("#sort option:selected").val();
 
-            $.post("/Diary/UserIndex", { "userid": 2, "value": a.val() }), function () {
+            window.location.href = "/Diary/UserIndex?userid=7&value=" + optionValue;
 
-            });
+            //$.post("/Diary/UserIndex", { "userid": 2, "value": a.val()}) ;
         });
     });
 </script>
 @Html.ActionLink("Create", "Create")
-<h2>Index</h2>
-@*@using{ 
 
+<h2>Index</h2>
+<h2>@ViewBag.User</h2>
+@*@using{ 
+    
 }*@
+<p>
+    <a href="/User/Login">Login</a>
+    <a href="/User/LogOut">LogOut</a>
+</p>
+
 <form action="" method="post">
+
     <label>关键字</label>
     <select name="sort" id="sort">
+        <option selected>@ViewBag.Select</option>
         <option value="1">标题升序</option>
-        <option value="1">标题降序</option>
+        <option value="2">标题降序</option>
         <option value="3">时间升序</option>
         <option value="4">时间降序</option>
     </select>
@@ -58,11 +69,17 @@
                 <td>
                     @item.CreateTime
                 </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { diaryid = item.UserDiaryId }) |
-                    @Html.ActionLink("Details", "Details", new { diaryid = item.UserDiaryId }) |
-                    @Html.ActionLink("Delete", "Delete", new { diaryid = item.UserDiaryId })
-                </td>
+                @if (ViewBag.userid != 0)
+                {
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { diaryid = item.UserDiaryId }) |
+                        @Html.ActionLink("Details", "Details", new { diaryid = item.UserDiaryId }) |
+                        @Html.ActionLink("Delete", "Delete", new { diaryid = item.UserDiaryId })
+                        @Html.ActionLink("Publish", "Publish", new { diaryid=item.UserDiaryId})
+                    </td>
+                }
+              
+
             </tr>
 
         </table>

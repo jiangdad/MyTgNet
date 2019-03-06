@@ -37,7 +37,7 @@ namespace PersonalDiary.Controllers
                 {
                     Msg = "用户已经登陆",
                     Status = "ok",
-                    Url = Url.RouteUrl(new { controller = "Diary", action = "Index", userid = User.ID }
+                    Url = Url.RouteUrl(new { controller = "Diary", action = "UserIndex", userid = User.ID }
                     )
                 });
             }
@@ -50,8 +50,9 @@ namespace PersonalDiary.Controllers
             }
             var model = _UserManager.Login(user);
             if (model.UserId > 0)
-            {
+            {  
                 SaveLoginUser(model);
+                ViewBag.User = model.UserName;
                 return JsonString(new BaseReponseModel { Msg = "登陆成功", Status = "ok", Url = Url.RouteUrl(new { controller = "Diary", action = "UserIndex" ,userid=model.UserId}) });
             }
             else
@@ -107,6 +108,12 @@ namespace PersonalDiary.Controllers
         private void SaveLoginUser(LoginUserModel userModel)
         {
             SessionService.SetCurrentUser(userModel.UserId, userModel.UserId.ToString(), false);
+        }
+        public ActionResult LogOut()
+        {
+            SessionService.ClearCurrentUser();
+            ViewBag.User = null;
+            return RedirectToAction("UserIndex","Diary");
         }
     }
 }

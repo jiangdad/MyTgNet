@@ -5,8 +5,12 @@
 
 <script>
     $(function () {
-        $("form").submit(function () {
-            $.post("/Diary/Create", { "title": $("#input_Title").val(), "content": $("#textarea_Content").val() }, function (obj) {             
+        $("#creatediary").click(function () {
+            var a = $("#agree_input").val();
+            var isPrivate = true;
+            if (a != 1)
+                isPrivate = false;
+            $.post("/Diary/Create", { "title": $("#input_Title").val(), "content": $("#textarea_Content").val(),"IsPrivate":isPrivate}, function (obj) {             
                 if (obj) {
                     alert(obj.Msg);
                     window.location.href = obj.Url;
@@ -20,7 +24,9 @@
     <form>
         <input id="input_Title"/>
         <textarea id="textarea_Content" cols=40 rows=10 name=text style="overflow:auto" text-align:center background-color:BFCEDC></textarea>
-        <input type="submit"  value="保存" id="creatediary"/> 
+        <input type="button"  value="保存" id="creatediary"/> 
+        <input id="agree_input" type="checkbox" name="agree" style="margin-left:100px;display:inline-block;" value="1" />
+        <span style="font-size:10px;">发布</span>
     </form>
 
 </div>

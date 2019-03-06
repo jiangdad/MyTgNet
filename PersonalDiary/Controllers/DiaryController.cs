@@ -35,7 +35,7 @@ namespace PersonalDiary.Controllers
             return View(userDiaryModels);
         }
         //当前用户日志列表
-        public ActionResult UserIndex(int userid)
+        public ActionResult UserIndex(int? userid=null,int value= 1,int page = 1)
         {
             // 1. 从数据库中读取实体对象 (Diary)
 
@@ -50,24 +50,66 @@ namespace PersonalDiary.Controllers
             //2.
             //int A;
             //int.TryParse(userid, out A);
-            var messagediary = _DiaryManager.NoTackingDiary.Where(d => d.UserId ==userid);
+            
+            
+            var messagediary = _DiaryManager.NoTackingDiary.Where(d=>d.IsPrivate==false);
+            if (userid != null)
+                messagediary = _DiaryManager.NoTackingDiary.Where(d => d.UserId == userid);
             int pageSize = 20;int count; int pageCount;
-            int page = 1;
-            var userdiarymodel = messagediary.OrderByDescending(p => p.CreateTime)
-                .TakePage(out count, out pageCount, page, pageSize) .ToList()
-                .Select(p=>new UserDiaryModel{UserDiaryId=p.DiaryId, Content=p.Content, CreateTime=p.CreateTime, DiaryCount=p.UserId, Title=p.Title, UserName=p.User.UserName, UserId=p.UserId })
-               ;
+            //1.不添加value参数
+            //var userdiarymodel = messagediary.OrderByDescending(p => p.CreateTime);
+            //    .TakePage(out count, out pageCount, page, pageSize) .ToList()
+            //    .Select(p=>new UserDiaryModel{UserDiaryId=p.DiaryId, Content=p.Content, CreateTime=p.CreateTime, DiaryCount=p.UserId, Title=p.Title, UserName=p.User.UserName, UserId=p.UserId })
+            //   ;
             //PageModel<UserDiaryModel> userDiaryModels = null;
-            PageModel<UserDiaryModel> userDiaryModels = new PageModel<UserDiaryModel>(userdiarymodel, page, pageCount);
+            //PageModel<UserDiaryModel> userDiaryModels = new PageModel<UserDiaryModel>(userdiarymodel, page, pageCount);
             //ViewBag.userDiaryModels = userDiaryModels;
             ViewBag.User = User;
-
+            var userdiarymodel = messagediary.OrderBy(a => a.Title).TakePage(out count, out pageCount, page, pageSize).ToList()
+                    .Select(p => 
+                    new UserDiaryModel { UserDiaryId = p.DiaryId,
+                        Content = p.Content,
+                        CreateTime = p.CreateTime,
+                        DiaryCount = p.UserId,
+                        Title = p.Title,
+                        UserName = p.User.UserName,
+                        UserId = p.UserId });
             //var str = "";//排序的值
-            //if (str == "1")
-            //    messagediary = messagediary.OrderBy(a => a.DiaryId);
-            //else if()
+            //2.添加value参数后
+                        PageModel<UserDiaryModel> userDiaryModels = null;
+            if (value == 1)
+            {
+                ViewBag.Select = "标题升序";
+               userDiaryModels =new PageModel<UserDiaryModel>
+                    (userdiarymodel.OrderBy(a=>a.Title), page, pageCount);
+            }
 
-            return View(userDiaryModels);
+            else if (value == 2)
+            {
+                ViewBag.Select = "标题降序";
+                userDiaryModels = new PageModel<UserDiaryModel>
+                    (userdiarymodel.OrderByDescending(a=>a.Title), page, pageCount);
+            }
+            else if (value == 3)
+            {
+                ViewBag.Select = "时间升序";
+                userDiaryModels = new PageModel<UserDiaryModel>
+                    (userdiarymodel.OrderBy(a=>a.CreateTime), page, pageCount);
+   
+            }
+            else if (value == 4)
+            {
+                ViewBag.Select = "时间降序";
+                userDiaryModels = new PageModel<UserDiaryModel>
+                    (userdiarymodel.OrderByDescending(a=>a.CreateTime), page, pageCount);     
+            }
+            else
+            {     
+                userDiaryModels = new PageModel<UserDiaryModel>(userdiarymodel, page, pageCount);  
+            }
+            if (userid == null)
+                ViewBag.userid = 0;
+           return View(userDiaryModels);
         }
 //        严重性 代码  说明 项目  文件 行   类别 禁止显示状态
 //警告 未能找到引用的组件“Microsoft.QualityTools.Testing.Fakes”。	PersonalDiary
@@ -101,19 +143,19 @@ namespace PersonalDiary.Controllers
 
         // POST: Default/Create
         [HttpPost]
-        public ActionResult Create([Bind(Include ="Content,Title")]UserDiaryModel userdiarymodel)
+        public ActionResult Create([Bind(Include ="Content,Title,IsPrivate")]UserDiaryModel userdiarymodel)
         {
-            //if (User == null)
-            //    throw new Tgnet.Api.ExceptionWithErrorCode(Tgnet.Api.ErrorCode.未登录);
-            
+            if (User == null)
+                throw new Tgnet.Api.ExceptionWithErrorCode(Tgnet.Api.ErrorCode.未登录);
+
             Diary.Data.Diary diary = new Diary.Data.Diary { Content = userdiarymodel.Content,
                 CreateTime = DateTime.Now,
                 Title = userdiarymodel.Title,
                 UserId =(int) User.ID, 
-                IsDel = false, IsPrivate = false };
+                IsDel = false, IsPrivate = userdiarymodel.IsPrivate };
                var DiaryService= _DiaryManager.Add(diary);
             return JsonString(new BaseReponseModel { Msg = "创建成功", Status = "ok",
-                Url = Url.RouteUrl(new { controller = "Diary", action = "Index",
+                Url = Url.RouteUrl(new { controller = "Diary", action = "UserIndex",
                     userid = diary.UserId
                 }) });
         }
@@ -144,7 +186,7 @@ namespace PersonalDiary.Controllers
             messagediary.UpdateDiary(userdiarymodel.UserDiaryId, userdiarymodel.Content,userdiarymodel.Title);
 
             return JsonString(new BaseReponseModel { Msg = "修改成功", Status = "ok", Url = Url.RouteUrl(new { controller = "Diary",
-                action = "Index",
+                action = "UserIndex",
                 userid = messagediary.UserId }) });
         }
 
@@ -154,7 +196,7 @@ namespace PersonalDiary.Controllers
             var messagediary = _DiaryManager.GetDiaryService(diaryid);
             messagediary.Delete(messagediary.DiaryId);
           //int   PamUserId = messagediary.UserId;
-            return RedirectToAction("Index", new
+            return RedirectToAction("UserIndex", new
             {
                 userid = User.ID
             });
