@@ -1,5 +1,4 @@
-﻿
-@using Tgnet.Web.Sessions;
+﻿@using Tgnet.Web.Sessions;
 @model PageModel<UserDiaryModel>
 @using Tgnet.Web.Mvc;
 @using Tgnet.Web.Sessions;
@@ -8,8 +7,14 @@
     ViewBag.Title = "Index";
     ViewBag.OptionValue = 1;
 }
-
-@Html.ActionLink("Login", "Login","User")
+<script>
+    $(function () {
+        $("#form").submit(function () {
+            $.post("/Diary/UserIndex",{""})
+        });
+    });
+</script>
+@Html.ActionLink("Create", "Create")
 <h2>Index</h2>
 @*@using{
 
@@ -47,6 +52,11 @@
                 </td>
                 <td>
                     @item.CreateTime
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { diaryid = item.UserDiaryId }) |
+                    @Html.ActionLink("Details", "Details", new { diaryid = item.UserDiaryId }) |
+                    @Html.ActionLink("Delete", "Delete", new { diaryid = item.UserDiaryId })
                 </td>
             </tr>
 

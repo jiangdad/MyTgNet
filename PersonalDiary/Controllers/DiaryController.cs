@@ -24,10 +24,18 @@ namespace PersonalDiary.Controllers
         //所有用户日志列表页面
         public ActionResult AllIndex()
         {
-            return View();
+            var messagediary = _DiaryManager.NoTackingDiary;
+            int pageSize = 20; int count; int pageCount;
+            int page = 1;
+            var userdiarymodel = messagediary.OrderByDescending(p => p.CreateTime)
+                .TakePage(out count, out pageCount, page, pageSize).ToList()
+                .Select(p => new UserDiaryModel { UserDiaryId = p.DiaryId, Content = p.Content, CreateTime = p.CreateTime, DiaryCount = p.UserId, Title = p.Title, UserName = p.User.UserName, UserId = p.UserId })
+               ;
+            PageModel<UserDiaryModel> userDiaryModels = new PageModel<UserDiaryModel>(userdiarymodel, page, pageCount);
+            return View(userDiaryModels);
         }
         //当前用户日志列表
-        public ActionResult UserIndex(int userid,string? value)
+        public ActionResult UserIndex(int userid)
         {
             // 1. 从数据库中读取实体对象 (Diary)
 
@@ -102,7 +110,6 @@ namespace PersonalDiary.Controllers
                 CreateTime = DateTime.Now,
                 Title = userdiarymodel.Title,
                 UserId =(int) User.ID, 
-              
                 IsDel = false, IsPrivate = false };
                var DiaryService= _DiaryManager.Add(diary);
             return JsonString(new BaseReponseModel { Msg = "创建成功", Status = "ok",
