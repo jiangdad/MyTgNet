@@ -5,35 +5,89 @@
 @using PersonalDiary.Models;
 @{
     ViewBag.Title = "Index";
-    ViewBag.OptionValue =1;
+    ViewBag.OptionValue = 1;
 }
 
-
+@*1*@
 <script>
-    $(function () {
-        $("#sort").change(function () {
+        $(function () {
+            $("#sort").change(function () {
 
-            var optionValue = $("#sort option:selected").val();
+                var optionValue = $("#sort option:selected").val();
+                if (@ViewBag.userid==0)
+                { window.location.href = "/Diary/UserIndex?value=" + optionValue;}
+                else
+                { window.location.href = "/Diary/UserIndex?userid=" +@ViewBag.userid+"&value=" + optionValue; }
 
-            window.location.href = "/Diary/UserIndex?userid=7&value=" + optionValue;
 
-            //$.post("/Diary/UserIndex", { "userid": 2, "value": a.val()}) ;
+                //$.post("/Diary/UserIndex", { "userid": 2, "value": a.val()}) ;
+            });
+            $("#Input_Filter").click(function () {
+                var searchInfo = $("#Input_Search").val();
+                alert(searchInfo);
+                if (@ViewBag.userid== 0)
+                { window.location.href = "/Diary/UserIndex?value=" + optionValue + "?searchInfo=" + searchInfo; }
+                else
+                { window.location.href = "/Diary/UserIndex?userid=" +@ViewBag.userid+"&value=" + optionValue + "?searchInfo=" + searchInfo; }
+
+            });
         });
-    });
-</script>
+    </script>
+
+@*2*@
+
+@*搜索模型的UserIndex
+        <script>
+        $(function () {
+            $("#Input_Filter").submit(function (e) {
+                var optionValue = $("#sort option:selected").val();
+                $.post("/Diary/UserIndex", {
+                    "OrderValue": optionValue, "PageNumber": 1,
+                    "NameSearch": $("#Input_Search").val(),
+                "userid": @ViewBag.userid }, function (obj) {
+                    if (obj) {
+                        alert(obj.Msg);
+                        window.location.href = obj.Url;
+                    }
+                }, "json");
+                return false;
+            });
+        });
+    </script>*@
+
 @Html.ActionLink("Create", "Create")
 
 <h2>Index</h2>
 <h2>@ViewBag.User</h2>
-@*@using{ 
-    
-}*@
+@*@using{
+
+    }*@
 <p>
     <a href="/User/Login">Login</a>
     <a href="/User/LogOut">LogOut</a>
 </p>
 
 <form action="" method="post">
+
+
+
+    @*@using (Ajax.BeginForm(new AjaxOptions
+        {
+            HttpMethod = "get",                    //使用get方法请求
+            InsertionMode = InsertionMode.Replace, //将过滤的数据覆盖原数据
+            UpdateTargetId = "user_diary_List"          //覆盖的地方(值为标签ID)
+        }))
+        {
+            <input type="search" name="searchString" />
+            <input type="submit" name="Filter" />
+        }
+        @Html.Partial("_IndexPartialPage", Model)               @*/*引用分部视图，第一个值
+        为分部视图名，第二个值是
+        把model传过去*/*@
+
+    <input id="Input_Search" type="search" name="searchstring" />
+    <input id="Input_Filter" type="submit" name="Filter" />
+
 
     <label>关键字</label>
     <select name="sort" id="sort">
@@ -52,38 +106,40 @@
         <td>CreateTime</td>
     </tr>
 </table>
-@{
-    foreach (var item in Model)
-    {
-        <table>
-            <tr>
-                <td>
-                    @item.Title
-                </td>
-                <td>
-                    @item.Content
-                </td>
-                <td>
-                    @item.UserName
-                </td>
-                <td>
-                    @item.CreateTime
-                </td>
-                @if (ViewBag.userid != 0)
-                {
+<div id="user_diary_List">
+    @{
+        foreach (var item in Model)
+        {
+            <table>
+                <tr>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { diaryid = item.UserDiaryId }) |
-                        @Html.ActionLink("Details", "Details", new { diaryid = item.UserDiaryId }) |
-                        @Html.ActionLink("Delete", "Delete", new { diaryid = item.UserDiaryId })
-                        @Html.ActionLink("Publish", "Publish", new { diaryid=item.UserDiaryId})
+                        @item.Title
                     </td>
-                }
-              
+                    <td>
+                        @item.Content
+                    </td>
+                    <td>
+                        @item.UserName
+                    </td>
+                    <td>
+                        @item.CreateTime
+                    </td>
+                    @if (ViewBag.userid != 0)
+                    {
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { diaryid = item.UserDiaryId }) |
+                            @Html.ActionLink("Details", "Details", new { diaryid = item.UserDiaryId }) |
+                            @Html.ActionLink("Delete", "Delete", new { diaryid = item.UserDiaryId })
+                            @Html.ActionLink("Publish", "Publish", new { diaryid = item.UserDiaryId })
+                        </td>
+                    }
 
-            </tr>
 
-        </table>
+                </tr>
 
+            </table>
+
+        }
+        <p>@ViewBag.User</p>
     }
-    <p>@ViewBag.User</p>
-}
+</div>

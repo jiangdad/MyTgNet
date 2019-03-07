@@ -51,38 +51,76 @@
             height: 30px;
             width: 300px;
         }
+        html, body {
+            margin: 0;
+            height: 100%;
+        }
+
+        #main {
+            width: 100%;
+            height: 100%;
+            background-color: #ccc;
+            float: left;
+        }
+
+            #main #body {
+                background-color: lightyellow;
+                height: 100%;
+                margin: 0 210px;
+            }
+
+        #left, #right {
+            width: 200px;
+            height: 100%;
+            float: left;
+        }
+
+        #left {
+            background-color: pink;
+            margin-left: -100%;
+        }
+
+        #right {
+            background-color: lightblue;
+            margin-left: -200px;
+        }
     </style>
 </head>
 <body>
-    <div style="height:80px;"></div>
-    <form enctype="multipart/form-data">
-        <div style="width:500px;float:left;margin:0 20px;">
-            <div style="font-size:28px;">登陆</div>
-            <br />
-            <span class="p">*</span>
-            <label for="UserName" class="l">用户名:</label>
-            <div style="height:35px;width:300px;position:relative;display:inline;">
-                <input id="UserName" type="text" style="height:30px;width:250px;padding-right:50px;">
-                <span style="position:absolute;right:18px;top:2px;background-image:url(user.ico);height:16px;width:16px;display:inline-block;"></span>
-            </div>
+    <div id="main">
+        <div id="body">
+                <form enctype="multipart/form-data">
+                <div style="width:500px;float:left;margin:0 20px;">
+                    <div style="font-size:28px;">登陆</div>
+                    <br />
+                    <span class="p">*</span>
+                    <label for="UserName" class="l">用户名:</label>
+                    <div style="height:35px;width:300px;position:relative;display:inline;">
+                        <input id="UserName" type="text" style="height:30px;width:250px;padding-right:50px;">
+                        <span style="position:absolute;right:18px;top:2px;background-image:url(user.ico);height:16px;width:16px;display:inline-block;"></span>
+                    </div>
 
 
 
-            <br /><br />
-            <span class="c">*</span>
-            <label for="Password" class="l">登录密码:</label>
-            <div class="d">
-                <input id="Password" type="text" class="i">
-            </div>
-            <br /><br />
+                    <br /><br />
+                    <span class="c">*</span>
+                    <label for="Password" class="l">登录密码:</label>
+                    <div class="d">
+                        <input id="Password" type="text" class="i">
+                    </div>
+                    <br /><br />
 
+                    <input id="registinput" type="submit" value="登陆" style="margin-left:100px;height:30px;width:300px;background-color:red;display:inline-block;" />
 
+                </div>
+
+            </form>
         </div>
-        <br /><br />
-        <br />
-        <input id="registinput" type="submit" value="登陆" style="margin-left:100px;height:30px;width:300px;background-color:red;display:inline-block;" />
-    
-    </form>
+    </div>
+    <div id="left">2</div>
+    <div id="right">3</div>
+    <div style="height:80px;"></div>
+
 </body>
 
 

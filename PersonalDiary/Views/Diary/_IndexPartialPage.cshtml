@@ -36,32 +36,39 @@
         <td>CreateTime</td>
     </tr>
 </table>
-@{
-    foreach (var item in Model)
-    {
-        <table>
-            <tr>
-                <td>
-                    @item.Title
-                </td>
-                <td>
-                    @item.Content
-                </td>
-                <td>
-                    @item.UserName
-                </td>
-                <td>
-                    @item.CreateTime
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { diaryid = item.UserDiaryId }) |
-                    @Html.ActionLink("Details", "Details", new { diaryid = item.UserDiaryId }) |
-                    @Html.ActionLink("Delete", "Delete", new { diaryid = item.UserDiaryId })
-                </td>
-            </tr>
+<div id="user_diary_List">
 
-        </table>
+    @{
+        foreach (var item in Model)
+        {
+            <table>
+                <tr>
+                    <td>
+                        @item.Title
+                    </td>
+                    <td>
+                        @item.Content
+                    </td>
+                    <td>
+                        @item.UserName
+                    </td>
+                    <td>
+                        @item.CreateTime
+                    </td>
+                    @if (ViewBag.userid == 0)
+                    {
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { diaryid = item.UserDiaryId }) |
+                            @Html.ActionLink("Details", "Details", new { diaryid = item.UserDiaryId }) |
+                            @Html.ActionLink("Delete", "Delete", new { diaryid = item.UserDiaryId })
+                        </td>
+                    }
+                </tr>
+            </table>
 
+        }
+        <p>@ViewBag.User</p>
     }
-    <p>@ViewBag.User</p>
-}
+
+
+</div>

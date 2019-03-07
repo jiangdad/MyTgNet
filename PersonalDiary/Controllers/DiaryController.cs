@@ -35,7 +35,7 @@ namespace PersonalDiary.Controllers
             return View(userDiaryModels);
         }
         //当前用户日志列表
-        public ActionResult UserIndex(int? userid=null,int value= 1,int page = 1)
+        public ActionResult UserIndex(int? userid = null, int value = 1, int page = 1, string searchInfo = null)
         {
             // 1. 从数据库中读取实体对象 (Diary)
 
@@ -50,12 +50,16 @@ namespace PersonalDiary.Controllers
             //2.
             //int A;
             //int.TryParse(userid, out A);
-            
-            
-            var messagediary = _DiaryManager.NoTackingDiary.Where(d=>d.IsPrivate==false);
+
+
+            var messagediary = _DiaryManager.NoTackingDiary.Where(d => d.IsPrivate == false);
+            ViewBag.userid = 0;
             if (userid != null)
+            {
                 messagediary = _DiaryManager.NoTackingDiary.Where(d => d.UserId == userid);
-            int pageSize = 20;int count; int pageCount;
+                ViewBag.userid = userid;
+            }
+            int pageSize = 20; int count; int pageCount;
             //1.不添加value参数
             //var userdiarymodel = messagediary.OrderByDescending(p => p.CreateTime);
             //    .TakePage(out count, out pageCount, page, pageSize) .ToList()
@@ -66,55 +70,121 @@ namespace PersonalDiary.Controllers
             //ViewBag.userDiaryModels = userDiaryModels;
             ViewBag.User = User;
             var userdiarymodel = messagediary.OrderBy(a => a.Title).TakePage(out count, out pageCount, page, pageSize).ToList()
-                    .Select(p => 
-                    new UserDiaryModel { UserDiaryId = p.DiaryId,
+                    .Select(p =>
+                    new UserDiaryModel
+                    {
+                        UserDiaryId = p.DiaryId,
                         Content = p.Content,
                         CreateTime = p.CreateTime,
                         DiaryCount = p.UserId,
                         Title = p.Title,
                         UserName = p.User.UserName,
-                        UserId = p.UserId });
+                        UserId = p.UserId
+                    });
             //var str = "";//排序的值
             //2.添加value参数后
-                        PageModel<UserDiaryModel> userDiaryModels = null;
+            PageModel<UserDiaryModel> userDiaryModels = null;
             if (value == 1)
             {
                 ViewBag.Select = "标题升序";
-               userDiaryModels =new PageModel<UserDiaryModel>
-                    (userdiarymodel.OrderBy(a=>a.Title), page, pageCount);
+                userDiaryModels = new PageModel<UserDiaryModel>
+                     (userdiarymodel.OrderBy(a => a.Title), page, pageCount);
             }
 
             else if (value == 2)
             {
                 ViewBag.Select = "标题降序";
                 userDiaryModels = new PageModel<UserDiaryModel>
-                    (userdiarymodel.OrderByDescending(a=>a.Title), page, pageCount);
+                    (userdiarymodel.OrderByDescending(a => a.Title), page, pageCount);
             }
             else if (value == 3)
             {
                 ViewBag.Select = "时间升序";
                 userDiaryModels = new PageModel<UserDiaryModel>
-                    (userdiarymodel.OrderBy(a=>a.CreateTime), page, pageCount);
-   
+                    (userdiarymodel.OrderBy(a => a.CreateTime), page, pageCount);
+
             }
             else if (value == 4)
             {
                 ViewBag.Select = "时间降序";
                 userDiaryModels = new PageModel<UserDiaryModel>
-                    (userdiarymodel.OrderByDescending(a=>a.CreateTime), page, pageCount);     
+                    (userdiarymodel.OrderByDescending(a => a.CreateTime), page, pageCount);
             }
             else
-            {     
-                userDiaryModels = new PageModel<UserDiaryModel>(userdiarymodel, page, pageCount);  
+            {
+                userDiaryModels = new PageModel<UserDiaryModel>(userdiarymodel, page, pageCount);
             }
-            if (userid == null)
-                ViewBag.userid = 0;
-           return View(userDiaryModels);
+            if (!string.IsNullOrEmpty(searchInfo))
+            {
+                userDiaryModels.Where(d => d.UserName.Contains(searchInfo));
+            }
+            return View(userDiaryModels);
         }
-//        严重性 代码  说明 项目  文件 行   类别 禁止显示状态
-//警告 未能找到引用的组件“Microsoft.QualityTools.Testing.Fakes”。	PersonalDiary
+        //        严重性 代码  说明 项目  文件 行   类别 禁止显示状态
+        //警告 未能找到引用的组件“Microsoft.QualityTools.Testing.Fakes”。	PersonalDiary
 
+        //搜索模型的UserIndex
+        //public ActionResult UserIndex([Bind(Include ="OrderValue,PageNumber,NameSearch")]SearchModel searchModel,int? userid=null)
+        //{
+        //    var messagediary = _DiaryManager.NoTackingDiary.Where(d => d.IsPrivate == false);
+        //    ViewBag.userid = 0;
+        //    if (userid != null)
+        //    {
+        //        messagediary = _DiaryManager.NoTackingDiary.Where(d => d.UserId ==userid);
+        //        ViewBag.userid = userid;
+        //    }
+        //    int pageSize = 20; int count; int pageCount;
+        //    var userdiarymodel = messagediary.OrderBy(a => a.Title).TakePage(out count, out pageCount, searchModel.PageNumber, pageSize).ToList()
+        //            .Select(p =>
+        //            new UserDiaryModel
+        //            {
+        //                UserDiaryId = p.DiaryId,
+        //                Content = p.Content,
+        //                CreateTime = p.CreateTime,
+        //                DiaryCount = p.UserId,
+        //                Title = p.Title,
+        //                UserName = p.User.UserName,
+        //                UserId = p.UserId
+        //            });
 
+        //    PageModel<UserDiaryModel> userDiaryModels = null;
+        //    if (searchModel.OrderValue == 1)
+        //    {
+        //        ViewBag.Select = "标题升序";
+        //        userDiaryModels = new PageModel<UserDiaryModel>
+        //             (userdiarymodel.OrderBy(a => a.Title), searchModel.PageNumber, pageCount);
+        //    }
+
+        //    else if (searchModel.OrderValue == 2)
+        //    {
+        //        ViewBag.Select = "标题降序";
+        //        userDiaryModels = new PageModel<UserDiaryModel>
+        //            (userdiarymodel.OrderByDescending(a => a.Title), searchModel.PageNumber, pageCount);
+        //    }
+        //    else if (searchModel.OrderValue == 3)
+        //    {
+        //        ViewBag.Select = "时间升序";
+        //        userDiaryModels = new PageModel<UserDiaryModel>
+        //            (userdiarymodel.OrderBy(a => a.CreateTime), searchModel.PageNumber, pageCount);
+
+        //    }
+        //    else if (searchModel.OrderValue == 4)
+        //    {
+        //        ViewBag.Select = "时间降序";
+        //        userDiaryModels = new PageModel<UserDiaryModel>
+        //            (userdiarymodel.OrderByDescending(a => a.CreateTime), searchModel.PageNumber, pageCount);
+        //    }
+        //    else
+        //    {
+        //        userDiaryModels = new PageModel<UserDiaryModel>(userdiarymodel, searchModel.PageNumber, pageCount);
+        //    }
+        //    if (!string.IsNullOrEmpty(searchModel.NameSearch))
+        //    {
+        //        userDiaryModels.Where(d => d.UserName.Contains(searchModel.NameSearch));
+        //    }
+        //    return View(userDiaryModels);
+
+        //}
 
 
         // GET: Default/Details/5
@@ -137,7 +207,8 @@ namespace PersonalDiary.Controllers
         // GET: Default/Create
         public ActionResult Create()
         {
-
+            if (User == null)
+                throw new Tgnet.Api.ExceptionWithErrorCode(Tgnet.Api.ErrorCode.未登录);
             return View();
         }
 
