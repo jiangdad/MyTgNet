@@ -53,7 +53,7 @@ namespace PersonalDiary.Controllers
 
 
             var messagediary = _DiaryManager.NoTackingDiary.Where(d => d.IsPrivate == false);
-            ViewBag.userid = 0;
+            ViewBag.userid = User.ID;
             if (userid != null)
             {
                 messagediary = _DiaryManager.NoTackingDiary.Where(d => d.UserId == userid);
@@ -69,55 +69,68 @@ namespace PersonalDiary.Controllers
             //PageModel<UserDiaryModel> userDiaryModels = new PageModel<UserDiaryModel>(userdiarymodel, page, pageCount);
             //ViewBag.userDiaryModels = userDiaryModels;
             ViewBag.User = User;
-            var userdiarymodel = messagediary.OrderBy(a => a.Title).TakePage(out count, out pageCount, page, pageSize).ToList()
-                    .Select(p =>
-                    new UserDiaryModel
-                    {
-                        UserDiaryId = p.DiaryId,
-                        Content = p.Content,
-                        CreateTime = p.CreateTime,
-                        DiaryCount = p.UserId,
-                        Title = p.Title,
-                        UserName = p.User.UserName,
-                        UserId = p.UserId
-                    });
+            //var userdiarymodel = messagediary.OrderBy(a => a.Title).TakePage(out count, out pageCount, page, pageSize).ToList()
+            //        .Select(p =>
+            //        new UserDiaryModel
+            //        {
+            //            UserDiaryId = p.DiaryId,
+            //            Content = p.Content,
+            //            CreateTime = p.CreateTime,
+            //            DiaryCount = p.UserId,
+            //            Title = p.Title,
+            //            UserName = p.User.UserName,
+            //            UserId = p.UserId
+            //        });
             //var str = "";//排序的值
-            //2.添加value参数后
+            //2.添加value参数后‘
+
+           
             PageModel<UserDiaryModel> userDiaryModels = null;
             if (value == 1)
             {
                 ViewBag.Select = "标题升序";
-                userDiaryModels = new PageModel<UserDiaryModel>
-                     (userdiarymodel.OrderBy(a => a.Title), page, pageCount);
+                messagediary = messagediary.OrderBy(a => a.Title);
             }
 
             else if (value == 2)
             {
                 ViewBag.Select = "标题降序";
-                userDiaryModels = new PageModel<UserDiaryModel>
-                    (userdiarymodel.OrderByDescending(a => a.Title), page, pageCount);
+                messagediary = messagediary.OrderByDescending(a => a.Title);
             }
             else if (value == 3)
             {
                 ViewBag.Select = "时间升序";
-                userDiaryModels = new PageModel<UserDiaryModel>
-                    (userdiarymodel.OrderBy(a => a.CreateTime), page, pageCount);
+                messagediary = messagediary.OrderBy(a => a.CreateTime);
 
             }
             else if (value == 4)
             {
                 ViewBag.Select = "时间降序";
-                userDiaryModels = new PageModel<UserDiaryModel>
-                    (userdiarymodel.OrderByDescending(a => a.CreateTime), page, pageCount);
+                messagediary = messagediary.OrderByDescending(a => a.CreateTime);
             }
             else
             {
-                userDiaryModels = new PageModel<UserDiaryModel>(userdiarymodel, page, pageCount);
+                messagediary = messagediary.OrderBy(a => a.Title);
             }
             if (!string.IsNullOrEmpty(searchInfo))
             {
-                userDiaryModels.Where(d => d.UserName.Contains(searchInfo));
+                messagediary= messagediary.Where(d => d.User.UserName.Contains(searchInfo));
             }
+            
+            var model = messagediary.
+            TakePage(out count, out pageCount, page, pageSize).ToList().Select(p => new UserDiaryModel
+            {
+                UserDiaryId = p.DiaryId,
+                Content = p.Content,
+                CreateTime = p.CreateTime,
+                DiaryCount = p.UserId,
+                Title = p.Title,
+                UserName = p.User.UserName,
+                UserId = p.UserId
+            });
+            userDiaryModels = new PageModel<UserDiaryModel>(model, page, pageCount);
+
+
             return View(userDiaryModels);
         }
         //        严重性 代码  说明 项目  文件 行   类别 禁止显示状态

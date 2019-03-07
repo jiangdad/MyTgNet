@@ -14,6 +14,12 @@ namespace Diary.Data
     
     public partial class Diary
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Diary()
+        {
+            this.DiaryComment = new HashSet<DiaryComment>();
+        }
+    
         public int DiaryId { get; set; }
         public string Content { get; set; }
         public string Title { get; set; }
@@ -23,5 +29,7 @@ namespace Diary.Data
         public bool IsDel { get; set; }
     
         public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DiaryComment> DiaryComment { get; set; }
     }
 }

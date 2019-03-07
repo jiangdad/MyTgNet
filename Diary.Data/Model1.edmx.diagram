@@ -8,6 +8,9 @@
         <EntityTypeShape EntityType="DiariesModelDB.Diary" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="DiariesModelDB.User" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
         <AssociationConnector Association="DiariesModelDB.FK_Diary_User" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DiariesModelDB.DiaryComment" Width="1.5" PointX="5.625" PointY="2.25" />
+        <AssociationConnector Association="DiariesModelDB.FK_DiaryComment_Diary" />
+        <AssociationConnector Association="DiariesModelDB.FK_DiaryComment_User" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

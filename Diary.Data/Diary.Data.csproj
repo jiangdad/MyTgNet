@@ -61,7 +61,11 @@
     <Compile Include="Diary.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="DiaryComment.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="DiaryRepository.cs" />
+    <Compile Include="DiCommentRepository.cs" />
     <Compile Include="LoginUserModel.cs" />
     <Compile Include="Model1.Context.cs">
       <AutoGen>True</AutoGen>

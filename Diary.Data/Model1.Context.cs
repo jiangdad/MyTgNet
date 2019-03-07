@@ -27,5 +27,6 @@ namespace Diary.Data
     
         public virtual DbSet<Diary> Diary { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<DiaryComment> DiaryComment { get; set; }
     }
 }

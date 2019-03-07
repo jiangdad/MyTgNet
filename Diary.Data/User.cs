@@ -18,6 +18,7 @@ namespace Diary.Data
         public User()
         {
             this.Diary = new HashSet<Diary>();
+            this.DiaryComment = new HashSet<DiaryComment>();
         }
     
         public int UserId { get; set; }
@@ -27,5 +28,7 @@ namespace Diary.Data
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Diary> Diary { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DiaryComment> DiaryComment { get; set; }
     }
 }

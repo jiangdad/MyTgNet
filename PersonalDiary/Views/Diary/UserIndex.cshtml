@@ -11,24 +11,15 @@
 @*1*@
 <script>
         $(function () {
-            $("#sort").change(function () {
-
-                var optionValue = $("#sort option:selected").val();
-                if (@ViewBag.userid==0)
-                { window.location.href = "/Diary/UserIndex?value=" + optionValue;}
-                else
-                { window.location.href = "/Diary/UserIndex?userid=" +@ViewBag.userid+"&value=" + optionValue; }
-
-
-                //$.post("/Diary/UserIndex", { "userid": 2, "value": a.val()}) ;
-            });
             $("#Input_Filter").click(function () {
+                var optionValue = $("#sort option:selected").val();
                 var searchInfo = $("#Input_Search").val();
                 alert(searchInfo);
-                if (@ViewBag.userid== 0)
-                { window.location.href = "/Diary/UserIndex?value=" + optionValue + "?searchInfo=" + searchInfo; }
+                window.location.href = "/Diary/UserIndex?value=" + optionValue + "&searchInfo=" + searchInfo;
+                @*if (@ViewBag.userid== 0)
+                { window.location.href = "/Diary/UserIndex?value=" + optionValue + "&searchInfo=" + searchInfo; }
                 else
-                { window.location.href = "/Diary/UserIndex?userid=" +@ViewBag.userid+"&value=" + optionValue + "?searchInfo=" + searchInfo; }
+                { window.location.href = "/Diary/UserIndex?userid=" +@ViewBag.userid+"&value=" + optionValue + "&searchInfo=" + searchInfo; }*@
 
             });
         });
@@ -67,7 +58,7 @@
     <a href="/User/LogOut">LogOut</a>
 </p>
 
-<form action="" method="post">
+@*<form action="" method="post">*@
 
 
 
@@ -97,7 +88,7 @@
         <option value="3">时间升序</option>
         <option value="4">时间降序</option>
     </select>
-</form>
+@*</form>*@
 <table>
     <tr>
         <td>Title</td>
@@ -124,7 +115,8 @@
                     <td>
                         @item.CreateTime
                     </td>
-                    @if (ViewBag.userid != 0)
+                    @*有用户登陆*@
+                    @if (ViewBag.userid != null)
                     {
                         <td>
                             @Html.ActionLink("Edit", "Edit", new { diaryid = item.UserDiaryId }) |
@@ -133,7 +125,13 @@
                             @Html.ActionLink("Publish", "Publish", new { diaryid = item.UserDiaryId })
                         </td>
                     }
-
+                    @*未有用户登陆*@
+                    else
+                    {
+                        <td>
+                            @Html.ActionLink("Comment", "Comment","DiaryComment", new { diaryid=item.UserDiaryId})
+                        </td>
+                    }
 
                 </tr>
 

@@ -154,6 +154,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="Controllers\DiaryCommentController.cs" />
     <Compile Include="Controllers\DiaryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -207,7 +208,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
-    <Content Include="Views\User\UserAddResult.cshtml" />
     <Content Include="Views\Default\Index.cshtml" />
     <Content Include="Views\Diary\UserIndex.cshtml" />
     <Content Include="Views\Diary\Details.cshtml" />
@@ -218,6 +218,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\DiaryComment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
