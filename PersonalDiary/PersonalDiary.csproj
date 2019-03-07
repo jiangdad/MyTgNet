@@ -162,6 +162,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BaseReponseModel.cs" />
+    <Compile Include="Models\DiaryCommentModel.cs" />
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Models\UserDiaryModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

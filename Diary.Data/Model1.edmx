@@ -4,93 +4,93 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DiariesModelDB.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Diary">
-          <Key>
-            <PropertyRef Name="DiaryId" />
-          </Key>
-          <Property Name="DiaryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="CreateTime" Type="datetime" />
-          <Property Name="UserId" Type="int" Nullable="false" />
-          <Property Name="IsPrivate" Type="bit" Nullable="false" />
-          <Property Name="IsDel" Type="bit" Nullable="false" />
-        </EntityType>
-        <EntityType Name="DiaryComment">
-          <Key>
-            <PropertyRef Name="CommentId" />
-          </Key>
-          <Property Name="CommentId" Type="int" Nullable="false" />
-          <Property Name="CContent" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="UserId" Type="int" Nullable="false" />
-          <Property Name="IsDel" Type="bit" Nullable="false" />
-          <Property Name="DiaryId" Type="int" Nullable="false" />
-          <Property Name="CreateTime" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="DiaryId" Type="int" />
-        </EntityType>
-        <Association Name="FK_Diary_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Diary" Type="Self.Diary" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="Diary">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DiaryComment_Diary">
-          <End Role="Diary" Type="Self.Diary" Multiplicity="1" />
-          <End Role="DiaryComment" Type="Self.DiaryComment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Diary">
-              <PropertyRef Name="DiaryId" />
-            </Principal>
-            <Dependent Role="DiaryComment">
-              <PropertyRef Name="DiaryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DiaryComment_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="DiaryComment" Type="Self.DiaryComment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="DiaryComment">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="DiariesModelDBStoreContainer">
-          <EntitySet Name="Diary" EntityType="Self.Diary" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DiaryComment" EntityType="Self.DiaryComment" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Diary_User" Association="Self.FK_Diary_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="Diary" EntitySet="Diary" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DiaryComment_Diary" Association="Self.FK_DiaryComment_Diary">
-            <End Role="Diary" EntitySet="Diary" />
-            <End Role="DiaryComment" EntitySet="DiaryComment" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DiaryComment_User" Association="Self.FK_DiaryComment_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="DiaryComment" EntitySet="DiaryComment" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema></edmx:StorageModels>
+    <Schema Namespace="DiariesModelDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DiariesModelDBStoreContainer">
+    <EntitySet Name="Diary" EntityType="DiariesModelDB.Store.Diary" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="User" EntityType="DiariesModelDB.Store.User" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DiaryComment" EntityType="DiariesModelDB.Store.DiaryComment" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Diary_User" Association="DiariesModelDB.Store.FK_Diary_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Diary" EntitySet="Diary" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DiaryComment_Diary" Association="DiariesModelDB.Store.FK_DiaryComment_Diary">
+      <End Role="Diary" EntitySet="Diary" />
+      <End Role="DiaryComment" EntitySet="DiaryComment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DiaryComment_User" Association="DiariesModelDB.Store.FK_DiaryComment_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="DiaryComment" EntitySet="DiaryComment" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Diary">
+    <Key>
+      <PropertyRef Name="DiaryId" />
+    </Key>
+    <Property Name="DiaryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="CreateTime" Type="datetime" Nullable="true" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="IsPrivate" Type="bit" Nullable="false" />
+    <Property Name="IsDel" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="DiaryId" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="DiaryComment">
+    <Key>
+      <PropertyRef Name="CommentId" />
+    </Key>
+    <Property Name="CommentId" Type="int" Nullable="false" />
+    <Property Name="CContent" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="IsDel" Type="bit" Nullable="false" />
+    <Property Name="DiaryId" Type="int" Nullable="false" />
+    <Property Name="CreateTime" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Diary_User">
+    <End Role="User" Type="DiariesModelDB.Store.User" Multiplicity="1" />
+    <End Role="Diary" Type="DiariesModelDB.Store.Diary" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Diary">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DiaryComment_Diary">
+    <End Role="Diary" Type="DiariesModelDB.Store.Diary" Multiplicity="1" />
+    <End Role="DiaryComment" Type="DiariesModelDB.Store.DiaryComment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Diary">
+        <PropertyRef Name="DiaryId" />
+      </Principal>
+      <Dependent Role="DiaryComment">
+        <PropertyRef Name="DiaryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DiaryComment_User">
+    <End Role="User" Type="DiariesModelDB.Store.User" Multiplicity="1" />
+    <End Role="DiaryComment" Type="DiariesModelDB.Store.DiaryComment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="DiaryComment">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DiariesModelDB" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -214,18 +214,18 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-          <EntitySetMapping Name="DiaryComment">
-            <EntityTypeMapping TypeName="DiariesModelDB.DiaryComment">
-              <MappingFragment StoreEntitySet="DiaryComment">
-                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
-                <ScalarProperty Name="DiaryId" ColumnName="DiaryId" />
-                <ScalarProperty Name="IsDel" ColumnName="IsDel" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="CContent" ColumnName="CContent" />
-                <ScalarProperty Name="CommentId" ColumnName="CommentId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+    <EntitySetMapping Name="DiaryComment">
+      <EntityTypeMapping TypeName="IsTypeOf(DiariesModelDB.DiaryComment)">
+        <MappingFragment StoreEntitySet="DiaryComment">
+          <ScalarProperty Name="CommentId" ColumnName="CommentId" />
+          <ScalarProperty Name="CContent" ColumnName="CContent" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="IsDel" ColumnName="IsDel" />
+          <ScalarProperty Name="DiaryId" ColumnName="DiaryId" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Tgnet.Web.Mvc;
 
 namespace PersonalDiary.Controllers
 {
-    public class DiaryCommentController : Controller
+    public class DiaryCommentController : BaseController
     {
         //一个用户有多条评论，一篇日志有多条评论
         // GET: DiaryComment
@@ -16,6 +17,7 @@ namespace PersonalDiary.Controllers
         //
         public ActionResult Index(int diaryid)
         {
+            
             return View();
         }
     }

@@ -69,6 +69,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="DiaryComment\DiaryCommentManager.cs" />
+    <Compile Include="DiaryComment\DiaryCommentService.cs" />
+    <Compile Include="DiaryComment\IDiaryCommentManager.cs" />
+    <Compile Include="DiaryComment\IDiaryCommentService.cs" />
     <Compile Include="Diary\DiaryManager.cs" />
     <Compile Include="Diary\DiaryService.cs" />
     <Compile Include="Diary\IDiaryManager.cs" />
