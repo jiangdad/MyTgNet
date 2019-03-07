@@ -15,7 +15,7 @@ namespace Diary.Service.Diary
         DateTime CreateTime { get; }
         string Title { get; }
         void UpdateDiary(int DiaryId, string Content,string Title);
-
-        void Delete(int diary);
+      IQueryable<Data.DiaryComment> DiaryComment { get; }
+        void Delete();
     }
 }

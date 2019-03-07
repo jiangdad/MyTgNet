@@ -116,7 +116,7 @@
                         @item.CreateTime
                     </td>
                     @*有用户登陆*@
-                    @if (ViewBag.userid != null)
+                    @if (ViewBag.userid != 0)
                     {
                         <td>
                             @Html.ActionLink("Edit", "Edit", new { diaryid = item.UserDiaryId }) |
@@ -127,9 +127,9 @@
                     }
                     @*未有用户登陆*@
                     else
-                    {
+                    {   
                         <td>
-                            @Html.ActionLink("Comment", "Comment","DiaryComment", new { diaryid=item.UserDiaryId})
+                            <a href="@Url.Action("Index", "DiaryComment", new RouteValueDictionary { { "diaryid", item.UserDiaryId } })" >pinglun</a>
                         </td>
                     }
 

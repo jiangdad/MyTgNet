@@ -11,13 +11,15 @@ namespace Diary.Service.Diary
 {
   public  class DiaryService : IDiaryService
     {
-        public int diaryId;
+        public int _diaryId;
+        private IDiCommentRepository _dicommentRepository;
         private IDiaryRepository _diarepository;
         private Lazy<Data.Diary> _LazyDiary;
-        public DiaryService(int diaryId, IDiaryRepository diarepository)
+        public DiaryService(int diaryId, IDiaryRepository diarepository, IDiCommentRepository dicommentRepository)
         {
             ExceptionHelper.ThrowIfNotId(diaryId, "diaryId");//用来报错的；
-            this.diaryId = diaryId;
+           _diaryId = diaryId;
+            _dicommentRepository = dicommentRepository;
             _diarepository = diarepository;
             //懒加载的Diary获取
             _LazyDiary = new Lazy<Data.Diary>(() =>
@@ -40,7 +42,7 @@ namespace Diary.Service.Diary
         {
             get
             {
-                return diaryId;
+                return _diaryId;
             }
         }
         public int UserId
@@ -71,13 +73,23 @@ namespace Diary.Service.Diary
                 return _LazyDiary.Value.Title;
             }
         }
-      
-
-        void IDiaryService.Delete(int diaryId)
+        //用来查询当前日志的所有评论
+        public IQueryable<Data.DiaryComment> DiaryComment
         {
-            if (!_LazyDiary.Value.IsDel == true)
+            get
+            {
+                return _dicommentRepository.EnableDiaryComment.Where(c => c.DiaryId == _diaryId);
+            }
+
+        }
+        void IDiaryService.Delete()
+        {
+
+
+            if (!_LazyDiary.Value.IsDel)
             {
             _LazyDiary.Value.IsDel = true;
+            
             _diarepository.SaveChanges();
             }
           

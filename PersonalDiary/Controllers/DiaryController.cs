@@ -53,7 +53,7 @@ namespace PersonalDiary.Controllers
 
 
             var messagediary = _DiaryManager.NoTackingDiary.Where(d => d.IsPrivate == false);
-            ViewBag.userid = User.ID;
+            ViewBag.userid = 0;
             if (userid != null)
             {
                 messagediary = _DiaryManager.NoTackingDiary.Where(d => d.UserId == userid);
@@ -278,7 +278,7 @@ namespace PersonalDiary.Controllers
         public ActionResult Delete(int diaryid)
         {
             var messagediary = _DiaryManager.GetDiaryService(diaryid);
-            messagediary.Delete(messagediary.DiaryId);
+            messagediary.Delete();
           //int   PamUserId = messagediary.UserId;
             return RedirectToAction("UserIndex", new
             {

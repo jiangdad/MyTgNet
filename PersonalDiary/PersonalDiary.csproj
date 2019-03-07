@@ -162,6 +162,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BaseReponseModel.cs" />
+    <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\DiaryCommentModel.cs" />
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Models\UserDiaryModel.cs" />
@@ -216,10 +217,10 @@
     <Content Include="Views\Diary\Edit.cshtml" />
     <Content Include="Views\Diary\AllIndex.cshtml" />
     <Content Include="Views\Diary\_IndexPartialPage.cshtml" />
+    <Content Include="Views\DiaryComment\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\DiaryComment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -11,9 +11,11 @@ namespace Diary.Service
    public class DiaryManager:IDiaryManager
     {
         public IDiaryRepository _diarepository;
-        public DiaryManager(IDiaryRepository diaryRepository)
+        public IDiCommentRepository _dicommentrepository;
+        public DiaryManager(IDiaryRepository diaryRepository,IDiCommentRepository dicommentRepository)
         {
             _diarepository = diaryRepository;
+            _dicommentrepository = dicommentRepository;
         }
         public IQueryable<Data.Diary> MessageDiary
         {
@@ -40,7 +42,7 @@ namespace Diary.Service
 
         public IDiaryService GetDiaryService(int DiaryId)
         {
-            return new DiaryService(DiaryId, _diarepository);
+            return new DiaryService(DiaryId, _diarepository, _dicommentrepository);
         }
 
     }

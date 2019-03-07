@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Diary.Service.DiaryComment
 {
-    interface IDiaryCommentManager
+    public interface IDiaryCommentManager
     {
         IDiaryCommentService Add(Data.DiaryComment diarycomment);
 

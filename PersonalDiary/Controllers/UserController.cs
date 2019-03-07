@@ -112,7 +112,7 @@ namespace PersonalDiary.Controllers
         public ActionResult LogOut()
         {
             SessionService.ClearCurrentUser();
-            ViewBag.User = User.ID;
+            ViewBag.User = 0;
             return RedirectToAction("UserIndex","Diary");
         }
     }

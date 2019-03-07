@@ -9,18 +9,38 @@ namespace Diary.Service.DiaryComment
 {
     class DiaryCommentManager : IDiaryCommentManager
     {
-        IQueryable<Data.DiaryComment> IDiaryCommentManager.MessageDiaryComment => throw new NotImplementedException();
+        IDiCommentRepository _DiCommentRepository;
+        public DiaryCommentManager(IDiCommentRepository dicommentrepository)
+        {
+            _DiCommentRepository = dicommentrepository;
+        }
+            
+        IQueryable<Data.DiaryComment> IDiaryCommentManager.MessageDiaryComment
+        {
+            get
+            {
+                return _DiCommentRepository.EnableDiaryComment;
+            }
+        }
 
-        IQueryable<Data.DiaryComment> IDiaryCommentManager.NoTackingDiaryComment => throw new NotImplementedException();
+        IQueryable<Data.DiaryComment> IDiaryCommentManager.NoTackingDiaryComment
+        {
+            get
+            {
+                return _DiCommentRepository.NoTackingDiaryComment;
+            }
+        }
 
         IDiaryCommentService IDiaryCommentManager.Add(Data.DiaryComment diarycomment)
         {
-            throw new NotImplementedException();
+            _DiCommentRepository.Add(diarycomment);
+            _DiCommentRepository.SaveChanges();
+            return GetDiaryCommentService(diarycomment.CommentId);
         }
 
-        IDiaryCommentService IDiaryCommentManager.GetDiaryCommentService(int CommentId)
+           public IDiaryCommentService GetDiaryCommentService(int CommentId)
         {
-            throw new NotImplementedException();
+            return new DiaryCommentService(CommentId,_DiCommentRepository);
         }
     }
 }

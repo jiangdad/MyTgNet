@@ -9,12 +9,12 @@ using Tgnet.Data.Entity;
 
 namespace Diary.Data
 {
-    public interface IDicommentRepository:IRepository<DiaryComment>
+    public interface IDiCommentRepository:IRepository<DiaryComment>
     {
         IQueryable<DiaryComment> EnableDiaryComment { get; }
         IQueryable<DiaryComment> NoTackingDiaryComment { get; }
     }
-    class DiCommentRepository: EFRepository<DiariesEntities, DiaryComment>, IDicommentRepository
+   public class DiCommentRepository: EFRepository<DiariesEntities, DiaryComment>, IDiCommentRepository
     {
 
         private DiariesEntities _DbContext;
