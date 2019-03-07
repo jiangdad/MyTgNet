@@ -27,7 +27,7 @@ namespace PersonalDiary.Controllers
         public ActionResult Index(int diaryid)
         {
    
-            //判断用户是否登陆
+            //判断用户是否登陆、、
             //if(User==null)
             //{
             //    throw new Tgnet.Api.ExceptionWithErrorCode(Tgnet.Api.ErrorCode.未登录);
