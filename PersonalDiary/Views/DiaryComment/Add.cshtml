@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Add";
+}
+
+<h2>Add</h2>
+
+@model PersonalDiary.Models.UserDiaryModel
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+<table>
+    <tr>
+        <th>@Html.DisplayFor(m => m.Title)</th>
+    </tr>
+    <tr>
+        <th>@Html.DisplayFor(m => m.CreateTime)</th>
+    </tr>
+    <tr>
+        <th>@Html.DisplayFor(m => m.UserName)</th>
+    </tr>
+    <tr>
+        <th>@Html.DisplayFor(m => m.Content)</th>
+    </tr>
+</table>
+<form action="/DiaryComment/Add" method="post">
+    <input type="text" name="CommentContent" />
+    <input type="submit" />
+</form>
+

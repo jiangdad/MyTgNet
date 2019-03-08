@@ -18,13 +18,14 @@ namespace Diary.Service.Diary
         public DiaryService(int diaryId, IDiaryRepository diarepository, IDiCommentRepository dicommentRepository)
         {
             ExceptionHelper.ThrowIfNotId(diaryId, "diaryId");//用来报错的；
-           _diaryId = diaryId;
+            _diaryId = diaryId;
             _dicommentRepository = dicommentRepository;
             _diarepository = diarepository;
             //懒加载的Diary获取
+            //设置懒加载，设置Diary类diary对象的搜索
             _LazyDiary = new Lazy<Data.Diary>(() =>
             {
-                var diary = _diarepository.EnableDiary.Where(m => m.DiaryId == diaryId).FirstOrDefault();
+                var diary = _diarepository.EnableDiary.Where(m => m.DiaryId == _diaryId).FirstOrDefault();
                 if (diary == null)
                     throw new ExceptionWithErrorCode(ErrorCode.没有找到对应条目, "日志不存在");
                 return diary;
@@ -89,8 +90,13 @@ namespace Diary.Service.Diary
             if (!_LazyDiary.Value.IsDel)
             {
             _LazyDiary.Value.IsDel = true;
-            
+                //删除日志就删除所有评论
+            foreach(var item in DiaryComment.AsEnumerable())
+                {
+                    item.IsDel = true;
+                }
             _diarepository.SaveChanges();
+            _dicommentRepository.SaveChanges();
             }
           
         }

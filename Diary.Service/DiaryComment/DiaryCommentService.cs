@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Diary.Data;
+using Tgnet;
 using Tgnet.Api;
 
 namespace Diary.Service.DiaryComment
@@ -12,14 +13,15 @@ namespace Diary.Service.DiaryComment
     {
         private int _commentId;
         private IDiCommentRepository _DiCommentRepository;
-        private Lazy<Data.DiaryComment> _LazyDiary;
+        private Lazy<Data.DiaryComment> _LazyDiaryComment;
         public DiaryCommentService(int commentId, IDiCommentRepository DiCommentRepository)
         {
+            ExceptionHelper.ThrowIfNotId(commentId, "messageCommentId");
             _commentId = commentId;
             _DiCommentRepository = DiCommentRepository;
-           
+
             //懒加载的Diary获取
-            _LazyDiary = new Lazy<Data.DiaryComment>(() =>
+            _LazyDiaryComment = new Lazy<Data.DiaryComment>(() =>
             {
                 var diarycomment = DiCommentRepository.EnableDiaryComment.Where(m => m.CommentId == commentId).FirstOrDefault();
                 if (diarycomment == null)
@@ -41,7 +43,7 @@ namespace Diary.Service.DiaryComment
         {
             get
             {
-                return _LazyDiary.Value.UserId;
+                return _LazyDiaryComment.Value.UserId;
             }
         }
 
@@ -49,7 +51,7 @@ namespace Diary.Service.DiaryComment
         {
             get
             {
-                return _LazyDiary.Value.User.UserName;
+                return _LazyDiaryComment.Value.User.UserName;
             }
         }
 
@@ -57,7 +59,7 @@ namespace Diary.Service.DiaryComment
         {
             get
             {
-                return _LazyDiary.Value.CContent;
+                return _LazyDiaryComment.Value.CContent;
             }
         }
 
@@ -65,12 +67,17 @@ namespace Diary.Service.DiaryComment
         {
             get
             {
-                return _LazyDiary.Value.CreateTime;
+                return _LazyDiaryComment.Value.CreateTime;
             }
         }
         void IDiaryCommentService.Delete(int diarycommentid)
         {
-            throw new NotImplementedException();
+            
+           if(!_LazyDiaryComment.Value.IsDel)
+            {
+                _LazyDiaryComment.Value.IsDel = true;
+                _DiCommentRepository.SaveChanges();
+            }
         }
     }
 }

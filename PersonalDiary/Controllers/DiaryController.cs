@@ -56,7 +56,7 @@ namespace PersonalDiary.Controllers
             ViewBag.userid = 0;
             if (userid != null)
             {
-                messagediary = _DiaryManager.NoTackingDiary.Where(d => d.UserId == userid);
+                messagediary = _DiaryManager.NoTackingDiary;
                 ViewBag.userid = userid;
             }
             int pageSize = 20; int count; int pageCount;
@@ -238,10 +238,11 @@ namespace PersonalDiary.Controllers
                 UserId =(int) User.ID, 
                 IsDel = false, IsPrivate = userdiarymodel.IsPrivate };
                var DiaryService= _DiaryManager.Add(diary);
-            return JsonString(new BaseReponseModel { Msg = "创建成功", Status = "ok",
-                Url = Url.RouteUrl(new { controller = "Diary", action = "UserIndex",
-                    userid = diary.UserId
-                }) });
+            //return JsonString(new BaseReponseModel { Msg = "创建成功", Status = "ok",
+            //    Url = Url.RouteUrl(new { controller = "Diary", action = "UserIndex",
+            //        userid = diary.UserId
+            //    }) });
+            return RedirectToAction("UserIndex", new { userid = diary.UserId });
         }
 
         // GET: Default/Edit/5

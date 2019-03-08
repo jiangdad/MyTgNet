@@ -124,14 +124,13 @@
                             @Html.ActionLink("Delete", "Delete", new { diaryid = item.UserDiaryId })
                             @Html.ActionLink("Publish", "Publish", new { diaryid = item.UserDiaryId })
                         </td>
-                    }
-                    @*未有用户登陆*@
-                    else
-                    {   
                         <td>
-                            <a href="@Url.Action("Index", "DiaryComment", new RouteValueDictionary { { "diaryid", item.UserDiaryId } })" >pinglun</a>
+                            <a href="@Url.Action("Index", "DiaryComment", new RouteValueDictionary { { "diaryid", item.UserDiaryId } })">Read</a>
+                            <a href="@Url.Action("Add", "DiaryComment", new RouteValueDictionary { { "diaryid", item.UserDiaryId } })">Add</a>
                         </td>
                     }
+                    @*未有用户登陆*@
+               
 
                 </tr>
 

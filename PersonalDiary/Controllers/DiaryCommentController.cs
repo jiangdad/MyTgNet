@@ -17,6 +17,7 @@ namespace PersonalDiary.Controllers
         //主页显示发布过的视图
         //用户是否登陆，登陆的用户可以评论
         //
+        int _diaryid;
        public IDiaryCommentManager _DiaryCommentManager;
         public IDiaryManager _DiaryManager;
        public DiaryCommentController(IDiaryCommentManager diarycommentmanager, IDiaryManager diarymanager)
@@ -36,15 +37,30 @@ namespace PersonalDiary.Controllers
             var DiaryComment = diaryservice.DiaryComment;
             return View(DiaryComment.ToList());
         }
-        public ActionResult Add(int diarid)
+        public ActionResult Add(int? diarid=null)
         {
+           int? _diaryid = diarid;
             return View();
         }
+
         //[HttpPost]
         //public ActionResult Add([Bind(Include = "CommentContent")] DiaryCommentModel diarycommentcontroller)
         //{
 
         //    return JsonString();
         //}
+        [HttpPost]
+        public ActionResult Add([Bind(Include ="CommentContent")] DiaryCommentModel diaryCommentModel)
+        {
+            Diary.Data.DiaryComment diaryComment = new Diary.Data.DiaryComment {  CContent=diaryCommentModel.CommentContent,
+                  CreateTime=DateTime.Now,
+                   DiaryId= _diaryid,
+                    UserId=(int)User.ID
+
+            };
+            var _DiaryCommentService= _DiaryCommentManager.Add(diaryComment);
+            return RedirectToAction("UserIndex", "Diary",new { userid=(int)User.ID});
+
+        }
     }
 }
