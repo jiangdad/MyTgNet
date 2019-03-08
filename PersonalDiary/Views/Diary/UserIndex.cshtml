@@ -10,19 +10,30 @@
 
 @*1*@
 <script>
-        $(function () {
-            $("#Input_Filter").click(function () {
-                var optionValue = $("#sort option:selected").val();
-                var searchInfo = $("#Input_Search").val();
-                alert(searchInfo);
-                window.location.href = "/Diary/UserIndex?value=" + optionValue + "&searchInfo=" + searchInfo;
-                @*if (@ViewBag.userid== 0)
+    $(function () {
+        $("#Input_Filter").click(function () {
+            var optionValue = $("#sort option:selected").val();
+            var searchInfo = $("#Input_Search").val();
+            alert(searchInfo);
+            window.location.href = "/Diary/UserIndex?value=" + optionValue + "&page=" + "&searchInfo=" + searchInfo;
+            @*if (@ViewBag.userid== 0)
                 { window.location.href = "/Diary/UserIndex?value=" + optionValue + "&searchInfo=" + searchInfo; }
                 else
                 { window.location.href = "/Diary/UserIndex?userid=" +@ViewBag.userid+"&value=" + optionValue + "&searchInfo=" + searchInfo; }*@
-
-            });
         });
+        $("#next_input").click(function () {
+            var a = $("#next_input").val()
+            alert(a);
+            var page =@ViewBag.page +1;
+            window.location.href = "/Diary/UserIndex?userid="+10+"&page=" + page;
+        });
+        $("#front_input").click(function () {
+            var a = $("#front_input").val()
+            alert(a);
+            var page =@ViewBag.page -1;
+            window.location.href = "/Diary/UserIndex?userid="+10+"&page=" + page;
+        });
+    });
     </script>
 
 @*2*@
@@ -75,12 +86,9 @@
         @Html.Partial("_IndexPartialPage", Model)               @*/*引用分部视图，第一个值
         为分部视图名，第二个值是
         把model传过去*/*@
-
+<label>关键字</label>
     <input id="Input_Search" type="search" name="searchstring" />
     <input id="Input_Filter" type="submit" name="Filter" />
-
-
-    <label>关键字</label>
     <select name="sort" id="sort">
         <option selected>@ViewBag.Select</option>
         <option value="1">标题升序</option>
@@ -89,28 +97,33 @@
         <option value="4">时间降序</option>
     </select>
 @*</form>*@
-<table>
-    <tr>
-        <td>Title</td>
-        <td>Content</td>
-        <td>UserName</td>
-        <td>CreateTime</td>
-    </tr>
-</table>
+
+   
+
 <div id="user_diary_List">
-    @{
-        foreach (var item in Model)
-        {
-            <table>
+    <table>
+        @{
+            <tr>
+                <td>Title</td>
+                <td>Content</td>
+                <td>UserName</td>
+                <td>CreateTime</td>
+            </tr>
+            foreach (var item in Model)
+            {
+
                 <tr>
                     <td>
                         @item.Title
                     </td>
                     <td>
-                        @item.Content
+                        <a href="@Url.Action("Details", "Diary",new { diaryid = item.UserDiaryId })">
+                            @item.Content.Substring(0, 1)
+                        </a>
+                       
                     </td>
                     <td>
-                        @item.UserName
+                        @item.UserName.Substring(0,3)
                     </td>
                     <td>
                         @item.CreateTime
@@ -121,22 +134,33 @@
                         <td>
                             @Html.ActionLink("Edit", "Edit", new { diaryid = item.UserDiaryId }) |
                             @Html.ActionLink("Details", "Details", new { diaryid = item.UserDiaryId }) |
-                            @Html.ActionLink("Delete", "Delete", new { diaryid = item.UserDiaryId })
-                            @Html.ActionLink("Publish", "Publish", new { diaryid = item.UserDiaryId })
+                            @Html.ActionLink("Delete", "Delete", new { diaryid = item.UserDiaryId })|
+                            @Html.ActionLink("Publish", "Publish", new { diaryid = item.UserDiaryId })|
                         </td>
                         <td>
-                            <a href="@Url.Action("Index", "DiaryComment", new RouteValueDictionary { { "diaryid", item.UserDiaryId } })">Read</a>
-                            <a href="@Url.Action("Add", "DiaryComment", new RouteValueDictionary { { "diaryid", item.UserDiaryId } })">Add</a>
+                            <a href="@Url.Action("Index", "DiaryComment", new RouteValueDictionary { { "diaryid", item.UserDiaryId } })">Read|</a>
+                            <a href="@Url.Action("Add", "DiaryComment",new { diaryid = item.UserDiaryId })">Add</a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.ActionLink("Details", "Details", new { diaryid = item.UserDiaryId }) |
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Index", "DiaryComment", new RouteValueDictionary { { "diaryid", item.UserDiaryId } })">Read</a>|
+                            <a href="@Url.Action("Add", "DiaryComment",new { diaryid = item.UserDiaryId })">Add</a>
                         </td>
                     }
                     @*未有用户登陆*@
-               
 
                 </tr>
+            }
 
-            </table>
-
+            <p>@ViewBag.User</p>
+           
         }
-        <p>@ViewBag.User</p>
-    }
+    </table>
+    <input type="button" id="front_input" value="front" />
+    <input type="button" id="next_input" value="next" />
 </div>

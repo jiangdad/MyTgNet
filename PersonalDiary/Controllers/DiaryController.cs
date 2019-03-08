@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Tgnet;
+using Tgnet.Api;
 using Tgnet.Linq;
 using Tgnet.Web.Mvc;
 
@@ -130,7 +131,7 @@ namespace PersonalDiary.Controllers
             });
             userDiaryModels = new PageModel<UserDiaryModel>(model, page, pageCount);
 
-
+            ViewBag.page = page;
             return View(userDiaryModels);
         }
         //        严重性 代码  说明 项目  文件 行   类别 禁止显示状态
@@ -247,15 +248,17 @@ namespace PersonalDiary.Controllers
 
         // GET: Default/Edit/5
         public ActionResult Edit(int diaryid)
-        {
+        {   
+           
             var messagediary = _DiaryManager.GetDiaryService(diaryid);
+
             UserDiaryModel userdiarymodel = new UserDiaryModel
             {
                 Content = messagediary.Content,
                 CreateTime = messagediary.CreateTime,
                 Title = messagediary.Title,
                 UserName = messagediary.UserName,
-                 UserDiaryId=diaryid, UserId=messagediary.UserId
+                UserDiaryId = diaryid, UserId = (int)User.ID
             };
             return View(userdiarymodel);
 
@@ -263,23 +266,22 @@ namespace PersonalDiary.Controllers
 
         // POST: Default/Edit/5
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "Content,Title,UserDiaryId")]UserDiaryModel userdiarymodel)
+        public ActionResult Edit([Bind(Include = "Content,Title,UserDiaryId,IsPrivate,UserId")]UserDiaryModel userdiarymodel)
         {
             //1.调用GetDiaryService方法
             var messagediary = _DiaryManager.GetDiaryService(userdiarymodel.UserDiaryId);
             //2.调用updateDiary方法
-            messagediary.UpdateDiary(userdiarymodel.UserDiaryId, userdiarymodel.Content,userdiarymodel.Title);
+            messagediary.UpdateDiary(userdiarymodel.UserDiaryId,userdiarymodel.UserId, userdiarymodel.Content,userdiarymodel.Title);
 
             return JsonString(new BaseReponseModel { Msg = "修改成功", Status = "ok", Url = Url.RouteUrl(new { controller = "Diary",
                 action = "UserIndex",
-                userid = messagediary.UserId }) });
+                userid = messagediary.UserId })});
         }
-
         // GET: Default/Delete/5
         public ActionResult Delete(int diaryid)
         {
             var messagediary = _DiaryManager.GetDiaryService(diaryid);
-            messagediary.Delete();
+            messagediary.Delete((int)User.ID);
           //int   PamUserId = messagediary.UserId;
             return RedirectToAction("UserIndex", new
             {

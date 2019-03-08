@@ -83,9 +83,12 @@ namespace Diary.Service.Diary
             }
 
         }
-        void IDiaryService.Delete()
+        void IDiaryService.Delete(int userid)
         {
-
+            if (userid != UserId)
+            {
+                throw new ExceptionWithErrorCode(ErrorCode.没有操作权限, "没有权限操作该留言");
+            }
 
             if (!_LazyDiary.Value.IsDel)
             {
@@ -101,10 +104,14 @@ namespace Diary.Service.Diary
           
         }
 
-        void IDiaryService.UpdateDiary(int diaryId, string content,string title)
+        void IDiaryService.UpdateDiary(int diaryId, int userid,string content,string title)
         {
             //  _LazyDiary.Value.Content = content;可以改变Diary仓储类里面的值
-             if(content!=Content||title!=Title)
+            if (userid!= UserId)
+            {
+                throw new ExceptionWithErrorCode(ErrorCode.没有操作权限, "没有权限操作该留言");
+            }
+            if (content!=Content||title!=Title)
             {
                 _LazyDiary.Value.Title = title;
                 _LazyDiary.Value.Content = content;

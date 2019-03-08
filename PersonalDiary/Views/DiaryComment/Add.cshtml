@@ -27,6 +27,7 @@
 </table>
 <form action="/DiaryComment/Add" method="post">
     <input type="text" name="CommentContent" />
+    <input type="text" value="@ViewBag.DiaryId" style="display:none" name="DiaryId" />
     <input type="submit" />
 </form>
 

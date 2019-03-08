@@ -27,19 +27,29 @@ namespace PersonalDiary.Controllers
         }
         public ActionResult Index(int diaryid)
         {
-   
+
             //判断用户是否登陆、、
             //if(User==null)
             //{
             //    throw new Tgnet.Api.ExceptionWithErrorCode(Tgnet.Api.ErrorCode.未登录);
             //}
+            Comment model = new Comment();
             var diaryservice = _DiaryManager.GetDiaryService(diaryid);
+            model.id = diaryid;
+            model.content = diaryservice.Content;
+            model.commentList = diaryservice.DiaryComment.Select(p=>new DiaryCommentModel
+            {
+                CommentContent =p.CContent,
+                DiaryCommentId =p.CommentId,
+                DiaryId =p.DiaryId,UserId=p.UserId
+            }).ToArray();
             var DiaryComment = diaryservice.DiaryComment;
-            return View(DiaryComment.ToList());
+            return View(model);
         }
-        public ActionResult Add(int? diarid=null)
+        public ActionResult Add(int diaryid)
         {
-           int? _diaryid = diarid;
+           
+            ViewBag.DiaryId = diaryid;
             return View();
         }
 
@@ -50,17 +60,15 @@ namespace PersonalDiary.Controllers
         //    return JsonString();
         //}
         [HttpPost]
-        public ActionResult Add([Bind(Include ="CommentContent")] DiaryCommentModel diaryCommentModel)
+        public ActionResult Add([Bind(Include = "CommentContent,DiaryId")] DiaryCommentModel diaryCommentModel)
         {
             Diary.Data.DiaryComment diaryComment = new Diary.Data.DiaryComment {  CContent=diaryCommentModel.CommentContent,
                   CreateTime=DateTime.Now,
-                   DiaryId= _diaryid,
+                   DiaryId= diaryCommentModel.DiaryId,
                     UserId=(int)User.ID
-
             };
             var _DiaryCommentService= _DiaryCommentManager.Add(diaryComment);
             return RedirectToAction("UserIndex", "Diary",new { userid=(int)User.ID});
-
         }
     }
 }

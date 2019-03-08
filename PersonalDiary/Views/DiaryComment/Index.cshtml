@@ -1,13 +1,15 @@
-﻿@model IEnumerable<Diary.Data.DiaryComment>
-
+﻿@model PersonalDiary.Models.Comment
 @{
     ViewBag.Title = "Index";
 }
+<h2>Index</h2>
 @{ 
-    foreach(var item in Model)
+    foreach(var item in Model.commentList)
     {
-       <p>@item.CContent</p>
+        <p></p>
+       <p>@item.CommentContent</p>
+
     }
 }
-<h2>Index</h2>
+
 

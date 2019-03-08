@@ -15,5 +15,6 @@ namespace PersonalDiary.Models
         public DateTime? CreateTime { get; set; }
         public int DiaryCount { get; set; }
         public bool IsPrivate { get; set; }
+
     }
 }

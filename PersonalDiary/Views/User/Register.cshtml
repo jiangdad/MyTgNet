@@ -22,6 +22,10 @@
                     alert("请输入密码");
                     e.preventDefault();
                 }
+                if ($("#agree").val() == 0) {
+                    alert($("#agree").val());
+                    e.preventDefault();
+                }
                 $.post("/User/Register", { "UserName": $("#UserName").val(), "Password": $("#Password").val() }, function (obj) {
                     if (obj) {
                         var json = $.parseJSON(obj);
@@ -90,16 +94,16 @@
                 <span class="c">*</span>
                 <label for="login_password" class="l">登录密码:</label>
                 <div class="d">
-                    <input id="Password" type="text" class="i">
+                    <input id="Password" type="password" class="i">
                 </div>
                 <br /><br />
                 <span class="c">*</span>
                 <label for="confirm_Password" class="l">确认密码:</label>
                 <div class="d">
-                    <input id="confirm_Password" type="text" class="i">
+                    <input id="confirm_Password" type="password" class="i">
                 </div>
                 <br /><br />
-                <input type="checkbox" name="agree" style="margin-left:100px;display:inline-block;" value="1" />
+                <input id="agree" type="checkbox" name="agree" style="margin-left:100px;display:inline-block;"  />
                 <span style="font-size:10px;">我已阅读并同意《用户注册协议》</span>
                 <br /><br />
                 <input id="registinput" type="submit" value="同意以上协议并注册" style="margin-left:100px;height:30px;width:300px;background-color:red;display:inline-block;" />
