@@ -1,4 +1,5 @@
 ﻿using Diary.Service;
+using Diary.Service.Diary;
 using Diary.Service.DiaryComment;
 using PersonalDiary.Models;
 using System;
@@ -35,8 +36,10 @@ namespace PersonalDiary.Controllers
             //}
             Comment model = new Comment();
             var diaryservice = _DiaryManager.GetDiaryService(diaryid);
-            model.id = diaryid;
+            model.Diaryid = diaryid;
             model.content = diaryservice.Content;
+            model.UserName = diaryservice.UserName;
+            model.Title = diaryservice.Title;
             model.commentList = diaryservice.DiaryComment.Select(p=>new DiaryCommentModel
             {
                 CommentContent =p.CContent,
@@ -48,9 +51,18 @@ namespace PersonalDiary.Controllers
         }
         public ActionResult Add(int diaryid)
         {
-           
+            IDiaryService diaryService= _DiaryManager.GetDiaryService(diaryid);
+            UserDiaryModel userDiaryModel = new UserDiaryModel
+            {
+                Content = diaryService.Content,
+                CreateTime = diaryService.CreateTime,
+                Title = diaryService.Title,
+                UserDiaryId = diaryService.DiaryId,
+                UserName = diaryService.UserName,
+                UserId = diaryService.UserId
+            };
             ViewBag.DiaryId = diaryid;
-            return View();
+            return View(userDiaryModel);
         }
 
         //[HttpPost]
@@ -62,6 +74,8 @@ namespace PersonalDiary.Controllers
         [HttpPost]
         public ActionResult Add([Bind(Include = "CommentContent,DiaryId")] DiaryCommentModel diaryCommentModel)
         {
+            if (User == null)
+                throw new Tgnet.Api.ExceptionWithErrorCode(Tgnet.Api.ErrorCode.未登录);
             Diary.Data.DiaryComment diaryComment = new Diary.Data.DiaryComment {  CContent=diaryCommentModel.CommentContent,
                   CreateTime=DateTime.Now,
                    DiaryId= diaryCommentModel.DiaryId,

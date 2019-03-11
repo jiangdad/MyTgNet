@@ -7,7 +7,9 @@ namespace PersonalDiary.Models
 {
     public class Comment
     {
-        public int id { get; set; }
+        public string UserName { get; set; }
+        public string Title { get; set; }
+        public int Diaryid { get; set; }
         public string content { get; set; }
         public DiaryCommentModel[] commentList { get; set; }
         public Comment()

@@ -74,6 +74,13 @@ namespace Diary.Service.Diary
                 return _LazyDiary.Value.Title;
             }
         }
+        public bool IsPrivate
+        {
+            get
+            {
+                return _LazyDiary.Value.IsPrivate;
+            }
+        }
         //用来查询当前日志的所有评论
         public IQueryable<Data.DiaryComment> DiaryComment
         {
@@ -103,6 +110,22 @@ namespace Diary.Service.Diary
             }
           
         }
+        void IDiaryService.Publish(int userid)
+        {
+            if (userid != UserId)
+            {
+                throw new ExceptionWithErrorCode(ErrorCode.没有操作权限, "没有权限操作该留言");
+            }
+
+            if (!_LazyDiary.Value.IsPrivate)
+            {
+                _LazyDiary.Value.IsPrivate = true;
+                _diarepository.SaveChanges();
+                _dicommentRepository.SaveChanges();
+            }
+
+        }
+
 
         void IDiaryService.UpdateDiary(int diaryId, int userid,string content,string title)
         {
@@ -115,6 +138,21 @@ namespace Diary.Service.Diary
             {
                 _LazyDiary.Value.Title = title;
                 _LazyDiary.Value.Content = content;
+                _diarepository.SaveChanges();
+            }
+        }
+
+        void IDiaryService.UpdateDiary(int diaryId, int userid, string content, string title, bool isPrivate)
+        {
+            if (userid != UserId)
+            {
+                throw new ExceptionWithErrorCode(ErrorCode.没有操作权限, "没有权限操作该留言");
+            }
+            if (content != Content || title != Title|| isPrivate!=IsPrivate)
+            {
+                _LazyDiary.Value.Title = title;
+                _LazyDiary.Value.Content = content;
+                _LazyDiary.Value.IsPrivate = isPrivate;
                 _diarepository.SaveChanges();
             }
         }

@@ -2,14 +2,54 @@
 @{
     ViewBag.Title = "Index";
 }
-<h2>Index</h2>
-@{ 
-    foreach(var item in Model.commentList)
-    {
-        <p></p>
-       <p>@item.CommentContent</p>
+<h2>Comments</h2>
 
-    }
+@{ 
+    ViewBag.Count = 0;
+    int i = 0;
 }
+<table>
+    <tr>
+        <th style="text-align:center;vertical-align:middle;">用户名:</th>
+        <th>@Html.DisplayFor(m => m.UserName)</th>
+       
+    </tr>
+    <tr>
+        <th style="text-align:center;vertical-align:middle;">标题:</th>
+        <th>@Html.DisplayFor(m => m.Title)</th>
+    </tr>
+    <tr>
+       
+        <th style="text-align:center;vertical-align:middle;">内容:</th>
+       
+        <th>
+            <textarea name="Content" id="textarea_Content" placeholder="请输入日志内容，不少于5个字" maxlength="800" onforminput="3" cols=40 rows=10 style="overflow:auto" readonly="readonly"
+                      text-align:center background-color:BFCEDC>@Model.content</textarea>
+        </th>
+
+    </tr>
+    @{
+        foreach (var item in Model.commentList)
+        {
+            i = i + 1;
+
+    <tr>
+        
+        <th style="text-align:center;vertical-align:middle;">
+          
+            第(@i)条评论
+        </th>
+        <th>
+            <textarea name="CommentContent" id="textarea_comment" placeholder="请输入评论，不少于5个字" maxlength="800" onforminput="3" cols=80 rows=3 style="overflow:auto"
+                    readonly="readonly"   text-align:center background-color:BFCEDC>@item.CommentContent</textarea>
+        </th>
+
+    </tr>
+      
+        }
+    }
+
+
+</table>
 
 

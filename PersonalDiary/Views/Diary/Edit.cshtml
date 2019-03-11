@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Create";
 }
-
+<script src="~/Content/jq/jquery-1.11.1.js"></script>
 <script>
     $(function () {
         $("#creatediary").click(function () {
@@ -40,16 +40,27 @@
 
 
    <table>
-       <tr><td><input id="UserDiaryId" type="hidden" value="@Model.UserDiaryId"></td></tr>
-       <tr><td><input id="UserId" type="hidden" value="@Model.UserId"></td></tr>
        <tr>
-           <td>标题</td>
-           
-           <td><input id="title" value="@Model.Title" /></td>
+           <td>
+           <input id="UserDiaryId" type="hidden" value="@Model.UserDiaryId">
+           </td>
        </tr>
        <tr>
-           <td>内容</td>
-           <td><textarea id="Content">@Model.Content</textarea></td>
+       <td>
+           <input id="UserId" type="hidden" value="@Model.UserId">
+       </td>
+       </tr>
+       <tr>
+           <td style="text-align:center;vertical-align:middle;">标题</td>
+           
+           <td><input name="Title"  id="title" value="@Model.Title" /></td>
+       </tr>
+       <tr>
+           <td style="text-align:center;vertical-align:middle;" >内容</td>
+           <td>
+               <textarea name="Content"  placeholder="请输入日志内容，不少于5个字" maxlength="800" onforminput="3" cols=40 rows=10 style="overflow:auto"
+                              text-align:center background-color:BFCEDC id="Content">@Model.Content</textarea>
+           </td>
        </tr>
        <tr>
            <td>
@@ -57,7 +68,7 @@
                    <input name="IsPrivate" id="agree_input" type="checkbox" style="display:inline-block;" value="true" />发布
                </div>
                <div style="float:right">
-                   <input type="button" value="保存修改" id="creatediary" class="btn btn-default" />
+                   <input type="button" value="修改" id="creatediary" class="btn btn-default" />
                </div>
             
            </td>

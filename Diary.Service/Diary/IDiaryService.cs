@@ -17,5 +17,7 @@ namespace Diary.Service.Diary
         void UpdateDiary(int DiaryId,int UserId, string Content,string Title);
         IQueryable<Data.DiaryComment> DiaryComment { get; }
         void Delete(int userid);
+        void Publish(int userid);
+        void UpdateDiary(int diaryId, int userid, string content, string title, bool isPrivate);
     }
 }

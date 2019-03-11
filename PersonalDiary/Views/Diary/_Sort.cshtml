@@ -1,0 +1,75 @@
+﻿@using Tgnet.Web.Sessions;
+@model PageModel<UserDiaryModel>
+@using Tgnet.Web.Mvc;
+@using Tgnet.Web.Sessions;
+@using PersonalDiary.Models;
+@{
+    ViewBag.Title = "Index";
+    ViewBag.OptionValue = 1;
+}
+<div id="test_ajax">
+    <table>
+        @{
+            <tr>
+                <td>Title</td>
+                <td>Content</td>
+                <td>UserName</td>
+                <td>CreateTime</td>
+            </tr>
+            foreach (var item in Model)
+            {
+
+                <tr>
+                    <td>
+                        @item.Title
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Details", "Diary",new { diaryid = item.UserDiaryId })">
+                            @item.Content.Substring(0, 1)
+                        </a>
+
+                    </td>
+                    <td>
+                        @item.UserName.Substring(0, 3)
+                    </td>
+                    <td>
+                        @item.CreateTime
+                    </td>
+                    @*有用户登陆*@
+                    @if (ViewBag.userid != 0)
+                    {
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { diaryid = item.UserDiaryId }) |
+                            @Html.ActionLink("Details", "Details", new { diaryid = item.UserDiaryId }) |
+                            @Html.ActionLink("Delete", "Delete", new { diaryid = item.UserDiaryId })|
+                            @Html.ActionLink("Publish", "Publish", new { diaryid = item.UserDiaryId })|
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Index", "DiaryComment", new RouteValueDictionary { { "diaryid", item.UserDiaryId } })">Read|</a>
+                            <a href="@Url.Action("Add", "DiaryComment",new { diaryid = item.UserDiaryId })">Add</a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.ActionLink("Details", "Details", new { diaryid = item.UserDiaryId }) |
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Index", "DiaryComment", new RouteValueDictionary { { "diaryid", item.UserDiaryId } })">Read</a>|
+                            <a href="@Url.Action("Add", "DiaryComment",new { diaryid = item.UserDiaryId })">Add</a>
+                        </td>
+                    }
+                    @*未有用户登陆*@
+
+                </tr>
+            }
+
+            <p>@ViewBag.User</p>
+
+        }
+    </table>
+    <input type="button" id="first_page" value="first" />
+    <input type="button" id="front_input" value="front" />
+    <input type="button" id="next_input" value="next" />
+    <input type="button" id="last_page" value="last" />
+</div>

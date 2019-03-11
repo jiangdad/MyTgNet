@@ -219,9 +219,11 @@
     <Content Include="Views\Diary\_IndexPartialPage.cshtml" />
     <Content Include="Views\DiaryComment\Index.cshtml" />
     <Content Include="Views\DiaryComment\Add.cshtml" />
+    <Content Include="Views\Diary\_Sort.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Diary\Part\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

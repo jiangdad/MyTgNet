@@ -7,8 +7,8 @@
     ViewBag.Title = "Index";
     ViewBag.OptionValue = 1;
 }
-
 @*1*@
+<script src="~/Content/jq/jquery-1.11.1.js"></script>
 <script>
     $(function () {
         $("#Input_Filter").click(function () {
@@ -21,18 +21,83 @@
                 else
                 { window.location.href = "/Diary/UserIndex?userid=" +@ViewBag.userid+"&value=" + optionValue + "&searchInfo=" + searchInfo; }*@
         });
-        $("#next_input").click(function () {
+        $("#next_input").click(function (e) {
+            
             var a = $("#next_input").val()
             alert(a);
             var page =@ViewBag.page +1;
-            window.location.href = "/Diary/UserIndex?userid="+10+"&page=" + page;
+            if (page > @Model.PageCount) {
+                alert("已经到达最后页");
+                return false;
+            }
+            //用户登录
+            if (@ViewBag.userid != 0)
+            {
+                window.location.href = "/Diary/UserIndex?userid=" + @ViewBag.userid + "&page=" + page;
+            }
+            //未有用户登录的
+            else {window.location.href = "/Diary/UserIndex?page=" + page; }
         });
-        $("#front_input").click(function () {
+        $("#front_input").click(function (e) {
             var a = $("#front_input").val()
+            var b=@ViewBag.userid;
             alert(a);
             var page =@ViewBag.page -1;
-            window.location.href = "/Diary/UserIndex?userid="+10+"&page=" + page;
+            if (page < 1) {
+                alert("已经到达最前页");
+                return false;
+            }
+            if (@ViewBag.userid != 0) { window.location.href = "/Diary/UserIndex?userid=" +b + "&page=" + page; }
+            else {
+                window.location.href = "/Diary/UserIndex?page=" + page;
+        }
         });
+        $("#first_page").click(function (e) {
+            var a = $("#first_page").val()
+            var b=@ViewBag.userid;
+            alert(a);
+            var page =1;
+            if (@ViewBag.userid != 0) { window.location.href = "/Diary/UserIndex?userid=" +b + "&page=" + page; }
+            else {
+                window.location.href = "/Diary/UserIndex?page=" + page;
+        }
+        });
+                $("#last_page").click(function (e) {
+            var a = $("#last_page").val()
+            var b=@ViewBag.userid;
+            alert(a);
+            var page =@Model.PageCount;
+            if (@ViewBag.userid != 0) { window.location.href = "/Diary/UserIndex?userid=" +b + "&page=" + page; }
+            else {
+                window.location.href = "/Diary/UserIndex?page=" + page;
+        }
+        });
+        $("#sort").change(function () {
+            var a = $("#sort option:selected").val();
+            var searchInfo = $("#Input_Search").val();
+            var b =@ViewBag.userid;
+             var page =@ViewBag.page;
+            $.ajax({
+                type: "GET",
+                dataType: "html",
+                     url: "/Diary/Sort",
+                     data: "value=" + a +  "&page=" + page+ "&searchInfo=" + searchInfo ,
+                    beforeSend: function (XMLHttpRequest) {
+                    $("#test_ajax").text("正在查询...");
+                    // Pause(this,100000);
+                },
+                success: function (html) {
+                    $("#test_ajax").html(html);
+                    $("#test_ajax").css("color", "red");
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                    //隐藏正在查询图片
+                },
+                error: function () {
+                    $("#test_ajax").text("出错了...");
+                }
+            });
+        } );
     });
     </script>
 
@@ -86,9 +151,8 @@
         @Html.Partial("_IndexPartialPage", Model)               @*/*引用分部视图，第一个值
         为分部视图名，第二个值是
         把model传过去*/*@
-<label>关键字</label>
-    <input id="Input_Search" type="search" name="searchstring" />
-    <input id="Input_Filter" type="submit" name="Filter" />
+<label >关键字</label>
+    <input id="Input_Search" placeholder="输入姓名搜索...." type="search" name="searchstring" />
     <select name="sort" id="sort">
         <option selected>@ViewBag.Select</option>
         <option value="1">标题升序</option>
@@ -96,71 +160,73 @@
         <option value="3">时间升序</option>
         <option value="4">时间降序</option>
     </select>
+<input id="Input_Filter" type="submit" name="Filter" />
 @*</form>*@
 
-   
 
-<div id="user_diary_List">
-    <table>
-        @{
-            <tr>
-                <td>Title</td>
-                <td>Content</td>
-                <td>UserName</td>
-                <td>CreateTime</td>
-            </tr>
-            foreach (var item in Model)
-            {
-
+    <div id="test_ajax">
+        <table>
+            @{
                 <tr>
-                    <td>
-                        @item.Title
-                    </td>
-                    <td>
-                        <a href="@Url.Action("Details", "Diary",new { diaryid = item.UserDiaryId })">
-                            @item.Content.Substring(0, 1)
-                        </a>
-                       
-                    </td>
-                    <td>
-                        @item.UserName.Substring(0,3)
-                    </td>
-                    <td>
-                        @item.CreateTime
-                    </td>
-                    @*有用户登陆*@
-                    @if (ViewBag.userid != 0)
-                    {
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", new { diaryid = item.UserDiaryId }) |
-                            @Html.ActionLink("Details", "Details", new { diaryid = item.UserDiaryId }) |
-                            @Html.ActionLink("Delete", "Delete", new { diaryid = item.UserDiaryId })|
-                            @Html.ActionLink("Publish", "Publish", new { diaryid = item.UserDiaryId })|
-                        </td>
-                        <td>
-                            <a href="@Url.Action("Index", "DiaryComment", new RouteValueDictionary { { "diaryid", item.UserDiaryId } })">Read|</a>
-                            <a href="@Url.Action("Add", "DiaryComment",new { diaryid = item.UserDiaryId })">Add</a>
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            @Html.ActionLink("Details", "Details", new { diaryid = item.UserDiaryId }) |
-                        </td>
-                        <td>
-                            <a href="@Url.Action("Index", "DiaryComment", new RouteValueDictionary { { "diaryid", item.UserDiaryId } })">Read</a>|
-                            <a href="@Url.Action("Add", "DiaryComment",new { diaryid = item.UserDiaryId })">Add</a>
-                        </td>
-                    }
-                    @*未有用户登陆*@
-
+                    <td>Title</td>
+                    <td>Content</td>
+                    <td>UserName</td>
+                    <td>CreateTime</td>
                 </tr>
-            }
+                foreach (var item in Model)
+                {
 
-            <p>@ViewBag.User</p>
-           
-        }
-    </table>
-    <input type="button" id="front_input" value="front" />
-    <input type="button" id="next_input" value="next" />
-</div>
+                    <tr>
+                        <td>
+                            @item.Title
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Details", "Diary",new { diaryid = item.UserDiaryId })">
+                                @item.Content.Substring(0, 1)
+                            </a>
+
+                        </td>
+                        <td>
+                            @item.UserName.Substring(0, 3)
+                        </td>
+                        <td>
+                            @item.CreateTime
+                        </td>
+                        @*有用户登陆*@
+                        @if (ViewBag.userid != 0)
+                        {
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { diaryid = item.UserDiaryId }) |
+                                @Html.ActionLink("Details", "Details", new { diaryid = item.UserDiaryId }) |
+                                @Html.ActionLink("Delete", "Delete", new { diaryid = item.UserDiaryId })|
+                                @Html.ActionLink("Publish", "Publish", new { diaryid = item.UserDiaryId })|
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Index", "DiaryComment", new RouteValueDictionary { { "diaryid", item.UserDiaryId } })">Read|</a>
+                                <a href="@Url.Action("Add", "DiaryComment",new { diaryid = item.UserDiaryId })">Add</a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.ActionLink("Details", "Details", new { diaryid = item.UserDiaryId }) |
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Index", "DiaryComment", new RouteValueDictionary { { "diaryid", item.UserDiaryId } })">Read</a>|
+                                <a href="@Url.Action("Add", "DiaryComment",new { diaryid = item.UserDiaryId })">Add</a>
+                            </td>
+                        }
+                        @*未有用户登陆*@
+
+                    </tr>
+                }
+
+                <p>@ViewBag.User</p>
+
+            }
+        </table>  
+        <input type="button" id="first_page" value="first" />
+        <input type="button" id="front_input" value="front" />
+        <input type="button" id="next_input" value="next" />
+        <input type="button" id="last_page" value="last" />
+    </div>
