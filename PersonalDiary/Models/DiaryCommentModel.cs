@@ -11,5 +11,6 @@ namespace PersonalDiary.Models
         public string CommentContent { get; set; }
         public int UserId { get; set; }
         public int DiaryId { get; set; }
+        public bool CanDel { get; set; }
     }
 }

@@ -22,6 +22,7 @@ namespace Diary.Data
         protected override DbSet<User> DbSet {
             get
             {
+                //
                 return diaries.Set<User>();
             }
              }

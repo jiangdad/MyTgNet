@@ -58,7 +58,7 @@ namespace PersonalDiary.Controllers
             {
                 //公开的
                 //ViewBag.userid=0代表用户未登录
-                messagediary = messagediary.Where(d => d.IsPrivate == true);
+                messagediary = messagediary.Where(d => d.IsPrivate == false);
                 ViewBag.userid = 0;
             }
             //用户未登录的情况下ViewBag.userid=0,
@@ -67,7 +67,7 @@ namespace PersonalDiary.Controllers
             //显示的是自己的所有日志和别人的公开日志
             if (User != null)
             {
-                messagediary = messagediary.Where(d => d.UserId == User.ID && d.IsPrivate == false).Union(messagediary);
+                messagediary = messagediary.Where(d => (d.UserId == User.ID && d.IsPrivate == true) || d.IsPrivate==false);
                 //把用户登录ID赋值ViewBag.userid
                 ViewBag.userid = User.ID;
             }
@@ -113,7 +113,6 @@ namespace PersonalDiary.Controllers
             {
                 ViewBag.Select = "时间升序";
                 messagediary = messagediary.OrderBy(a => a.CreateTime);
-
             }
             else if (value == 4)
             {
@@ -251,7 +250,7 @@ namespace PersonalDiary.Controllers
                 CreateTime = DateTime.Now,
                 Title = userdiarymodel.Title,
                 UserId =(int) User.ID, 
-                IsDel = false, IsPrivate = userdiarymodel.IsPrivate };
+                IsDel = false, IsPrivate = !userdiarymodel.IsPrivate };
                var DiaryService= _DiaryManager.Add(diary);
             //return JsonString(new BaseReponseModel { Msg = "创建成功", Status = "ok",
             //    Url = Url.RouteUrl(new { controller = "Diary", action = "UserIndex",
@@ -335,7 +334,7 @@ namespace PersonalDiary.Controllers
                 {
                     //公开的
                     //ViewBag.userid=0代表用户未登录
-                    messagediary = messagediary.Where(d => d.IsPrivate == true);
+                    messagediary = messagediary.Where(d => d.IsPrivate == false);
                     ViewBag.userid = 0;
                 }
                 //用户未登录的情况下ViewBag.userid=0,
@@ -344,7 +343,7 @@ namespace PersonalDiary.Controllers
                 //显示的是自己的所有日志和别人的公开日志
                 if (User != null)
                 {
-                    messagediary = messagediary.Where(d => d.UserId == User.ID && d.IsPrivate == false).Union(messagediary);
+                    messagediary = messagediary.Where(d => d.UserId == User.ID && d.IsPrivate == true).Union(messagediary);
                     //把用户登录ID赋值ViewBag.userid
                     ViewBag.userid = User.ID;
                 }
@@ -423,7 +422,7 @@ namespace PersonalDiary.Controllers
                 }
                 userDiaryModels = new PageModel<UserDiaryModel>(model, page, pageCount);
                 ViewBag.page = page;
-                return PartialView("Sort",userDiaryModels);
+                return PartialView("_Sort",userDiaryModels);
             }
         }
    

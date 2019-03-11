@@ -71,8 +71,9 @@
             else {
                 window.location.href = "/Diary/UserIndex?page=" + page;
         }
-        });
-        $("#sort").change(function () {
+                });
+    // 分布页
+        @*$("#sort").change(function () {
             var a = $("#sort option:selected").val();
             var searchInfo = $("#Input_Search").val();
             var b =@ViewBag.userid;
@@ -97,7 +98,7 @@
                     $("#test_ajax").text("出错了...");
                 }
             });
-        } );
+        } );*@
     });
     </script>
 
@@ -190,7 +191,7 @@
                             @item.UserName.Substring(0, 3)
                         </td>
                         <td>
-                            @item.CreateTime
+                            @item.CreateTime.ToString().Substring(0,13)
                         </td>
                         @*有用户登陆*@
                         @if (ViewBag.userid != 0)

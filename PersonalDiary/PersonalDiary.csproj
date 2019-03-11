@@ -220,6 +220,7 @@
     <Content Include="Views\DiaryComment\Index.cshtml" />
     <Content Include="Views\DiaryComment\Add.cshtml" />
     <Content Include="Views\Diary\_Sort.cshtml" />
+    <Content Include="Views\DiaryComment\_Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

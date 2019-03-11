@@ -23,6 +23,8 @@ namespace Diary.Service.Diary
             _diarepository = diarepository;
             //懒加载的Diary获取
             //设置懒加载，设置Diary类diary对象的搜索
+            //我们创建某一个对象需要很大的消耗，而这个对象在运行过程中又不一定用到，
+            //为了避免每次运行都创建该对象，这时候延迟初始化（也叫延迟实例化）就出场了。
             _LazyDiary = new Lazy<Data.Diary>(() =>
             {
                 var diary = _diarepository.EnableDiary.Where(m => m.DiaryId == _diaryId).FirstOrDefault();
@@ -117,9 +119,9 @@ namespace Diary.Service.Diary
                 throw new ExceptionWithErrorCode(ErrorCode.没有操作权限, "没有权限操作该留言");
             }
 
-            if (!_LazyDiary.Value.IsPrivate)
+            if (_LazyDiary.Value.IsPrivate)
             {
-                _LazyDiary.Value.IsPrivate = true;
+                _LazyDiary.Value.IsPrivate = false;
                 _diarepository.SaveChanges();
                 _dicommentRepository.SaveChanges();
             }

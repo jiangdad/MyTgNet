@@ -20,6 +20,7 @@ namespace Diary.Data
         public bool IsDel { get; set; }
         public int DiaryId { get; set; }
         public System.DateTime CreateTime { get; set; }
+     
     
         public virtual Diary Diary { get; set; }
         public virtual User User { get; set; }

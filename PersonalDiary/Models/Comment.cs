@@ -11,6 +11,7 @@ namespace PersonalDiary.Models
         public string Title { get; set; }
         public int Diaryid { get; set; }
         public string content { get; set; }
+        public bool CanDel { get; set; }
         public DiaryCommentModel[] commentList { get; set; }
         public Comment()
         {

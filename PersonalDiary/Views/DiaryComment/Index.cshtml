@@ -7,49 +7,102 @@
 @{ 
     ViewBag.Count = 0;
     int i = 0;
+    int commentid = 0;
 }
-<table>
-    <tr>
-        <th style="text-align:center;vertical-align:middle;">用户名:</th>
-        <th>@Html.DisplayFor(m => m.UserName)</th>
-       
-    </tr>
-    <tr>
-        <th style="text-align:center;vertical-align:middle;">标题:</th>
-        <th>@Html.DisplayFor(m => m.Title)</th>
-    </tr>
-    <tr>
-       
-        <th style="text-align:center;vertical-align:middle;">内容:</th>
-       
-        <th>
-            <textarea name="Content" id="textarea_Content" placeholder="请输入日志内容，不少于5个字" maxlength="800" onforminput="3" cols=40 rows=10 style="overflow:auto" readonly="readonly"
-                      text-align:center background-color:BFCEDC>@Model.content</textarea>
-        </th>
+<script>
+    $(function () {
+        
+        $("#Input_Delect").click(function () {
+            var a = $("#comid").val();
+            alert(a);
+            window.location.href = "/DiaryComment/Delete?diarycommentid="+a;
+        });
+        $("input[type='radiio']").click(function () {
+            var value = $("input[type='radio']:checked").val();
+            var diaryid = $("#diaryid").val();
+            $.ajax({
+                type: "POST",
+                dataType: "html",
+                url: "/DiaryComment/_Index",
+                data: "diaryid=" + diaryid + "&page=" + 1,
+                beforeSend: function (XMLHttpRequest) {
+                    $("#parttest").text("正在查询...");
+                    // Pause(this,100000);
+                },
+                success: function (html) {
+                    $("#parttest").html(html);
+                    $("#parttest").css("color", "red");
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                    //隐藏正在查询图片
+                },
+                error: function () {
+                    $("#parttest").text("出错了...");
+                }
+            });
+        });
+      
+    });
+</script>
 
-    </tr>
+    <table>
+        <tr>
+            <th style="text-align:center;vertical-align:middle;">用户名:</th>
+            <th>@Html.DisplayFor(m => m.UserName)</th>
+
+        </tr>
+        <tr>
+            <th style="text-align:center;vertical-align:middle;">标题:</th>
+            <th>@Html.DisplayFor(m => m.Title)</th>
+        </tr>
+        <tr>
+
+            <th style="text-align:center;vertical-align:middle;">内容:</th>
+
+            <th>
+                <textarea name="Content" id="textarea_Content" placeholder="请输入日志内容，不少于5个字" maxlength="800" onforminput="3" cols=40 rows=10 style="overflow:auto" readonly="readonly"
+                          text-align:center background-color:BFCEDC>
+                    @Model.content
+                    </textarea>
+                </th>
+            <th>
+                <input id="diaryid" type="hidden" value="@Model.Diaryid" />
+            </th>
+            </tr>
+       
     @{
         foreach (var item in Model.commentList)
         {
             i = i + 1;
 
-    <tr>
-        
-        <th style="text-align:center;vertical-align:middle;">
-          
-            第(@i)条评论
-        </th>
-        <th>
-            <textarea name="CommentContent" id="textarea_comment" placeholder="请输入评论，不少于5个字" maxlength="800" onforminput="3" cols=80 rows=3 style="overflow:auto"
-                    readonly="readonly"   text-align:center background-color:BFCEDC>@item.CommentContent</textarea>
-        </th>
+            <tr id="parttest">
 
-    </tr>
-      
+                <th style="text-align:center;vertical-align:middle;">
+
+                    第(@i)条评论
+                </th>
+                <th>
+                    <textarea name="CommentContent" id="textarea_comment" placeholder="请输入评论，不少于5个字" maxlength="800" minLength="5" onforminput="3" cols=80 rows=3 style="overflow:auto"
+                              readonly="readonly" text-align:center background-color:BFCEDC>
+                        @item.CommentContent
+                    </textarea>
+                </th>
+                @if (item.CanDel == true)
+                {
+                <th>
+                    <input type="button" value="删除" id="Input_Delect" />
+                </th>
+                <th><input type="hidden" id="comid" value="@item.DiaryCommentId" /></th>
+                }
+
+
+
+                
+            </tr>
+            }
         }
-    }
 
 
-</table>
-
+   
+        </table>
 

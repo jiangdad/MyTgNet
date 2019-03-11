@@ -1,0 +1,40 @@
+﻿@using Tgnet.Web.Mvc;
+@using PersonalDiary.Models;
+@model PageModel<DiaryCommentModel>
+@{ 
+    int i = 0;
+}
+
+<tr id="parttest">
+    @{
+        foreach (var item in Model)
+        {
+            i = i + 1;
+            <th style="text-align:center;vertical-align:middle;">
+
+                第(@i)条评论
+            </th>
+                    <th>
+                        <textarea name="CommentContent" id="textarea_comment" placeholder="请输入评论，不少于5个字" maxlength="800" minLength="5" onforminput="3" cols=80 rows=3 style="overflow:auto"
+                                  readonly="readonly" text-align:center background-color:BFCEDC>
+                            @item.CommentContent
+                        </textarea>
+                    </th>
+                        @if (item.CanDel == true)
+                        {
+                            <th>
+                                <input type="button" value="删除" id="Input_Delect" />
+                            </th>
+                            <th><input type="hidden" id="comid" value="@item.DiaryCommentId" /></th>
+                        }
+
+
+
+        }
+
+    }
+</tr>
+
+
+
+
