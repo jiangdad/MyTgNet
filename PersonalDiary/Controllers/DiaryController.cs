@@ -430,6 +430,13 @@ namespace PersonalDiary.Controllers
                 ViewBag.page = page;
                 return PartialView("_Sort",userDiaryModels);
             }
+        public bool IsLogin()
+        {
+            if (User == null)
+                return false;
+            else
+                return true;
+        }
         }
    
     }
