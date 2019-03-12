@@ -16,10 +16,7 @@ namespace PersonalDiary.Controllers
 {
     public class DiaryController : BaseController
     {
-        public DiaryController()
-        {
-
-        }
+ 
         IDiaryManager _DiaryManager;
         public DiaryController(IDiaryManager DiaryManager)
         {

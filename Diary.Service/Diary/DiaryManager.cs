@@ -13,13 +13,11 @@ namespace Diary.Service
         public IDiaryRepository _diarepository;
         public IDiCommentRepository _dicommentrepository;
         public IUserManager _userManager;
-        public IDiaryManager _diaryManager;
-        public DiaryManager(IDiaryRepository diaryRepository,IDiCommentRepository dicommentRepository,IUserManager userManager,IDiaryManager diaryManager)
+        public DiaryManager(IDiaryRepository diaryRepository,IDiCommentRepository dicommentRepository,IUserManager userManager)
         {
             _diarepository = diaryRepository;
             _dicommentrepository = dicommentRepository;
             _userManager = userManager;
-            _diaryManager = diaryManager;
         }
         public IQueryable<Data.Diary> MessageDiary
         {
@@ -50,7 +48,7 @@ namespace Diary.Service
         }
         public IUserDiaryService GetUserDiaryService(int DiaryId,int UserId)
         {
-            return new UserDiaryService(UserId, DiaryId, _diaryManager, _userManager);
+            return new UserDiaryService(UserId, DiaryId, this, _userManager);
         }
     }
 }

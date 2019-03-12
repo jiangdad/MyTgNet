@@ -11,11 +11,10 @@ namespace Diary.Service
     class UserManager : IUserManager
     {
         IUserRepository _IUserRepository;
-        IDiaryManager _DiaryManager;
+        //IDiaryManager _DiaryManager;
         IUserManager usermanager;
-        public UserManager(IUserRepository userRepository, IDiaryManager DiaryManager)
+        public UserManager(IUserRepository userRepository)
         {
-            _DiaryManager = DiaryManager;
             _IUserRepository = userRepository;
         }
 

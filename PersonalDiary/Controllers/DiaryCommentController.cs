@@ -19,7 +19,7 @@ namespace PersonalDiary.Controllers
         //主页显示发布过的视图
         //用户是否登陆，登陆的用户可以评论
         //
-        int _diaryid;
+       int _diaryid;
        public IDiaryCommentManager _DiaryCommentManager;
         public IDiaryManager _DiaryManager;
        public DiaryCommentController(IDiaryCommentManager diarycommentmanager, IDiaryManager diarymanager)
@@ -29,12 +29,11 @@ namespace PersonalDiary.Controllers
         }
         public ActionResult Index(int diaryid)
         {
-
             //判断用户是否登陆、、
             //if(User==null)
             //{
             //    throw new Tgnet.Api.ExceptionWithErrorCode(Tgnet.Api.ErrorCode.未登录);
-            //}
+            //
             Comment model = new Comment();
             //获取该条日志的服务
             var diaryservice = _DiaryManager.GetDiaryService(diaryid);
