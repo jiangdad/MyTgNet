@@ -284,7 +284,7 @@ namespace PersonalDiary.Controllers
             //1.调用GetDiaryService方法
             var messagediary = _DiaryManager.GetDiaryService(userdiarymodel.UserDiaryId);
             //2.调用updateDiary方法
-            messagediary.UpdateDiary(userdiarymodel.UserDiaryId,userdiarymodel.UserId, userdiarymodel.Content,userdiarymodel.Title);
+            messagediary.UpdateDiary(userdiarymodel.UserId, userdiarymodel.Content,userdiarymodel.Title);
 
             return JsonString(new BaseReponseModel { Msg = "修改成功", Status = "ok", Url = Url.RouteUrl(new { controller = "Diary",
                 action = "UserIndex",
@@ -293,14 +293,17 @@ namespace PersonalDiary.Controllers
         // GET: Default/Delete/5
         public ActionResult Delete(int diaryid)
         {
+            //判断登陆用户ID和该条评论用户ID是否一致
             var messagediary = _DiaryManager.GetDiaryService(diaryid);
+
             messagediary.Delete((int)User.ID);
-          //int   PamUserId = messagediary.UserId;
+            //int   PamUserId = messagediary.UserId;
             return RedirectToAction("UserIndex", new
             {
                 userid = User.ID
             });
         }
+     
 
         public ActionResult Publish(int diaryid)
         {

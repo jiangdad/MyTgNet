@@ -1,17 +1,20 @@
 ﻿using Diary.Data;
+using Diary.Service.Diary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Tgnet.Web.Mvc;
 namespace Diary.Service
 {
     class UserManager : IUserManager
     {
         IUserRepository _IUserRepository;
-        public UserManager(IUserRepository userRepository)
+        IDiaryManager _DiaryManager;
+        public UserManager(IUserRepository userRepository, IDiaryManager DiaryManager)
         {
+            _DiaryManager = DiaryManager;
             _IUserRepository = userRepository;
         }
 
@@ -25,6 +28,8 @@ namespace Diary.Service
             IUserService userService = new UserService(_IUserRepository, user.UserId);//返回User user
             return userService;
         }
+
+   
 
         //IUserService IUserManager.add(User user)
         //{
@@ -43,10 +48,13 @@ namespace Diary.Service
             );
         }
 
-        IUserService IUserManager.GetService(User user)
+        IUserService IUserManager.GetService(int userid)
         {
-            throw new NotImplementedException();
+            return new UserService(_IUserRepository, userid);
         }
+
+
+
         //核查登陆密码和用户名是否正确（即在UserRepository仓储类中是否存在）
         LoginUserModel IUserManager.Login(User user)
         {
@@ -63,17 +71,26 @@ namespace Diary.Service
             if (userEntity == null)
             {
                 model.Status = "error";
-                model.Msg = "对不起，用户名与密码不正确";
+                model.Msg = "对不起，用户名或密码不正确";
                 return model;
             }
+            //新加
+
 
             //登陆模型赋值
             model.Status = "ok";
             model.Msg = "登陆成功";
             model.UserId = userEntity.UserId;
             model.UserName = userEntity.UserName;
-            //找到仓储类中userid等于 userEntity.userId的实体把它的landIp，lastLandTime更新
+            //找到仓储类中userid等于 userEntity.userId的实体
             return model;
         }
+        //获取UserDiaryService服务
+
+        IUserDiaryService GetUserDiaryService(long userid, long diaryid)
+        {
+            return new UserDiaryService(userid,diaryid, _DiaryManager);
+        }
+
     }
 }

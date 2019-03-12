@@ -24,10 +24,11 @@ namespace Diary.Service.Diary
             //懒加载的Diary获取
             //设置懒加载，设置Diary类diary对象的搜索
             //我们创建某一个对象需要很大的消耗，而这个对象在运行过程中又不一定用到，
-            //为了避免每次运行都创建该对象，这时候延迟初始化（也叫延迟实例化）就出场了。
+            //为了避免每次运行都创建该对象，需要延迟初始化
             _LazyDiary = new Lazy<Data.Diary>(() =>
             {
                 var diary = _diarepository.EnableDiary.Where(m => m.DiaryId == _diaryId).FirstOrDefault();
+
                 if (diary == null)
                     throw new ExceptionWithErrorCode(ErrorCode.没有找到对应条目, "日志不存在");
                 return diary;
@@ -92,32 +93,25 @@ namespace Diary.Service.Diary
             }
 
         }
-        void IDiaryService.Delete(int userid)
+        void IDiaryService.DeleteDiary()
         {
-            if (userid != UserId)
-            {
-                throw new ExceptionWithErrorCode(ErrorCode.没有操作权限, "没有权限操作该留言");
-            }
-
+            
             if (!_LazyDiary.Value.IsDel)
             {
-            _LazyDiary.Value.IsDel = true;
+                _LazyDiary.Value.IsDel = true;
                 //删除日志就删除所有评论
-            foreach(var item in DiaryComment.AsEnumerable())
+                foreach (var item in DiaryComment.AsEnumerable())
                 {
                     item.IsDel = true;
                 }
-            _diarepository.SaveChanges();
-            _dicommentRepository.SaveChanges();
+                _diarepository.SaveChanges();
+                _dicommentRepository.SaveChanges();
             }
-          
         }
-        void IDiaryService.Publish(int userid)
+
+        void IDiaryService.Publish()
         {
-            if (userid != UserId)
-            {
-                throw new ExceptionWithErrorCode(ErrorCode.没有操作权限, "没有权限操作该留言");
-            }
+           
 
             if (_LazyDiary.Value.IsPrivate)
             {
@@ -129,14 +123,18 @@ namespace Diary.Service.Diary
         }
 
 
-        void IDiaryService.UpdateDiary(int diaryId, int userid,string content,string title)
+        void IDiaryService.UpdateDiary(int userid, string content, string title)
         {
+            //diaryid没有用到，要改
             //  _LazyDiary.Value.Content = content;可以改变Diary仓储类里面的值
-            if (userid!= UserId)
+            //判断用户ID是否有权限的 改，抽出一个类出来
+            //参数判断
+            //日志Service跟评论Service放在一起
+            if (userid != UserId)
             {
                 throw new ExceptionWithErrorCode(ErrorCode.没有操作权限, "没有权限操作该留言");
             }
-            if (content!=Content||title!=Title)
+            if (content != Content || title != Title)
             {
                 _LazyDiary.Value.Title = title;
                 _LazyDiary.Value.Content = content;
@@ -144,13 +142,14 @@ namespace Diary.Service.Diary
             }
         }
 
-        void IDiaryService.UpdateDiary(int diaryId, int userid, string content, string title, bool isPrivate)
+        void IDiaryService.UpdateDiary(string content, string title, bool isPrivate)
         {
-            if (userid != UserId)
-            {
-                throw new ExceptionWithErrorCode(ErrorCode.没有操作权限, "没有权限操作该留言");
-            }
-            if (content != Content || title != Title|| isPrivate!=IsPrivate)
+            //判断用户ID是否有权限的
+            //参数判断
+            //修改更改的方法
+            //安全性...
+           
+            if (content != Content || title != Title || isPrivate != IsPrivate)
             {
                 _LazyDiary.Value.Title = title;
                 _LazyDiary.Value.Content = content;
@@ -158,5 +157,6 @@ namespace Diary.Service.Diary
                 _diarepository.SaveChanges();
             }
         }
+
     }
 }

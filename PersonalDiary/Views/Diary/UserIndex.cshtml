@@ -27,7 +27,6 @@
             alert(a);
             var page =@ViewBag.page +1;
             if (page > @Model.PageCount) {
-                alert("已经到达最后页");
                 return false;
             }
             //用户登录
@@ -44,7 +43,7 @@
             alert(a);
             var page =@ViewBag.page -1;
             if (page < 1) {
-                alert("已经到达最前页");
+               
                 return false;
             }
             if (@ViewBag.userid != 0) { window.location.href = "/Diary/UserIndex?userid=" +b + "&page=" + page; }
@@ -55,7 +54,7 @@
         $("#first_page").click(function (e) {
             var a = $("#first_page").val()
             var b=@ViewBag.userid;
-            alert(a);
+            
             var page =1;
             if (@ViewBag.userid != 0) { window.location.href = "/Diary/UserIndex?userid=" +b + "&page=" + page; }
             else {
@@ -65,7 +64,7 @@
                 $("#last_page").click(function (e) {
             var a = $("#last_page").val()
             var b=@ViewBag.userid;
-            alert(a);
+           
             var page =@Model.PageCount;
             if (@ViewBag.userid != 0) { window.location.href = "/Diary/UserIndex?userid=" +b + "&page=" + page; }
             else {

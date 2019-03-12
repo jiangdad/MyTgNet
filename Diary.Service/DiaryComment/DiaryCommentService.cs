@@ -25,7 +25,7 @@ namespace Diary.Service.DiaryComment
             {
                 var diarycomment = DiCommentRepository.EnableDiaryComment.Where(m => m.CommentId == commentId).FirstOrDefault();
                 if (diarycomment == null)
-                    throw new ExceptionWithErrorCode(ErrorCode.没有找到对应条目, "日志不存在");
+                    throw new ExceptionWithErrorCode(ErrorCode.没有找到对应条目, "日志评论不存在");
                 return diarycomment;
             });
         }

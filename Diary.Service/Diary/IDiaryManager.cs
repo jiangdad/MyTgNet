@@ -19,5 +19,6 @@ namespace Diary.Service
 
         IDiaryService GetDiaryService(int DiaryId);
 
+        
     }
 }
