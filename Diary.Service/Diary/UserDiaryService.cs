@@ -19,6 +19,7 @@ namespace Diary.Service.Diary
         Lazy<IDiaryService> _Dairy;
         public UserDiaryService(int userid, int diaryId, IDiaryManager diaryManager, IUserManager usermanager)
         {
+            //userid是当前用户登陆ID
             //获得这条diaryid的用户id
             _userid = userid;
             _diaryid = diaryId;
@@ -38,25 +39,27 @@ namespace Diary.Service.Diary
                   var userService = _usermanager.GetService(userid);
                   return userService;
               });
+
+
         }
 
-        IDiaryService IUserDiaryService.diary
-        {
-            get
-            {
-                return _diaryManager.GetDiaryService(_diaryid);
-            }
-        }
+        //IDiaryService IUserDiaryService.diary
+        //{
+        //    get
+        //    {
+        //        return _diaryManager.GetDiaryService(_diaryid);
+        //    }
+        //}
 
 
 
-        IUserService IUserDiaryService.user
-        {
-            get
-            {
-                return _usermanager.GetService((int)_userid);
-            }
-        }
+        //IUserService IUserDiaryService.user
+        //{
+        //    get
+        //    {
+        //        return _usermanager.GetService((int)_userid);
+        //    }
+        //}
 
         void IUserDiaryService.DeleteDiary()
         {

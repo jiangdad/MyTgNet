@@ -18,7 +18,7 @@ namespace Diary.Service
         IQueryable<Data.Diary> NoTackingDiary { get; }
 
         IDiaryService GetDiaryService(int DiaryId);
-
+        IUserDiaryService GetUserDiaryService(int diaryid, int userid);
         
     }
 }

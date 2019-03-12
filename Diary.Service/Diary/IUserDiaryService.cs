@@ -8,8 +8,8 @@ namespace Diary.Service.Diary
 {
     public interface IUserDiaryService
     {
-        IDiaryService diary { get;}
-        IUserService user { get; }
+        //IDiaryService diary { get;}
+        //IUserService user { get; }
     
         void DeleteDiary();
         void Publish();

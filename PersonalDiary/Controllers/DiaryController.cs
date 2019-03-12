@@ -16,6 +16,10 @@ namespace PersonalDiary.Controllers
 {
     public class DiaryController : BaseController
     {
+        public DiaryController()
+        {
+
+        }
         IDiaryManager _DiaryManager;
         public DiaryController(IDiaryManager DiaryManager)
         {
@@ -294,8 +298,7 @@ namespace PersonalDiary.Controllers
         public ActionResult Delete(int diaryid)
         {
             //判断登陆用户ID和该条评论用户ID是否一致
-            var messagediary = _DiaryManager.GetDiaryService(diaryid);
-
+            var messagediary = _DiaryManager.GetUserDiaryService(diaryid,(int)User.ID);
             messagediary.DeleteDiary();
             //int   PamUserId = messagediary.UserId;
             return RedirectToAction("UserIndex", new
@@ -307,7 +310,7 @@ namespace PersonalDiary.Controllers
 
         public ActionResult Publish(int diaryid)
         {
-            var messagediary = _DiaryManager.GetDiaryService(diaryid);
+            var messagediary = _DiaryManager.GetUserDiaryService(diaryid,(int)User.ID);
             messagediary.Publish();
             return RedirectToAction("UserIndex", new
             {

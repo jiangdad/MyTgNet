@@ -88,10 +88,10 @@ namespace Diary.Service
         }
         //获取UserDiaryService服务
 
-        IUserDiaryService GetUserDiaryService(long userid, long diaryid)
-        {
-            return new UserDiaryService((int)userid,(int)diaryid, _DiaryManager, usermanager);
-        }
+        //IUserDiaryService GetUserDiaryService(long userid, long diaryid)
+        //{
+        //    return new UserDiaryService((int)userid,(int)diaryid, _DiaryManager, usermanager);
+        //}
 
     }
 }
