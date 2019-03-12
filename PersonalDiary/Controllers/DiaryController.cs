@@ -246,7 +246,7 @@ namespace PersonalDiary.Controllers
             if (User == null)
                 throw new Tgnet.Api.ExceptionWithErrorCode(Tgnet.Api.ErrorCode.未登录);
 
-            Diary.Data.Diary diary = new Diary.Data.Diary { Content = userdiarymodel.Content,
+                Diary.Data.Diary diary = new Diary.Data.Diary { Content = userdiarymodel.Content,
                 CreateTime = DateTime.Now,
                 Title = userdiarymodel.Title,
                 UserId =(int) User.ID, 
@@ -279,24 +279,24 @@ namespace PersonalDiary.Controllers
 
         // POST: Default/Edit/5
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "Content,Title,UserDiaryId,IsPrivate,UserId")]UserDiaryModel userdiarymodel)
-        {
-            //1.调用GetDiaryService方法
-            var messagediary = _DiaryManager.GetDiaryService(userdiarymodel.UserDiaryId);
-            //2.调用updateDiary方法
-            messagediary.UpdateDiary(userdiarymodel.UserId, userdiarymodel.Content,userdiarymodel.Title);
+        //public ActionResult Edit([Bind(Include = "Content,Title,UserDiaryId,IsPrivate,UserId")]UserDiaryModel userdiarymodel)
+        //{
+        //    //1.调用GetDiaryService方法
+        //    var messagediary = _DiaryManager.GetDiaryService(userdiarymodel.UserDiaryId);
+        //    //2.调用updateDiary方法
+        //    messagediary.UpdateDiary(userdiarymodel.UserId, userdiarymodel.Content,userdiarymodel.Title);
 
-            return JsonString(new BaseReponseModel { Msg = "修改成功", Status = "ok", Url = Url.RouteUrl(new { controller = "Diary",
-                action = "UserIndex",
-                userid = messagediary.UserId })});
-        }
-        // GET: Default/Delete/5
+        //    return JsonString(new BaseReponseModel { Msg = "修改成功", Status = "ok", Url = Url.RouteUrl(new { controller = "Diary",
+        //        action = "UserIndex",
+        //        userid = messagediary.UserId })});
+        //}
+        //// GET: Default/Delete/5
         public ActionResult Delete(int diaryid)
         {
             //判断登陆用户ID和该条评论用户ID是否一致
             var messagediary = _DiaryManager.GetDiaryService(diaryid);
 
-            messagediary.Delete((int)User.ID);
+            messagediary.DeleteDiary();
             //int   PamUserId = messagediary.UserId;
             return RedirectToAction("UserIndex", new
             {
@@ -308,7 +308,7 @@ namespace PersonalDiary.Controllers
         public ActionResult Publish(int diaryid)
         {
             var messagediary = _DiaryManager.GetDiaryService(diaryid);
-            messagediary.Publish((int)User.ID);
+            messagediary.Publish();
             return RedirectToAction("UserIndex", new
             {
                 userid = User.ID

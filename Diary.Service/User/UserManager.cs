@@ -12,6 +12,7 @@ namespace Diary.Service
     {
         IUserRepository _IUserRepository;
         IDiaryManager _DiaryManager;
+        IUserManager usermanager;
         public UserManager(IUserRepository userRepository, IDiaryManager DiaryManager)
         {
             _DiaryManager = DiaryManager;
@@ -89,7 +90,7 @@ namespace Diary.Service
 
         IUserDiaryService GetUserDiaryService(long userid, long diaryid)
         {
-            return new UserDiaryService(userid,diaryid, _DiaryManager);
+            return new UserDiaryService((int)userid,(int)diaryid, _DiaryManager, usermanager);
         }
 
     }

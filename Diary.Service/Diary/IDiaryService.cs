@@ -19,6 +19,6 @@ namespace Diary.Service.Diary
         void Publish();
         //void UpdateDiary(int userid, string content, string title, bool isPrivate);
 
-        void UpdateDiary(string content, string title, bool isPrivate);
+        //void UpdateDiary(string content, string title, bool isPrivate);
     }
 }

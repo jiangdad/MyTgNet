@@ -10,9 +10,9 @@ namespace Diary.Service.Diary
     {
         IDiaryService diary { get;}
         IUserService user { get; }
-        bool HavePower { get;  }
+    
         void DeleteDiary();
         void Publish();
-        void UpdateDiary(string content, string title, bool isPrivate);
+
     }
 }

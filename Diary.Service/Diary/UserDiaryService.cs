@@ -60,7 +60,7 @@ namespace Diary.Service.Diary
 
         void IUserDiaryService.DeleteDiary()
         {
-            _Dairy.Value.Delete();
+            _Dairy.Value.DeleteDiary();
         }
 
         void IUserDiaryService.Publish()
@@ -68,9 +68,9 @@ namespace Diary.Service.Diary
             _Dairy.Value.Publish();
         }
 
-        void IUserDiaryService.UpdateDiary(string content, string title, bool isPrivate)
-        {
-            _Dairy.Value.UpdateDiary(_Dairy.Value.Content, _Dairy.Value.Title, _Dairy.Value.IsPrivate);
-        }
+        //void IUserDiaryService.UpdateDiary(string content, string title, bool isPrivate)
+        //{
+        //    _Dairy.Value.UpdateDiary(_Dairy.Value.Content, _Dairy.Value.Title, _Dairy.Value.IsPrivate);
+        //}
     }
 }

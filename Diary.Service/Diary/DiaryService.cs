@@ -123,40 +123,40 @@ namespace Diary.Service.Diary
         }
 
 
-        void IDiaryService.UpdateDiary(int userid, string content, string title)
-        {
-            //diaryid没有用到，要改
-            //  _LazyDiary.Value.Content = content;可以改变Diary仓储类里面的值
-            //判断用户ID是否有权限的 改，抽出一个类出来
-            //参数判断
-            //日志Service跟评论Service放在一起
-            if (userid != UserId)
-            {
-                throw new ExceptionWithErrorCode(ErrorCode.没有操作权限, "没有权限操作该留言");
-            }
-            if (content != Content || title != Title)
-            {
-                _LazyDiary.Value.Title = title;
-                _LazyDiary.Value.Content = content;
-                _diarepository.SaveChanges();
-            }
-        }
+        //void IDiaryService.UpdateDiary(int userid, string content, string title)
+        //{
+        //    //diaryid没有用到，要改
+        //    //  _LazyDiary.Value.Content = content;可以改变Diary仓储类里面的值
+        //    //判断用户ID是否有权限的 改，抽出一个类出来
+        //    //参数判断
+        //    //日志Service跟评论Service放在一起
+        //    if (userid != UserId)
+        //    {
+        //        throw new ExceptionWithErrorCode(ErrorCode.没有操作权限, "没有权限操作该留言");
+        //    }
+        //    if (content != Content || title != Title)
+        //    {
+        //        _LazyDiary.Value.Title = title;
+        //        _LazyDiary.Value.Content = content;
+        //        _diarepository.SaveChanges();
+        //    }
+        //}
 
-        void IDiaryService.UpdateDiary(string content, string title, bool isPrivate)
-        {
-            //判断用户ID是否有权限的
-            //参数判断
-            //修改更改的方法
-            //安全性...
+        //void IDiaryService.UpdateDiary(string content, string title, bool isPrivate)
+        //{
+        //    //判断用户ID是否有权限的
+        //    //参数判断
+        //    //修改更改的方法
+        //    //安全性...
            
-            if (content != Content || title != Title || isPrivate != IsPrivate)
-            {
-                _LazyDiary.Value.Title = title;
-                _LazyDiary.Value.Content = content;
-                _LazyDiary.Value.IsPrivate = isPrivate;
-                _diarepository.SaveChanges();
-            }
-        }
+        //    if (content != Content || title != Title || isPrivate != IsPrivate)
+        //    {
+        //        _LazyDiary.Value.Title = title;
+        //        _LazyDiary.Value.Content = content;
+        //        _LazyDiary.Value.IsPrivate = isPrivate;
+        //        _diarepository.SaveChanges();
+        //    }
+        //}
 
     }
 }
