@@ -36,8 +36,17 @@ namespace Diary.Service
             }
         }
 
-        public IDiaryService Add(Data.Diary diary)
+        public IDiaryService Add(int userid, string title, bool isPrivate, string content)
         {
+            Data.Diary diary = new Data.Diary
+            {
+                CreateTime = DateTime.Now,
+                Content = content,
+                IsPrivate = isPrivate,
+                Title = title,
+                IsDel = false,
+                UserId = userid
+            };
             _diarepository.Add(diary);
             _diarepository.SaveChanges();
             return GetDiaryService(diary.DiaryId);

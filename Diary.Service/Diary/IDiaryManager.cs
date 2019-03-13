@@ -11,7 +11,7 @@ namespace Diary.Service
 {
   public  interface IDiaryManager
     {
-        IDiaryService Add(Data.Diary diary);
+        IDiaryService Add(int userid,string title,bool isPrivate,string content);
 
         IQueryable<Data.Diary> MessageDiary { get; }
 

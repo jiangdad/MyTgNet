@@ -23,7 +23,7 @@ namespace Diary.Service.UserDiary
                   var m = _IDiaryCommentManager.GetDiaryCommentService(diarycommentid);
                   if (m.UserId != userid)
                   {
-                      throw new ExceptionWithErrorCode(ErrorCode.没有操作权限, "没有权限操作该留言");
+                      throw new ExceptionWithErrorCode(ErrorCode.没有操作权限, "没有权限操作该评论");
                   }
                   return m;
               }

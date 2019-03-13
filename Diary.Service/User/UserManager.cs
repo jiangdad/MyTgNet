@@ -27,8 +27,7 @@ namespace Diary.Service
             user.Password = md5.Encrypt(user.Password);
             _IUserRepository.Add(user);
             _IUserRepository.SaveChanges();
-            IUserService userService = new UserService(_IUserRepository, user.UserId);//返回User user
-            return userService;
+            return GetService(user.UserId);
         }
 
         //IUserService IUserManager.add(User user)
@@ -41,7 +40,7 @@ namespace Diary.Service
         //    throw new NotImplementedException();
         //}
 
-        bool IUserManager.CheckUserName(string username)
+      public bool CheckUserName(string username)
         {
             ExceptionHelper.ThrowIfNullOrEmpty(username, "用户名", "用户名无效");
             return _IUserRepository.Entities.Any(user =>
@@ -49,14 +48,14 @@ namespace Diary.Service
             );
         }
 
-        IUserService IUserManager.GetService(int userid)
+       public IUserService GetService(int userid)
         {
             ExceptionHelper.ThrowIfNotId(userid, "用户id", "用户ID无效");
             return new UserService( _IUserRepository,userid);
         }
        
         //核查登陆密码和用户名是否正确（即在UserRepository仓储类中是否存在）
-        LoginUserModel IUserManager.Login(User user)
+       public LoginUserModel Login(User user)
         {
             //1 实例化LoginUserModel对象
             //2 把Password转化为加密形式
@@ -83,5 +82,6 @@ namespace Diary.Service
             //找到仓储类中userid等于 userEntity.userId的实体把它的landIp，lastLandTime更新
             return model;
         }
+    
     }
 }

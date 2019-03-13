@@ -24,20 +24,8 @@ namespace PersonalDiary.Controllers
            
         }
         // GET: Default
-        //所有用户日志列表页面
-        public ActionResult AllIndex()
-        {
-            var messagediary = _DiaryManager.NoTackingDiary;
-            int pageSize = 20; int count; int pageCount;
-            int page = 1;
-            var userdiarymodel = messagediary.OrderByDescending(p => p.CreateTime)
-                .TakePage(out count, out pageCount, page, pageSize).ToList()
-                .Select(p => new UserDiaryModel { UserDiaryId = p.DiaryId, Content = p.Content, CreateTime = p.CreateTime, DiaryCount = p.UserId, Title = p.Title, UserName = p.User.UserName, UserId = p.UserId })
-               ;
-            PageModel<UserDiaryModel> userDiaryModels = new PageModel<UserDiaryModel>(userdiarymodel, page, pageCount);
-            return View(userDiaryModels);
-        }
-        //当前用户日志列表
+        //1.所有用户日志列表页面
+        //2.当前用户日志列表
         public ActionResult UserIndex(int? userid = null, int value = 1, int page = 1, string searchInfo = null)
         {
             // 1. 从数据库中读取实体对象 (Diary)
@@ -49,7 +37,6 @@ namespace PersonalDiary.Controllers
             //// 3. 将 Model 对象传递给视图 (View)
             //return View(diaries);
             //1.从Diary仓储类中找到UserId==userid的实体集 （IQueryable类型）
-            //2.
             var messagediary = _DiaryManager.NoTackingDiary;
             ViewBag.Select = value;
             //找到所有公开的日志
@@ -141,8 +128,8 @@ namespace PersonalDiary.Controllers
         // GET: Default/Create
         public ActionResult Create()
         {
-            if (User == null)
-                throw new Tgnet.Api.ExceptionWithErrorCode(Tgnet.Api.ErrorCode.未登录);
+            //if (User == null)
+            //    throw new Tgnet.Api.ExceptionWithErrorCode(Tgnet.Api.ErrorCode.未登录);
             return View();
         }
 
@@ -153,17 +140,21 @@ namespace PersonalDiary.Controllers
             if (User == null)
                 throw new Tgnet.Api.ExceptionWithErrorCode(Tgnet.Api.ErrorCode.未登录);
 
-            Diary.Data.Diary diary = new Diary.Data.Diary { Content = userdiarymodel.Content,
-                CreateTime = DateTime.Now,
-                Title = userdiarymodel.Title,
-                UserId =(int) User.ID, 
-                IsDel = false, IsPrivate = !userdiarymodel.IsPrivate };
-                var DiaryService= _DiaryManager.Add(diary);
+            //Diary.Data.Diary diary = new Diary.Data.Diary { Content = userdiarymodel.Content,
+            //    CreateTime = DateTime.Now,
+            //    Title = userdiarymodel.Title,
+            //    UserId =(int) User.ID, 
+            //    IsDel = false,
+            //    IsPrivate = !userdiarymodel.IsPrivate };
+
+
+           var DiaryService= _DiaryManager.Add((int)User.ID, userdiarymodel.Title, 
+               !userdiarymodel.IsPrivate,userdiarymodel.Content);
             //return JsonString(new BaseReponseModel { Msg = "创建成功", Status = "ok",
             //    Url = Url.RouteUrl(new { controller = "Diary", action = "UserIndex",
             //        userid = diary.UserId
             //    }) });
-            return RedirectToAction("UserIndex", new { userid = diary.UserId });
+            return RedirectToAction("UserIndex", new { userid = DiaryService.UserId });
         }
 
         // GET: Default/Edit/5
@@ -178,7 +169,8 @@ namespace PersonalDiary.Controllers
                 CreateTime = messagediary.CreateTime,
                 Title = messagediary.Title,
                 UserName = messagediary.UserName,
-                UserDiaryId = diaryid, UserId = (int)User.ID
+                UserDiaryId = diaryid,
+                UserId = (int)User.ID
             };
             return View(userdiarymodel);
 
@@ -189,10 +181,10 @@ namespace PersonalDiary.Controllers
         public ActionResult Edit([Bind(Include = "Content,Title,UserDiaryId,IsPrivate,UserId")]UserDiaryModel userdiarymodel)
         {
             //1.调用GetDiaryService方法
-            var messagediary = _DiaryManager.GetUserDiaryService(userdiarymodel.UserDiaryId, userdiarymodel.UserId);
+            var messagediary = _DiaryManager.GetUserDiaryService(userdiarymodel.UserDiaryId, (int)User.ID);
             //2.调用updateDiary方法
             //messagediary.UpdateDiary(userdiarymodel.UserDiaryId,userdiarymodel.UserId, userdiarymodel.Content,userdiarymodel.Title);
-
+            messagediary.Update(userdiarymodel.Content, userdiarymodel.Title, userdiarymodel.IsPrivate);
             return JsonString(new BaseReponseModel { Msg = "修改成功", Status = "ok", Url = Url.RouteUrl(new { controller = "Diary",
                 action = "UserIndex",
                 userid = User.ID})});
