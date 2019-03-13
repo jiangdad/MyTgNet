@@ -10,7 +10,5 @@ namespace Diary.Service
     public interface IUserService
     {
        int UserId { get; }
-
-        
     }
 }

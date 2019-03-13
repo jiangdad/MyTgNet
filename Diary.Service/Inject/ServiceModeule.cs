@@ -13,10 +13,7 @@ namespace Diary.Service.Inject
         public override void Load()
         {
             Bind<IUserManager>().To<UserManager>();
-            Bind<IUserService>().To<UserService>();
             Bind<IDiaryManager>().To<DiaryManager>();
-            Bind<IDiaryService>().To<DiaryService>();
-            Bind<IDiaryCommentService>().To<DiaryCommentService>();
             Bind<IDiaryCommentManager>().To<DiaryCommentManager>();
         }
     }
