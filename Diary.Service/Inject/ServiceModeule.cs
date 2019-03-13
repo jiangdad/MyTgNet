@@ -15,6 +15,7 @@ namespace Diary.Service.Inject
             Bind<IUserManager>().To<UserManager>();
             Bind<IDiaryManager>().To<DiaryManager>();
             Bind<IDiaryCommentManager>().To<DiaryCommentManager>();
+           
         }
     }
 }

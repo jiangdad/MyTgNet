@@ -70,7 +70,7 @@ namespace Diary.Service.DiaryComment
                 return _LazyDiaryComment.Value.CreateTime;
             }
         }
-        void IDiaryCommentService.Delete(int diarycommentid)
+        void IDiaryCommentService.Delete()
         {
             
            if(!_LazyDiaryComment.Value.IsDel)

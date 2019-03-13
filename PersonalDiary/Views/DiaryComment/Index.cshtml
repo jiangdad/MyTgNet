@@ -14,7 +14,6 @@
         
         $("#Input_Delect").click(function () {
             var a = $("#comid").val();
-            alert(a);
             window.location.href = "/DiaryComment/Delete?diarycommentid="+a;
         });
         $("input[type='radiio']").click(function () {
@@ -87,13 +86,12 @@
                         @item.CommentContent
                     </textarea>
                 </th>
-                @if (item.CanDel == true)
-                {
+             
                 <th>
                     <input type="button" value="删除" id="Input_Delect" />
                 </th>
                 <th><input type="hidden" id="comid" value="@item.DiaryCommentId" /></th>
-                }
+                
 
 
 

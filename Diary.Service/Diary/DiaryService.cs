@@ -90,7 +90,6 @@ namespace Diary.Service.Diary
             {
                 return _dicommentRepository.EnableDiaryComment.Where(c => c.DiaryId == _diaryId);
             }
-
         }
         void IDiaryService.Delete()
         {
@@ -120,34 +119,28 @@ namespace Diary.Service.Diary
         }
 
 
-        void IDiaryService.UpdateDiary(int diaryId, int userid,string content,string title)
-        {
-            //  _LazyDiary.Value.Content = content;可以改变Diary仓储类里面的值
-            if (userid!= UserId)
-            {
-                throw new ExceptionWithErrorCode(ErrorCode.没有操作权限, "没有权限操作该留言");
-            }
-            if (content!=Content||title!=Title)
-            {
-                _LazyDiary.Value.Title = title;
-                _LazyDiary.Value.Content = content;
-                _diarepository.SaveChanges();
-            }
-        }
 
-        void IDiaryService.UpdateDiary(int diaryId, int userid, string content, string title, bool isPrivate)
+
+        void IDiaryService.UpdateDiary(string content, string title, bool isPrivate)
         {
-            if (userid != UserId)
-            {
-                throw new ExceptionWithErrorCode(ErrorCode.没有操作权限, "没有权限操作该留言");
-            }
-            if (content != Content || title != Title|| isPrivate!=IsPrivate)
-            {
-                _LazyDiary.Value.Title = title;
-                _LazyDiary.Value.Content = content;
-                _LazyDiary.Value.IsPrivate = isPrivate;
-                _diarepository.SaveChanges();
-            }
+            ExceptionHelper.ThrowIfNullOrEmpty(content, "内容", "内容为空");
+            ExceptionHelper.ThrowIfNullOrEmpty(title, "标题", "标题为空");
+             _LazyDiary.Value.Title = title;
+              _LazyDiary.Value.Content = content;
+              _LazyDiary.Value.IsPrivate = isPrivate;
+            _diarepository.SaveChanges();
+        }
+        void IDiaryService.AddComment(string diaryComment,int uid)
+        {
+            ExceptionHelper.ThrowIfNull(diaryComment, "评论", "评论无效");
+            _dicommentRepository.Add(new Data.DiaryComment() {
+                CContent=diaryComment,
+                CreateTime=DateTime.Now,
+                DiaryId=this.DiaryId,
+                IsDel=false,
+                UserId=uid,
+            });
+            _dicommentRepository.SaveChanges();
         }
     }
 }

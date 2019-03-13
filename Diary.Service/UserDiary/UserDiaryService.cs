@@ -14,18 +14,18 @@ namespace Diary.Service.Diary
         long _userid;
         int _diaryid;
         IDiaryManager _diaryManager;
-        IUserManager _usermanager;
-        Lazy<IUserService> user;
+        IUserManager _userManager;
+        Lazy<IUserService> _User;
         Lazy<IDiaryService> _Dairy;
-        public UserDiaryService(int userid, int diaryId, IDiaryManager diaryManager, IUserManager usermanager)
+        public UserDiaryService(int userid, int diaryId, IDiaryManager diaryManager, IUserManager userManager)
         {
             //userid是当前用户登陆ID
             //获得这条diaryid的用户id
             _userid = userid;
             _diaryid = diaryId;
             _diaryManager = diaryManager;
-            _usermanager = usermanager;
-            _Dairy = new Lazy<IDiaryService>(() =>
+            _userManager = userManager;
+              _Dairy = new Lazy<IDiaryService>(() =>
             {
                 var diaryService = diaryManager.GetDiaryService(_diaryid);
                 if (diaryService.UserId != userid)
@@ -34,32 +34,33 @@ namespace Diary.Service.Diary
                 }
                 return diaryService;
             });
-            user = new Lazy<IUserService>(() =>
-              {
-                  var userService = _usermanager.GetService(userid);
-                  return userService;
-              });
 
+            _User = new Lazy<IUserService>(() =>
+            {
+                var userService = _userManager.GetService((int)_userid);
+                return userService;
+            }
+            );
 
         }
 
-        //IDiaryService IUserDiaryService.diary
-        //{
-        //    get
-        //    {
-        //        return _diaryManager.GetDiaryService(_diaryid);
-        //    }
-        //}
+        IDiaryService IUserDiaryService.diary
+        {
+            get
+            {
+                return _diaryManager.GetDiaryService(_diaryid);
+            }
+        }
 
 
 
-        //IUserService IUserDiaryService.user
-        //{
-        //    get
-        //    {
-        //        return _usermanager.GetService((int)_userid);
-        //    }
-        //}
+        IUserService IUserDiaryService.user
+        {
+            get
+            {
+                return _userManager.GetService((int)_userid);
+            }
+        }
 
         void IUserDiaryService.DeleteDiary()
         {
@@ -69,6 +70,11 @@ namespace Diary.Service.Diary
         void IUserDiaryService.Publish()
         {
             _Dairy.Value.Publish();
+        }
+        void IUserDiaryService.Update(string content,string title,bool isPrivate)
+        {
+            //参数判断
+            _Dairy.Value.UpdateDiary(content, title, isPrivate);
         }
 
         //void IUserDiaryService.UpdateDiary(string content, string title, bool isPrivate)

@@ -24,7 +24,7 @@
         $("#next_input").click(function (e) {
             
             var a = $("#next_input").val()
-            alert(a);
+        
             var page =@ViewBag.page +1;
             if (page > @Model.PageCount) {
                 return false;
@@ -40,10 +40,9 @@
         $("#front_input").click(function (e) {
             var a = $("#front_input").val()
             var b=@ViewBag.userid;
-            alert(a);
+          
             var page =@ViewBag.page -1;
             if (page < 1) {
-               
                 return false;
             }
             if (@ViewBag.userid != 0) { window.location.href = "/Diary/UserIndex?userid=" +b + "&page=" + page; }
@@ -54,7 +53,6 @@
         $("#first_page").click(function (e) {
             var a = $("#first_page").val()
             var b=@ViewBag.userid;
-            
             var page =1;
             if (@ViewBag.userid != 0) { window.location.href = "/Diary/UserIndex?userid=" +b + "&page=" + page; }
             else {
@@ -64,7 +62,6 @@
                 $("#last_page").click(function (e) {
             var a = $("#last_page").val()
             var b=@ViewBag.userid;
-           
             var page =@Model.PageCount;
             if (@ViewBag.userid != 0) { window.location.href = "/Diary/UserIndex?userid=" +b + "&page=" + page; }
             else {
@@ -130,8 +127,12 @@
 
     }*@
 <p>
-    <a href="/User/Login">Login</a>
-    <a href="/User/LogOut">LogOut</a>
+  @if (ViewBag.userid == 0)
+  {  <a href="/User/Login">Login</a> }
+  
+  @if (ViewBag.userid != 0)
+  {  <a href="/User/LogOut">LogOut</a>}
+   
 </p>
 
 @*<form action="" method="post">*@

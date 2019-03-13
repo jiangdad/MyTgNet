@@ -19,8 +19,8 @@ namespace PersonalDiary.Controllers
         //主页显示发布过的视图
         //用户是否登陆，登陆的用户可以评论
         //
-       int _diaryid;
-       public IDiaryCommentManager _DiaryCommentManager;
+       
+        public IDiaryCommentManager _DiaryCommentManager;
         public IDiaryManager _DiaryManager;
        public DiaryCommentController(IDiaryCommentManager diarycommentmanager, IDiaryManager diarymanager)
         {
@@ -33,7 +33,7 @@ namespace PersonalDiary.Controllers
             //if(User==null)
             //{
             //    throw new Tgnet.Api.ExceptionWithErrorCode(Tgnet.Api.ErrorCode.未登录);
-            //
+            //Comment是单条日志下的所有评论
             Comment model = new Comment();
             //获取该条日志的服务
             var diaryservice = _DiaryManager.GetDiaryService(diaryid);
@@ -49,10 +49,9 @@ namespace PersonalDiary.Controllers
             {
                 CommentContent = p.CContent,
                 DiaryCommentId = p.CommentId,
-                DiaryId = p.DiaryId,
                 //UserID代表该条评论的用户ID
-                UserId = p.UserId,
-                //
+                UserId = p.UserId, DiaryId= diaryid,
+                // 
                 CanDel =User!=null? (int)User.ID == p.UserId:false,
             }).ToArray();
            
@@ -61,25 +60,7 @@ namespace PersonalDiary.Controllers
             return View(model);
            
         }
-        [HttpPost]
-        public PartialViewResult _Index(int diaryid,int page=1)
-        {
-            int pageSize = 10; int count; int pageCount;
 
-            var diaryservice = _DiaryManager.GetDiaryService(diaryid);
-            var model= diaryservice.DiaryComment.TakePage(out count, out pageCount, page, pageSize).ToList().Select(p => new DiaryCommentModel
-            {
-                CommentContent = p.CContent,
-                DiaryCommentId = p.CommentId,
-                DiaryId = p.DiaryId,
-                //UserID代表该条评论的用户ID
-                UserId = p.UserId,
-                //
-                CanDel = User != null ? (int)User.ID == p.UserId : false,
-            });
-            PageModel<DiaryCommentModel> commentmodel = new PageModel<DiaryCommentModel>(model, page, pageCount);
-            return PartialView(commentmodel);
-        }
         public ActionResult Add(int diaryid)
         {
             IDiaryService diaryService= _DiaryManager.GetDiaryService(diaryid);
@@ -107,19 +88,22 @@ namespace PersonalDiary.Controllers
         {
             if (User == null)
                 throw new Tgnet.Api.ExceptionWithErrorCode(Tgnet.Api.ErrorCode.未登录);
-            Diary.Data.DiaryComment diaryComment = new Diary.Data.DiaryComment {  CContent=diaryCommentModel.CommentContent,
-                  CreateTime=DateTime.Now,
-                   DiaryId= diaryCommentModel.DiaryId,
-                    UserId=(int)User.ID
-            };
-            var _DiaryCommentService= _DiaryCommentManager.Add(diaryComment);
+            var DiaryManager = _DiaryManager.GetDiaryService(diaryCommentModel.DiaryId);
+            DiaryManager.AddComment(diaryCommentModel.CommentContent, (int)User.ID);
+            //Diary.Data.DiaryComment diaryComment = new Diary.Data.DiaryComment {  CContent=diaryCommentModel.CommentContent,
+            //       CreateTime=DateTime.Now,
+            //       //DiaryId= diaryCommentModel.DiaryId,
+            //       UserId=(int)User.ID
+            //};
+            //DiaryManager.AddComment(diaryComment);
             return RedirectToAction("UserIndex", "Diary",new { userid=(int)User.ID});
         }
 
         public ActionResult Delete(int diarycommentid)
         {
-            var messagecomment = _DiaryCommentManager.GetDiaryCommentService(diarycommentid);
-            messagecomment.Delete((int)User.ID);
+            //权限判断
+            var messagecomment = _DiaryCommentManager.GetUserCommentService(diarycommentid,(int)User.ID);
+            messagecomment.DeleteComment();
             //int   PamUserId = messagediary.UserId;
             return RedirectToAction("UserIndex","Diary", new
             {

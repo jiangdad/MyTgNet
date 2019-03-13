@@ -13,6 +13,6 @@ namespace Diary.Service.DiaryComment
         string UserName { get; }
         string CContent { get; }
         DateTime CreateTime { get; }
-        void Delete(int diarycommentid);
+        void Delete();
     }
 }

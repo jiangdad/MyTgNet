@@ -15,5 +15,6 @@ namespace Diary.Service
         // 核查登陆密码和用户名是否正确（即在UserRepository仓储类查找是否存在用户名和密码一致的实体）
         LoginUserModel Login(User user);
       
+      
     }
 }
