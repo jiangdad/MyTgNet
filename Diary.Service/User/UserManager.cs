@@ -1,4 +1,5 @@
 ﻿using Diary.Data;
+using Diary.Service.Diary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,11 @@ namespace Diary.Service
     class UserManager : IUserManager
     {
         IUserRepository _IUserRepository;
-        public UserManager(IUserRepository userRepository)
+        IDiaryManager _diaryService;
+        public UserManager(IUserRepository userRepository, IDiaryManager diaryService)
         {
             _IUserRepository = userRepository;
+            _diaryService = diaryService;
         }
 
 
@@ -43,9 +46,13 @@ namespace Diary.Service
             );
         }
 
-        IUserService IUserManager.GetService(User user)
+        IUserService IUserManager.GetService(int userid)
         {
-            throw new NotImplementedException();
+            return new UserService( _IUserRepository,userid);
+        }
+        IUserDiaryService GetUserDiaryService(int userid,int diaryid)
+        {
+            return new UserDiaryService(userid, diaryid, _diaryService,this);
         }
         //核查登陆密码和用户名是否正确（即在UserRepository仓储类中是否存在）
         LoginUserModel IUserManager.Login(User user)

@@ -17,9 +17,11 @@ namespace PersonalDiary.Controllers
     public class DiaryController : BaseController
     {
         IDiaryManager _DiaryManager;
-        public DiaryController(IDiaryManager DiaryManager)
+        IUserManager _userManager;
+        public DiaryController(IDiaryManager DiaryManager, IUserManager userManager)
         {
             _DiaryManager = DiaryManager;
+            _userManager = userManager;
         }
         // GET: Default
         //所有用户日志列表页面
@@ -294,7 +296,7 @@ namespace PersonalDiary.Controllers
         public ActionResult Delete(int diaryid)
         {
             var messagediary = _DiaryManager.GetDiaryService(diaryid);
-            messagediary.Delete((int)User.ID);
+            messagediary.Delete();
           //int   PamUserId = messagediary.UserId;
             return RedirectToAction("UserIndex", new
             {

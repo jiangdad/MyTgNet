@@ -28,15 +28,12 @@ namespace Diary.Service
                 return user;
             });
         }
-
         int IUserService.UserId
         {
             get
             {
                 return _LazyUser.Value.UserId;
             }
-        }
-
-        
+        }      
     }
 }

@@ -92,13 +92,8 @@ namespace Diary.Service.Diary
             }
 
         }
-        void IDiaryService.Delete(int userid)
+        void IDiaryService.Delete()
         {
-            if (userid != UserId)
-            {
-                throw new ExceptionWithErrorCode(ErrorCode.没有操作权限, "没有权限操作该留言");
-            }
-
             if (!_LazyDiary.Value.IsDel)
             {
             _LazyDiary.Value.IsDel = true;
@@ -112,12 +107,8 @@ namespace Diary.Service.Diary
             }
           
         }
-        void IDiaryService.Publish(int userid)
+        void IDiaryService.Publish()
         {
-            if (userid != UserId)
-            {
-                throw new ExceptionWithErrorCode(ErrorCode.没有操作权限, "没有权限操作该留言");
-            }
 
             if (_LazyDiary.Value.IsPrivate)
             {

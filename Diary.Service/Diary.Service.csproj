@@ -77,6 +77,8 @@
     <Compile Include="Diary\DiaryService.cs" />
     <Compile Include="Diary\IDiaryManager.cs" />
     <Compile Include="Diary\IDiaryService.cs" />
+    <Compile Include="Diary\IUserDiaryService.cs" />
+    <Compile Include="Diary\UserDiaryService.cs" />
     <Compile Include="Inject\DataModeule.cs" />
     <Compile Include="Inject\ServiceModeule.cs" />
     <Compile Include="User\IUserManager.cs" />
