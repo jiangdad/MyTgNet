@@ -27,7 +27,7 @@ namespace Diary.Service.Diary
             //为了避免每次运行都创建该对象，这时候延迟初始化（也叫延迟实例化）就出场了。
             _LazyDiary = new Lazy<Data.Diary>(() =>
             {
-                var diary = _diarepository.EnableDiary.Where(m => m.DiaryId == _diaryId).FirstOrDefault();
+                var diary = _diarepository.EnableDiary.Where(m => m.DiaryId == _diaryId&&m.IsDel!=true).FirstOrDefault();
                 if (diary == null)
                     throw new ExceptionWithErrorCode(ErrorCode.没有找到对应条目, "日志不存在");
                 return diary;
@@ -88,7 +88,7 @@ namespace Diary.Service.Diary
         {
             get
             {
-                return _dicommentRepository.EnableDiaryComment.Where(c => c.DiaryId == _diaryId);
+                return _dicommentRepository.EnableDiaryComment.Where(c => c.DiaryId == _diaryId&&c.IsDel!=true);
             }
         }
         void IDiaryService.Delete()

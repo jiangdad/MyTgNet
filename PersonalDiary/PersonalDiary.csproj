@@ -156,6 +156,7 @@
     <Compile Include="Controllers\DiaryCommentController.cs" />
     <Compile Include="Controllers\DiaryController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Filter\AuthenticationAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

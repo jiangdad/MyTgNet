@@ -1,6 +1,7 @@
 ﻿using Diary.Data;
 using Diary.Service;
 using Diary.Service.Diary;
+using PersonalDiary.Filter;
 using PersonalDiary.Models;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ using Tgnet.Web.Mvc;
 
 namespace PersonalDiary.Controllers
 {
+    
     public class DiaryController : BaseController
     {
         IDiaryManager _DiaryManager;
@@ -26,6 +28,7 @@ namespace PersonalDiary.Controllers
         // GET: Default
         //1.所有用户日志列表页面
         //2.当前用户日志列表
+      
         public ActionResult UserIndex(int? userid = null, int value = 1, int page = 1, string searchInfo = null)
         {
             // 1. 从数据库中读取实体对象 (Diary)
@@ -124,8 +127,9 @@ namespace PersonalDiary.Controllers
             };
             return View(userdiarymodel);
         }
-
+      
         // GET: Default/Create
+        [AuthenticationAttribute]
         public ActionResult Create()
         {
             //if (User == null)
@@ -193,9 +197,10 @@ namespace PersonalDiary.Controllers
         public ActionResult Delete(int diaryid)
         {
             
+           
             var messagediary = _DiaryManager.GetUserDiaryService(diaryid,(int)User.ID);
             messagediary.DeleteDiary();
-          //int   PamUserId = messagediary.UserId;
+            //int   PamUserId = messagediary.UserId;
             return RedirectToAction("UserIndex", new
             {
                 userid = User.ID

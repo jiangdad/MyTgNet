@@ -12,9 +12,9 @@
 <script>
     $(function () {
         
-        $("#Input_Delect").click(function () {
-            var a = $("#comid").val();
-            window.location.href = "/DiaryComment/Delete?diarycommentid="+a;
+        $(":button").click(function () {
+            var b =@Model.Diaryid.ToString();
+            window.location.href = "/DiaryComment/Delete?diarycommentid="+b;
         });
         $("input[type='radiio']").click(function () {
             var value = $("input[type='radio']:checked").val();
@@ -60,13 +60,10 @@
 
             <th>
                 <textarea name="Content" id="textarea_Content" placeholder="请输入日志内容，不少于5个字" maxlength="800" onforminput="3" cols=40 rows=10 style="overflow:auto" readonly="readonly"
-                          text-align:center background-color:BFCEDC>
+                           background-color:BFCEDC>
                     @Model.content
                     </textarea>
                 </th>
-            <th>
-                <input id="diaryid" type="hidden" value="@Model.Diaryid" />
-            </th>
             </tr>
        
     @{

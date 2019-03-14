@@ -18,8 +18,6 @@ namespace PersonalDiary.Controllers
         //评论
         //主页显示发布过的视图
         //用户是否登陆，登陆的用户可以评论
-        //
-       
         public IDiaryCommentManager _DiaryCommentManager;
         public IDiaryManager _DiaryManager;
        public DiaryCommentController(IDiaryCommentManager diarycommentmanager, IDiaryManager diarymanager)
@@ -54,9 +52,6 @@ namespace PersonalDiary.Controllers
                 // 
                 CanDel =User!=null? (int)User.ID == p.UserId:false,
             }).ToArray();
-           
-            var DiaryComment = diaryservice.DiaryComment; 
-           
             return View(model);
            
         }
@@ -77,32 +72,26 @@ namespace PersonalDiary.Controllers
             return View(userDiaryModel);
         }
 
-        //[HttpPost]
-        //public ActionResult Add([Bind(Include = "CommentContent")] DiaryCommentModel diarycommentcontroller)
-        //{
-
-        //    return JsonString();
-        //}
+  
         [HttpPost]
         public ActionResult Add([Bind(Include = "CommentContent,DiaryId")] DiaryCommentModel diaryCommentModel)
         {
             if (User == null)
                 throw new Tgnet.Api.ExceptionWithErrorCode(Tgnet.Api.ErrorCode.未登录);
+            //获取DiaryService服务，构造函数内部验证是否有这条日志，
             var DiaryManager = _DiaryManager.GetDiaryService(diaryCommentModel.DiaryId);
+            //调用AddComment方法,该条评论的userid设置为当前登陆用户
             DiaryManager.AddComment(diaryCommentModel.CommentContent, (int)User.ID);
-            //Diary.Data.DiaryComment diaryComment = new Diary.Data.DiaryComment {  CContent=diaryCommentModel.CommentContent,
-            //       CreateTime=DateTime.Now,
-            //       //DiaryId= diaryCommentModel.DiaryId,
-            //       UserId=(int)User.ID
-            //};
-            //DiaryManager.AddComment(diaryComment);
+
             return RedirectToAction("UserIndex", "Diary",new { userid=(int)User.ID});
         }
 
         public ActionResult Delete(int diarycommentid)
         {
             //权限判断
+            //获取UserCommentService服务，实例化服务对象，调用内部构造函数验证用户权限
             var messagecomment = _DiaryCommentManager.GetUserCommentService(diarycommentid,(int)User.ID);
+            //DeleteComment方法内部调用Diarycommment中的Delete方法
             messagecomment.DeleteComment();
             //int   PamUserId = messagediary.UserId;
             return RedirectToAction("UserIndex","Diary", new
