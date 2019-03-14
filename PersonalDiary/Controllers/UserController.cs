@@ -21,7 +21,7 @@ namespace PersonalDiary.Controllers
         }
         // [HttpPost]请求登陆控制器
         [HttpPost]
-        public ActionResult Login([Bind(Include = "userName,passWord")]User user,int? SelectValue)
+        public ActionResult Login([Bind(Include = "userName,passWord")]User user)
         {
             //1.判断SessionUser类属性User是否为空
             //1.1为空
@@ -32,7 +32,7 @@ namespace PersonalDiary.Controllers
             //清空Session
             //SessionService.ClearCurrentUser();
             if (User != null)
-            {//已经登陆了，跳转首页
+            {
                 return JsonString(new BaseReponseModel
                 {
                     Msg = "用户已经登陆",
@@ -45,11 +45,11 @@ namespace PersonalDiary.Controllers
             {
                 return JsonString(new BaseReponseModel { Msg = "请输入用户名", Status = "error" ,Url=Url.RouteUrl(new {
                     controller ="User",
-                 action="Login"
+                    action="Login"
                    })});
             }
             var model = _UserManager.Login(user);
-            if (model.UserId > 0)
+            if (model.Status =="ok")
             {  
                 SaveLoginUser(model);
                 ViewBag.User = model.UserName;
@@ -94,16 +94,7 @@ namespace PersonalDiary.Controllers
             return JsonString(new BaseReponseModel() { Msg = "注册成功",Status = "ok", Url = Url.RouteUrl(new { controller = "User", action = "Login" }) });
 
         }
-        [HttpPost]
-        public ActionResult AddUser([Bind(Include = "userName,password")]User user)
-        {
-           //1 合法性检查
-           //2 不能有重复用户名
-           //3 
-            var userservice = _UserManager.add(user);
-            
-            return View("UserAddResult",user);
-        }
+
         //保存登陆用户，调用 SessionService属性的SetCurrentUserf方法返回一个SessionUser类对象（有值，来自登陆模型）
         private void SaveLoginUser(LoginUserModel userModel)
         {

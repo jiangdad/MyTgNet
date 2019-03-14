@@ -18,7 +18,9 @@ namespace Diary.Service
         {
             _diarepository = diaryRepository;
             _dicommentrepository = dicommentRepository;
-         
+            _userManager = userManager;
+
+
         }
         public IQueryable<Data.Diary> MessageDiary
         {

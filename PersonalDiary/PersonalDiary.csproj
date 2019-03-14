@@ -153,7 +153,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Controllers\DiaryCommentController.cs" />
     <Compile Include="Controllers\DiaryController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -211,7 +210,6 @@
     <Content Include="Views\Diary\Details.cshtml" />
     <Content Include="Views\Diary\Create.cshtml" />
     <Content Include="Views\Diary\Edit.cshtml" />
-    <Content Include="Views\Diary\AllIndex.cshtml" />
     <Content Include="Views\Diary\_IndexPartialPage.cshtml" />
     <Content Include="Views\DiaryComment\Index.cshtml" />
     <Content Include="Views\DiaryComment\Add.cshtml" />

@@ -70,7 +70,7 @@ namespace Diary.Service
             if (userEntity == null)
             {
                 model.Status = "error";
-                model.Msg = "对不起，用户名与密码不正确";
+                model.Msg = "对不起，用户名或密码不正确";
                 return model;
             }
 
@@ -79,7 +79,7 @@ namespace Diary.Service
             model.Msg = "登陆成功";
             model.UserId = userEntity.UserId;
             model.UserName = userEntity.UserName;
-            //找到仓储类中userid等于 userEntity.userId的实体把它的landIp，lastLandTime更新
+            //找到仓储类中userid等于 userEntity.userId的实体
             return model;
         }
     

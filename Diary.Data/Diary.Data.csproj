@@ -57,7 +57,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Diary.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
