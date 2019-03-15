@@ -156,7 +156,6 @@
     <Compile Include="Controllers\DiaryCommentController.cs" />
     <Compile Include="Controllers\DiaryController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Filter\AuthenticationAttribute.cs" />
     <Compile Include="Filter\Autho.cs" />
     <Compile Include="Filter\CheckLogin.cs" />
     <Compile Include="Filter\UrlHelper.cs" />

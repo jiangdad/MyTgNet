@@ -10,5 +10,6 @@ namespace Diary.Service
     public interface IUserService
     {
        int UserId { get; }
+       IQueryable<Data.Diary> MyDiaries { get; }
     }
 }

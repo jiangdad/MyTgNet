@@ -14,12 +14,14 @@ namespace Diary.Service
         public IUserRepository IUserRepository;
         private Lazy<Data.User> _LazyUser;
         private readonly int _UserId;
-        public UserService(IUserRepository iuserRepository,int userid)
+        IDiaryRepository _diaryRepository;
+        public UserService(IUserRepository iuserRepository,int userid,IDiaryRepository diaryRepository)
         {
             //是否userid存在
             ExceptionHelper.ThrowIfNotId(userid, "userid");
             _UserId = userid;
             IUserRepository = iuserRepository;
+            _diaryRepository = diaryRepository;
             _LazyUser = new Lazy<Data.User>(() =>
             {
                 var user = IUserRepository.Entities.FirstOrDefault(u => u.UserId == userid);
@@ -28,6 +30,12 @@ namespace Diary.Service
                 return user;
             });
         }
+        IQueryable<Data.Diary> MyDiaries {
+            get
+            {
+                return _diaryRepository.NoTackingDiary.Where(p => p.UserId == _UserId);
+            }
+                }
         int IUserService.UserId
         {
             get

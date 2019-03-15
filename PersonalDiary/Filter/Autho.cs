@@ -17,7 +17,7 @@ namespace PersonalDiary.Filter
         public override void OnException(ExceptionContext filterContext)
         {
             filterContext.HttpContext.Response.Clear();
-                HandleException(filterContext);
+            HandleException(filterContext);
             
         }
 

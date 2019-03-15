@@ -19,6 +19,6 @@ namespace Diary.Service
 
         IDiaryService GetDiaryService(int DiaryId);
         IUserDiaryService GetUserDiaryService(int diaryid, int userid);
-        
+        IQueryable<Data.Diary> SearchDiary(int userid);
     }
 }

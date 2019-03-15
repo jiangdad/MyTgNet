@@ -61,5 +61,6 @@ namespace Diary.Service
         {
             return new UserDiaryService(UserId, DiaryId, this,_userManager);
         }
+
     }
 }
