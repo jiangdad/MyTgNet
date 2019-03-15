@@ -12,11 +12,11 @@ namespace Diary.Service
     class UserManager : IUserManager
     {
         IUserRepository _IUserRepository;
-        
-        public UserManager(IUserRepository userRepository)
+        IDiaryRepository _diaryRepository;
+        public UserManager(IUserRepository userRepository, IDiaryRepository diaryRepository)
         {
             _IUserRepository = userRepository;
-           
+            _diaryRepository = diaryRepository;
         }
 
 
@@ -51,7 +51,7 @@ namespace Diary.Service
        public IUserService GetService(int userid)
         {
             ExceptionHelper.ThrowIfNotId(userid, "用户id", "用户ID无效");
-            return new UserService( _IUserRepository,userid);
+            return new UserService( _IUserRepository,userid, _diaryRepository);
         }
        
         //核查登陆密码和用户名是否正确（即在UserRepository仓储类中是否存在）

@@ -30,7 +30,7 @@ namespace Diary.Service
                 return user;
             });
         }
-        IQueryable<Data.Diary> MyDiaries {
+       public IQueryable<Data.Diary> MyDiaries {
             get
             {
                 return _diaryRepository.NoTackingDiary.Where(p => p.UserId == _UserId);
