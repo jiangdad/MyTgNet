@@ -157,6 +157,9 @@
     <Compile Include="Controllers\DiaryController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filter\AuthenticationAttribute.cs" />
+    <Compile Include="Filter\Autho.cs" />
+    <Compile Include="Filter\CheckLogin.cs" />
+    <Compile Include="Filter\UrlHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -219,6 +222,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="NewFolder1\" />
     <Folder Include="Views\Diary\Part\" />
   </ItemGroup>
   <ItemGroup>

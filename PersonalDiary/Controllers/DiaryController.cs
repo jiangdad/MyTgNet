@@ -15,7 +15,8 @@ using Tgnet.Web.Mvc;
 
 namespace PersonalDiary.Controllers
 {
-    
+    [Autho]
+    [CheckLogin]
     public class DiaryController : BaseController
     {
         IDiaryManager _DiaryManager;
@@ -28,7 +29,7 @@ namespace PersonalDiary.Controllers
         // GET: Default
         //1.所有用户日志列表页面
         //2.当前用户日志列表
-      
+      [AllowAnonymous]
         public ActionResult UserIndex(int? userid = null, int value = 1, int page = 1, string searchInfo = null)
         {
             // 1. 从数据库中读取实体对象 (Diary)
@@ -127,22 +128,22 @@ namespace PersonalDiary.Controllers
             };
             return View(userdiarymodel);
         }
-      
+
         // GET: Default/Create
-        [AuthenticationAttribute]
+     
         public ActionResult Create()
         {
             //if (User == null)
             //    throw new Tgnet.Api.ExceptionWithErrorCode(Tgnet.Api.ErrorCode.未登录);
             return View();
         }
-
+        
         // POST: Default/Create
         [HttpPost]
         public ActionResult Create([Bind(Include ="Content,Title,IsPrivate")]UserDiaryModel userdiarymodel)
         {
-            if (User == null)
-                throw new Tgnet.Api.ExceptionWithErrorCode(Tgnet.Api.ErrorCode.未登录);
+            //if (User == null)
+            //    throw new Tgnet.Api.ExceptionWithErrorCode(Tgnet.Api.ErrorCode.未登录);
 
             //Diary.Data.Diary diary = new Diary.Data.Diary { Content = userdiarymodel.Content,
             //    CreateTime = DateTime.Now,
@@ -206,7 +207,7 @@ namespace PersonalDiary.Controllers
                 userid = User.ID
             });
         }
-
+     
         public ActionResult Publish(int diaryid)
         {
             var messagediary = _DiaryManager.GetUserDiaryService(diaryid,(int)User.ID);

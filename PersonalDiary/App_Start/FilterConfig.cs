@@ -10,6 +10,7 @@ namespace PersonalDiary
         {
             filters.Add(new HandleErrorAttribute());
             filters.Add(new AuthenticationAttribute());
+            filters.Add(new Autho());
         }
     }
 }
