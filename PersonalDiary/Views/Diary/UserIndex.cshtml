@@ -102,24 +102,6 @@
 
 @*2*@
 
-@*搜索模型的UserIndex
-        <script>
-        $(function () {
-            $("#Input_Filter").submit(function (e) {
-                var optionValue = $("#sort option:selected").val();
-                $.post("/Diary/UserIndex", {
-                    "OrderValue": optionValue, "PageNumber": 1,
-                    "NameSearch": $("#Input_Search").val(),
-                "userid": @ViewBag.userid }, function (obj) {
-                    if (obj) {
-                        alert(obj.Msg);
-                        window.location.href = obj.Url;
-                    }
-                }, "json");
-                return false;
-            });
-        });
-    </script>*@
 
 @Html.ActionLink("Create", "Create")
 
