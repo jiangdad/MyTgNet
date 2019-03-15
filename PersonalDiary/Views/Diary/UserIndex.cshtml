@@ -22,50 +22,52 @@
                 { window.location.href = "/Diary/UserIndex?userid=" +@ViewBag.userid+"&value=" + optionValue + "&searchInfo=" + searchInfo; }*@
         });
         $("#next_input").click(function (e) {
-            
+
             var a = $("#next_input").val()
-        
             var page =@ViewBag.page +1;
-            if (page > @Model.PageCount) {
-                return false;
+            if (page > @Model.PageCount)
+            {
+            return false;
             }
+
             //用户登录
             if (@ViewBag.userid != 0)
             {
-                window.location.href = "/Diary/UserIndex?userid=" + @ViewBag.userid + "&page=" + page;
+                window.location.href="/Diary/UserIndex?userid=@ViewBag.userid&value=@ViewBag.Select&page="+page+"&searchInfo=@ViewBag.searchInfo";
+                @*window.location.href = "/Diary/UserIndex?userid=" + @ViewBag.userid + "&page=" + page;*@
             }
-            //未有用户登录的
-            else {window.location.href = "/Diary/UserIndex?page=" + page; }
-        });
+                //未有用户登录的
+            else {window.location.href = "/Diary/UserIndex?value=@ViewBag.Select&page="+page+"&searchInfo=@ViewBag.searchInfo" ; }
+        } );
         $("#front_input").click(function (e) {
             var a = $("#front_input").val()
             var b=@ViewBag.userid;
-          
+
             var page =@ViewBag.page -1;
             if (page < 1) {
                 return false;
             }
-            if (@ViewBag.userid != 0) { window.location.href = "/Diary/UserIndex?userid=" +b + "&page=" + page; }
+            if (@ViewBag.userid != 0) { window.location.href = window.location.href="/Diary/UserIndex?userid=@ViewBag.userid&value=@ViewBag.Select&page="+page+"&searchInfo=@ViewBag.searchInfo"; }
             else {
-                window.location.href = "/Diary/UserIndex?page=" + page;
+                window.location.href = "/Diary/UserIndex?value=@ViewBag.Select&page="+page+"&searchInfo=@ViewBag.searchInfo";
         }
         });
         $("#first_page").click(function (e) {
             var a = $("#first_page").val()
             var b=@ViewBag.userid;
             var page =1;
-            if (@ViewBag.userid != 0) { window.location.href = "/Diary/UserIndex?userid=" +b + "&page=" + page; }
+            if (@ViewBag.userid != 0) { window.location.href = "/Diary/UserIndex?userid=@ViewBag.userid&value=@ViewBag.Select&page="+page+"&searchInfo=@ViewBag.searchInfo"; }
             else {
-                window.location.href = "/Diary/UserIndex?page=" + page;
+                window.location.href = "/Diary/UserIndex?value=@ViewBag.Select&page="+page+"&searchInfo=@ViewBag.searchInfo";
         }
         });
                 $("#last_page").click(function (e) {
             var a = $("#last_page").val()
             var b=@ViewBag.userid;
             var page =@Model.PageCount;
-            if (@ViewBag.userid != 0) { window.location.href = "/Diary/UserIndex?userid=" +b + "&page=" + page; }
+                    if (@ViewBag.userid != 0) { window.location.href ="/Diary/UserIndex?userid=@ViewBag.userid&value=@ViewBag.Select&page="+page+"&searchInfo=@ViewBag.searchInfo"; }
             else {
-                window.location.href = "/Diary/UserIndex?page=" + page;
+                window.location.href = "/Diary/UserIndex?value=@ViewBag.Select&page="+page+"&searchInfo=@ViewBag.searchInfo";
         }
                 });
     // 分布页

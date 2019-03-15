@@ -15,7 +15,7 @@ using Tgnet.Web.Mvc;
 
 namespace PersonalDiary.Controllers
 {
-    [Autho]
+    [CustomHandletErrorAttribute]
     [CheckLogin]
     public class DiaryController : BaseController
     {
@@ -44,6 +44,7 @@ namespace PersonalDiary.Controllers
             
             var messagediary = _DiaryManager.NoTackingDiary;
             ViewBag.Select = value;
+            ViewBag.searchInfo = searchInfo;
             //找到所有公开的日志
             if (User == null)
             {

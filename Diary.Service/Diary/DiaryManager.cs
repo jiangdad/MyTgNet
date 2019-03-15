@@ -52,7 +52,7 @@ namespace Diary.Service
             _diarepository.SaveChanges();
             return GetDiaryService(diary.DiaryId);
         }
-
+ 
         public IDiaryService GetDiaryService(int DiaryId)
         {
             return new DiaryService(DiaryId, _diarepository, _dicommentrepository);

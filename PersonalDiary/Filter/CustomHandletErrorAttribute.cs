@@ -12,7 +12,7 @@ using Tgnet.Api;
 
 namespace PersonalDiary.Filter
 {
-    public class Autho : HandleErrorAttribute
+    public class CustomHandletErrorAttribute : HandleErrorAttribute
     {
         public override void OnException(ExceptionContext filterContext)
         {

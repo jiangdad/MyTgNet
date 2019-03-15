@@ -23,7 +23,8 @@ namespace PersonalDiary.Filter
         }
 
 
-        //参数 获取SessionUser参数和 httpContext参数，判断user是否为空，为空运行UnauthorizedResult属性
+        //参数 获取SessionUser参数和 httpContext参数，判断user是否为空
+        //为空被CustomHandletErrorAttribute捕捉报错
         protected override bool AuthorizeCore(HttpContextBase httpContext, SessionUser user)
         {
             if (user == null)

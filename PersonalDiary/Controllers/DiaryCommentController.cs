@@ -12,7 +12,7 @@ using Tgnet.Linq;
 using Tgnet.Web.Mvc;
 namespace PersonalDiary.Controllers
 {
-    [Autho]
+    [CustomHandletErrorAttribute]
     [CheckLogin]
     public class DiaryCommentController : BaseController
     {
