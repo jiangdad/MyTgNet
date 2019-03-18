@@ -88,7 +88,7 @@ namespace Diary.Service.Diary
         {
             get
             {
-                return _dicommentRepository.EnableDiaryComment.Where(c => c.DiaryId == _diaryId&&c.IsDel!=true);
+                return _dicommentRepository.EnableDiaryComment.Where(c => c.DiaryId == _diaryId);
             }
         }
         void IDiaryService.Delete()

@@ -17,11 +17,15 @@ namespace PersonalDiary.Filter
         public override void OnException(ExceptionContext filterContext)
         {
             filterContext.HttpContext.Response.Clear();
-            HandleException(filterContext);
-            
+            if (filterContext.HttpContext.Request.IsAjaxRequest())
+            {
+                HandleAjaxException(filterContext);
+            }
+            base.OnException(filterContext);
+
         }
 
-        private void HandleException(ExceptionContext filterContext)
+        private void HandleAjaxException(ExceptionContext filterContext)
         {
             var errorCode = filterContext.Exception as ExceptionWithErrorCode;
             BaseReponseModel model = new BaseReponseModel() { Status = "error" };
